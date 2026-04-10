@@ -168,7 +168,7 @@
     top: 0;
     bottom: 0;
     width: 4px;
-    background: linear-gradient(to bottom, var(--orange), var(--green));
+    background: linear-gradient(to bottom, var(--yellow), var(--orange), var(--blue), var(--purple), var(--green), var(--green));
     border-radius: 2px;
   }
 
@@ -193,10 +193,12 @@
     font-size: 0.75rem;
     z-index: 2;
   }
+  .phase[data-phase="0"] .phase-dot { background: var(--yellow); color: #000; }
   .phase[data-phase="1"] .phase-dot { background: var(--orange); }
   .phase[data-phase="2"] .phase-dot { background: var(--blue); }
   .phase[data-phase="3"] .phase-dot { background: var(--purple); }
   .phase[data-phase="4"] .phase-dot { background: var(--green); }
+  .phase[data-phase="5"] .phase-dot { background: var(--green); }
   .phase[data-phase="manual"] .phase-dot { background: var(--red); border-color: var(--red); }
 
   .phase-header {
@@ -519,7 +521,7 @@
 <div class="banner">
   <div class="banner-badge">Spoke Building & Interiors</div>
   <h1>Project Setup <span>Workflow</span></h1>
-  <p>End-to-end process from deal won to project live. Tap each phase to see the steps.</p>
+  <p>Automatic setup triggered when a deal moves to Won. Tap each phase to see the steps.</p>
 </div>
 
 <!-- ===== BUILD / DESIGN TOGGLE ===== -->
@@ -534,19 +536,57 @@
   <div class="prereqs">
     <h2>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFD600" stroke-width="2.5" stroke-linecap="round"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
-      What You Need Before Starting
+      Required Fields &mdash; Setup Blocked If Missing
     </h2>
     <ul>
-      <li><strong>Won deal</strong> in ClickUp Sales Pipeline with all fields filled</li>
-      <li><strong>Client details</strong> &mdash; name, email, phone, site address</li>
-      <li><strong>Plans &amp; proposal</strong> attached to the sales task</li>
-      <li><strong>Deal value</strong> confirmed and contract type known (BUILD or DESIGN)</li>
-      <li data-mode="build-only"><strong>Buildsoft estimate</strong> exported to Excel in 1.2 COST SHEETS/</li>
+      <li><strong>Contact Name, Email, Phone</strong> &mdash; client contact details on the sales task</li>
+      <li><strong>Deal Value (incl GST)</strong> &mdash; confirmed contract amount</li>
+      <li><strong>Job Address</strong> &mdash; site address for the project</li>
+      <li><strong>Construction Plans</strong> &mdash; link attached to the sales task</li>
+      <li><strong>Approved Proposal</strong> &mdash; link attached to the sales task</li>
+      <li data-mode="build-only"><strong>Buildsoft Spreadsheet</strong> &mdash; exported to Excel in 1.2 COST SHEETS/ <span class="build-only-tag">BUILD ONLY</span></li>
     </ul>
   </div>
 
   <!-- ===== TIMELINE ===== -->
   <div class="timeline">
+
+    <!-- PHASE 0 -->
+    <div class="phase" data-phase="0">
+      <div class="phase-dot">0</div>
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-header-top">
+          <h3><span>Phase 0</span> &mdash; Auto-Trigger &amp; Pre-flight</h3>
+          <span class="phase-tag tag-auto">AUTOMATED</span>
+          <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="phase-who">Run by <strong>Claude</strong> &bull; triggered by ClickUp status change</div>
+      </div>
+      <div class="phase-body">
+        <ol>
+          <li class="has-flyout" onclick="toggleFlyout(this)">Sales task moved to &ldquo;Won&rdquo; &mdash; ClickUp fires webhook to Make.com
+            <div class="step-flyout"><div class="step-flyout-inner">
+              The person who moves the task to Won triggers the entire automation chain. <strong>Make.com</strong> receives the webhook with the task ID and the user ID of who changed the status, then calls Claude&rsquo;s remote trigger.
+            </div></div>
+          </li>
+          <li class="has-flyout" onclick="toggleFlyout(this)">Pre-flight validation &mdash; check all required fields
+            <div class="step-flyout"><div class="step-flyout-inner">
+              Before creating anything, every required field is checked. <strong>Contact Name, Email, Phone, Deal Value, Job Address, Plans, Proposal</strong>, and <strong>Buildsoft</strong> (BUILD only). If any are missing &rarr; setup <strong>STOPS immediately</strong>.
+            </div></div>
+          </li>
+          <li class="has-flyout" onclick="toggleFlyout(this)">Missing fields? Assigned comment sent to salesperson
+            <div class="step-flyout"><div class="step-flyout-inner">
+              If fields are missing, an <strong>ASSIGNED COMMENT</strong> is posted on the sales task &mdash; it goes into the salesperson&rsquo;s Assigned Comments tray (the red badge they can&rsquo;t ignore). The comment lists exactly which fields need to be filled. Once fixed, toggle the status back to Won to re-trigger.
+            </div></div>
+          </li>
+          <li class="has-flyout" onclick="toggleFlyout(this)">All fields present? Proceed to Phase 1
+            <div class="step-flyout"><div class="step-flyout-inner">
+              Pre-flight passed. The template provisioning begins &mdash; folder is created from the <strong>SBI PROJECT TEMPLATE</strong> and the system polls every 10 seconds (up to 3 minutes) until all 10 lists and the Project Doc are ready.
+            </div></div>
+          </li>
+        </ol>
+      </div>
+    </div>
 
     <!-- PHASE 1 -->
     <div class="phase" data-phase="1">
@@ -566,6 +606,11 @@
               The <strong>SBI PROJECT TEMPLATE</strong> is applied to create a new folder in the SBI PROJECTS space. This gives us:<br>
               <strong>10 standard lists</strong> (01 Sales File Info, 02 Design, 03 Admin, 04 Claims, 05 PM, 06 Schedule, 07 Pre-Manufacture, 08 Procurement, 09 Manufacturing, 10 Site Works) plus all template tasks, statuses, and custom fields.<br><br>
               If a folder with the same job number already exists, it is reused &mdash; no duplicates created.
+            </div></div>
+          </li>
+          <li class="has-flyout" onclick="toggleFlyout(this)">Project Doc renamed to: &#10024;&#65039;11 &ldquo;{jobNumber} {projectName}&rdquo;
+            <div class="step-flyout"><div class="step-flyout-inner">
+              The template doc is renamed from the generic template name to include the project number and name. <strong>Example:</strong> &#10024;&#65039;11 &ldquo;260306 Natural Foot Podiatry Erina Fair&rdquo;. This makes it easy to identify in ClickUp&rsquo;s doc sidebar.
             </div></div>
           </li>
           <li class="has-flyout" onclick="toggleFlyout(this)">Folder renamed: <code>YYMMDD BUILD/DESIGN Project Name</code>
@@ -600,13 +645,13 @@
               This becomes the <strong>site reference document</strong> &mdash; the PM and site crew refer to it for key project info.
             </div></div>
           </li>
-          <li class="has-flyout" onclick="toggleFlyout(this)">Sales task multi-listed into List 01, prefixed <strong>"SOLD"</strong>
+          <li class="has-flyout" onclick="toggleFlyout(this)">Sales task multi-listed into List 01, prefixed <strong>&ldquo;SOLD&rdquo;</strong>
             <div class="step-flyout"><div class="step-flyout-inner">
               Three actions in sequence:<br><br>
-              <strong>1.</strong> The original sales task is added to List 01 using ClickUp's multi-list feature &mdash; same task in both the Deals list and the project folder.<br>
-              <strong>2.</strong> Task name prefixed with "SOLD" (e.g. <code>SOLD TS260317 Tracey Fletcher...</code>) &mdash; visible in both locations.<br>
-              <strong>3.</strong> The "ADD WON sales Task" placeholder in List 01 is renamed and marked done.<br><br>
-              After this, List 01 has <strong>two "SOLD" tasks</strong>: the completed placeholder and the multi-listed sales task with all the real data.
+              <strong>1.</strong> The original sales task is added to List 01 using ClickUp&rsquo;s multi-list feature &mdash; same task in both the Deals list and the project folder.<br>
+              <strong>2.</strong> Task name prefixed with &ldquo;SOLD&rdquo; (e.g. <code>SOLD TS260317 Tracey Fletcher...</code>) &mdash; visible in both locations.<br>
+              <strong>3.</strong> The &ldquo;ADD WON sales Task&rdquo; placeholder in List 01 is renamed and marked done.<br><br>
+              After this, List 01 has <strong>two &ldquo;SOLD&rdquo; tasks</strong>: the completed placeholder and the multi-listed sales task with all the real data.
             </div></div>
           </li>
           <li class="has-flyout" onclick="toggleFlyout(this)">
@@ -670,7 +715,7 @@
           </li>
           <li class="has-flyout" onclick="toggleFlyout(this)">Handover task assigned &mdash; Chadd, Gemma, Gail, Michael
             <div class="step-flyout"><div class="step-flyout-inner">
-              <strong>BUILD projects:</strong> The "Handover between SALES and PM" task in List 05 is updated with a due date (within 2 days) and assigned to the full team.<br><br>
+              <strong>BUILD projects:</strong> The &ldquo;Handover between SALES and PM&rdquo; task in List 05 is updated with a due date (within 2 days) and assigned to the full team.<br><br>
               <strong>The handover meeting covers:</strong><br>
               &bull; Review Project Info Doc &mdash; client details, special requirements<br>
               &bull; Review sales documents &mdash; what was promised<br>
@@ -680,9 +725,9 @@
               <strong>DESIGN projects (salesperson = designer):</strong> Handover is skipped &mdash; same person doing the work.
             </div></div>
           </li>
-          <li class="has-flyout" onclick="toggleFlyout(this)">Sales task updated: <strong>"Project Folder Ready"</strong> ticked
+          <li class="has-flyout" onclick="toggleFlyout(this)">Sales task updated: <strong>&ldquo;Project Folder Ready&rdquo;</strong> ticked
             <div class="step-flyout"><div class="step-flyout-inner">
-              &bull; "SBI Project Folder Ready" checkbox ticked on the sales task<br>
+              &bull; &ldquo;SBI Project Folder Ready&rdquo; checkbox ticked on the sales task<br>
               &bull; Comment posted with a link to the new project folder<br>
               &bull; Handover summary listing all data transferred, missing fields, and next actions
             </div></div>
@@ -715,7 +760,7 @@
           <li class="has-flyout" onclick="toggleFlyout(this)">Pre-flight check: verify pricing data exists
             <div class="step-flyout"><div class="step-flyout-inner">
               <strong>Why this matters:</strong> Sometimes a Buildsoft file has the cost code structure set up but no actual numbers entered yet. Running the budget generator on an empty file wastes time and produces $0 results.<br><br>
-              The check looks for at least one cost code with a Qty, Rate, and Total &gt; 0. If the file is empty, you're given three options:<br>
+              The check looks for at least one cost code with a Qty, Rate, and Total &gt; 0. If the file is empty, you&rsquo;re given three options:<br>
               &bull; <strong>Price it</strong> &mdash; go back and enter the numbers, then re-run<br>
               &bull; <strong>Mark N/A</strong> &mdash; skip budget + procurement for this project<br>
               &bull; <strong>Generate stub</strong> &mdash; reverse-engineer from deal value (estimates only)
@@ -723,7 +768,7 @@
           </li>
           <li class="has-flyout" onclick="toggleFlyout(this)">SBI Cost Budget tab generated in Excel
             <div class="step-flyout"><div class="step-flyout-inner">
-              A new <strong>"SBI Cost Budget"</strong> sheet is added to a working copy of the Buildsoft (never the original). It contains two tables:<br><br>
+              A new <strong>&ldquo;SBI Cost Budget&rdquo;</strong> sheet is added to a working copy of the Buildsoft (never the original). It contains two tables:<br><br>
               <strong>Cost Sheet Summary</strong> (top) &mdash; one row per cost code with Budget, Rate/hr, Hours Allowed, Man Days<br>
               <strong>Cost Sheet Detail</strong> (bottom) &mdash; every line item with Qty &times; Rate = Budget<br><br>
               Footer shows: Total Cost, Markup, Overhead Recovery (66%), Budgeted Profit (33%), Sell ex-GST, GST, Sell incl-GST.
@@ -741,7 +786,7 @@
           </li>
           <li class="has-flyout" onclick="toggleFlyout(this)">Totals verified against deal value
             <div class="step-flyout"><div class="step-flyout-inner">
-              The <strong>Sell incl-GST</strong> from the cost sheet is compared against the <strong>Deal Value</strong> on the sales task. If they don't match, it's flagged &mdash; the Buildsoft may have been adjusted after the proposal was sent.
+              The <strong>Sell incl-GST</strong> from the cost sheet is compared against the <strong>Deal Value</strong> on the sales task. If they don&rsquo;t match, it&rsquo;s flagged &mdash; the Buildsoft may have been adjusted after the proposal was sent.
             </div></div>
           </li>
         </ol>
@@ -790,7 +835,7 @@
                 <tr><td>315, 317</td><td>Factory Materials</td><td>JOINERY PROCUREMENT</td></tr>
                 <tr><td>320&ndash;330</td><td>Contractors</td><td>CONTRACTORS</td></tr>
               </table>
-              Workflow is set to <strong>"Not Started"</strong>. The PM progresses it through: Quoting &rarr; Quoted &rarr; Approved &rarr; Ordered &rarr; Received &rarr; Paid.
+              Workflow is set to <strong>&ldquo;Not Started&rdquo;</strong>. The PM progresses it through: Quoting &rarr; Quoted &rarr; Approved &rarr; Ordered &rarr; Received &rarr; Paid.
             </div></div>
           </li>
         </ol>
@@ -853,6 +898,46 @@
       </div>
     </div>
 
+    <!-- PHASE 5 -->
+    <div class="phase" data-phase="5">
+      <div class="phase-dot">5</div>
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-header-top">
+          <h3><span>Phase 5</span> &mdash; Completion Notification</h3>
+          <span class="phase-tag tag-auto">AUTOMATED</span>
+          <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="phase-who">Run by <strong>Claude</strong> &bull; automatic after all phases</div>
+      </div>
+      <div class="phase-body">
+        <ol>
+          <li class="has-flyout" onclick="toggleFlyout(this)">Summary comment posted on the sales task
+            <div class="step-flyout"><div class="step-flyout-inner">
+              A single comprehensive comment is posted listing every phase as completed (&check;), skipped (&#x23ed;), or failed (&#x274c;). Includes the folder link, dashboard URL, and any warnings about missing or skipped items.
+            </div></div>
+          </li>
+          <li class="has-flyout" onclick="toggleFlyout(this)">Michael, Gail, and Leah tagged in the comment
+            <div class="step-flyout"><div class="step-flyout-inner">
+              The comment tags <strong>Michael</strong> (48602901), <strong>Gail</strong> (48603029), and <strong>Leah</strong> (100992399) so they all get ClickUp notifications (in-app + email). Each person&rsquo;s manual steps are listed next to their name.
+            </div></div>
+          </li>
+          <li class="has-flyout" onclick="toggleFlyout(this)">Salesperson who triggered setup also notified
+            <div class="step-flyout"><div class="step-flyout-inner">
+              The person who originally moved the task to Won (e.g. Gemma) is also tagged. They see confirmation that setup is complete plus any items that need their attention (e.g. missing joinery plans).
+            </div></div>
+          </li>
+          <li class="has-flyout" onclick="toggleFlyout(this)">Manual steps assigned by person
+            <div class="step-flyout"><div class="step-flyout-inner">
+              The comment includes a checklist:<br><br>
+              <strong>Leah</strong> &mdash; job folder, client info form, MB contract.<br>
+              <strong>Gail</strong> &mdash; Xero project, deposit invoice, cost codes.<br>
+              <strong>PM Team</strong> &mdash; handover meeting within 2 days, confirm no materials ordered before deposit paid.
+            </div></div>
+          </li>
+        </ol>
+      </div>
+    </div>
+
     <!-- MANUAL STEPS -->
     <div class="phase" data-phase="manual">
       <div class="phase-dot">!</div>
@@ -902,7 +987,7 @@
         <div class="swim-icon claude">AI</div>
         <div>
           <div class="swim-label">Claude (Automated)</div>
-          <div class="swim-desc">Phases 1&ndash;4, runs on demand</div>
+          <div class="swim-desc">Phases 0&ndash;5, triggered by Won status</div>
         </div>
       </div>
       <div class="swim-item">
@@ -932,7 +1017,7 @@
 </div><!-- /container -->
 
 <div class="footer">
-  <strong>Spoke Building & Interiors</strong> &mdash; Project Setup Workflow v1.0<br>
+  <strong>Spoke Building & Interiors</strong> &mdash; Project Setup Workflow v2.0<br>
   Last updated April 2026
 </div>
 
@@ -954,9 +1039,9 @@
     });
   }
 
-  // Open Phase 1 by default on load
+  // Open Phase 0 by default on load
   document.addEventListener('DOMContentLoaded', function() {
-    var first = document.querySelector('.phase[data-phase="1"]');
+    var first = document.querySelector('.phase[data-phase="0"]');
     if (first) first.classList.add('open');
   });
 </script>
