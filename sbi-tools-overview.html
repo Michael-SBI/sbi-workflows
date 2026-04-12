@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SBI Tools & Automation Overview</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;scroll-behavior:smooth}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0D1B2A;color:#FFFFFF;line-height:1.5;-webkit-font-smoothing:antialiased}
+    :root{--navy:#1F3864;--navy-deep:#0D1B2A;--navy-light:#2A4A7F;--orange:#FF6B00;--orange-light:#FF8C33;--orange-glow:rgba(255,107,0,0.15);--green:#00C853;--green-dark:#009624;--blue:#2196F3;--purple:#9C27B0;--red:#FF1744;--yellow:#FFD600;--teal:#00BCD4;--pink:#E91E63;--white:#FFFFFF;--grey-light:#B0BEC5;--grey-dark:#37474F;--card-bg:#1A2F4A}
+    .banner{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);border-bottom:4px solid var(--orange);padding:24px 20px 20px;text-align:center;position:relative;overflow:hidden}
+    .banner::before{content:'';position:absolute;top:-50%;right:-10%;width:300px;height:300px;background:radial-gradient(circle,var(--orange-glow) 0%,transparent 70%);pointer-events:none}
+    .banner-badge{display:inline-block;background:var(--orange);color:var(--white);font-weight:800;font-size:1rem;letter-spacing:2px;padding:4px 16px;border-radius:4px;margin-bottom:10px;text-transform:uppercase}
+    .banner h1{font-size:clamp(1.6rem,5vw,2.4rem);font-weight:900;letter-spacing:-0.5px;margin-bottom:6px}
+    .banner h1 span{color:var(--orange)}
+    .banner p{font-size:1rem;color:var(--grey-light);max-width:600px;margin:0 auto}
+    .container{max-width:900px;margin:0 auto;padding:0 16px}
+    .section{margin:24px 0}
+    .section-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:8px;border-bottom:3px solid var(--grey-dark)}
+    .section-header h2{font-size:1.2rem;font-weight:800}
+    .section-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.8rem;border:3px solid var(--white);flex-shrink:0}
+    .icon-auto{background:var(--green-dark)}
+    .icon-demand{background:var(--blue)}
+    .icon-always{background:var(--orange)}
+    .tool-card{background:var(--card-bg);border:3px solid var(--grey-dark);border-radius:12px;padding:0;margin-bottom:12px;overflow:hidden;cursor:pointer;transition:border-color 0.2s;-webkit-tap-highlight-color:transparent}
+    .tool-card:hover,.tool-card:active{border-color:var(--orange)}
+    .tool-card.open{border-color:var(--orange)}
+    .tool-top{display:flex;align-items:center;gap:12px;padding:14px 16px}
+    .tool-name{font-size:1rem;font-weight:800;flex:1}
+    .tool-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.65rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+    .tag-scheduled{background:var(--green-dark);color:var(--white)}
+    .tag-webhook{background:#7B1FA2;color:var(--white)}
+    .tag-ondemand{background:var(--blue);color:var(--white)}
+    .tag-pwa{background:var(--orange);color:var(--white)}
+    .tool-who{font-size:0.8rem;color:var(--grey-light)}
+    .tool-who strong{color:var(--orange-light)}
+    .tool-chevron{width:20px;height:20px;flex-shrink:0;transition:transform 0.25s;fill:var(--grey-light)}
+    .tool-card.open .tool-chevron{transform:rotate(180deg)}
+    .tool-body{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.35s ease;padding:0 16px;background:rgba(255,107,0,0.04)}
+    .tool-card.open .tool-body{max-height:800px;padding:14px 16px 16px}
+    .tool-body p{font-size:0.9rem;color:var(--grey-light);margin-bottom:8px;line-height:1.6}
+    .tool-body strong{color:var(--white)}
+    .tool-body code{background:rgba(255,255,255,0.1);padding:1px 5px;border-radius:3px;font-size:0.8rem}
+    .tool-body ul{list-style:none;padding:0;margin:8px 0}
+    .tool-body li{padding:4px 0 4px 20px;position:relative;font-size:0.85rem;color:var(--grey-light)}
+    .tool-body li::before{content:'';position:absolute;left:0;top:10px;width:10px;height:10px;border-radius:50%;background:var(--orange);opacity:0.6}
+    .tool-body .schedule-info{display:inline-block;background:rgba(0,200,83,0.15);border:2px solid var(--green);border-radius:6px;padding:6px 12px;font-size:0.85rem;margin:4px 0}
+    .tool-body .url-box{display:block;background:rgba(255,255,255,0.06);border:1px solid var(--grey-dark);border-radius:6px;padding:8px 12px;font-size:0.8rem;color:var(--orange-light);word-break:break-all;margin:6px 0}
+    .swimlane{margin:24px 0;padding:16px 20px;background:var(--card-bg);border:3px solid var(--navy-light);border-radius:12px}
+    .swimlane h2{font-size:1.05rem;font-weight:800;margin-bottom:14px}
+    .swimlane-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .swim-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.04)}
+    .swim-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.75rem;flex-shrink:0;border:2px solid var(--white)}
+    .swim-icon.michael{background:var(--orange)}
+    .swim-icon.gail{background:#9C27B0}
+    .swim-icon.leah{background:#E91E63}
+    .swim-icon.pm{background:var(--blue)}
+    .swim-icon.chadd{background:var(--teal)}
+    .swim-icon.sales{background:var(--yellow);color:#000}
+    .swim-label{font-size:0.85rem;font-weight:700}
+    .swim-desc{font-size:0.75rem;color:var(--grey-light)}
+    .footer{text-align:center;padding:24px 20px 40px;color:var(--grey-light);font-size:0.8rem;border-top:2px solid var(--grey-dark);margin-top:30px}
+    .footer strong{color:var(--orange)}
+    @media print{
+      body{background:#fff;color:#000;font-size:11pt}
+      .banner{background:#1F3864!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .banner h1,.banner p,.banner-badge{color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .tool-body{max-height:none!important;padding:14px 16px 16px!important}
+      .tool-chevron{display:none}
+      .tool-card{break-inside:avoid}
+      .tool-card,.tool-body,.swimlane,.section-icon{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    }
+    @media(max-width:480px){
+      .swimlane-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <div class="banner-badge">Spoke Building & Interiors</div>
+    <h1>Tools & <span>Automation</span> Overview</h1>
+    <p>Everything Claude does for SBI — automated, scheduled, and on-demand. Tap each tool to see how it works.</p>
+  </div>
+
+  <div class="container">
+
+    <!-- AUTOMATED / SCHEDULED -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-auto">A</div>
+        <h2 style="color:var(--green)">Runs Automatically</h2>
+      </div>
+
+      <!-- Project Setup -->
+      <div class="tool-card open" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Project Setup Automation</div>
+            <div class="tool-who">Triggered when sales task &rarr; <strong>Closed Won</strong></div>
+          </div>
+          <span class="tool-tag tag-webhook">WEBHOOK</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p><strong>What happens:</strong> When a sales task moves to "Closed Won" in ClickUp, Make.com instantly checks all required fields are filled, creates the project folder from template, and posts an assigned comment to Michael.</p>
+          <p><strong>Then Michael runs the orchestrator</strong> which handles: folder rename, progress claims, schedule dates, site tasks, budget, procurement tasks, and project dashboard — all automatically.</p>
+          <ul>
+            <li>Pre-flight checks 7 required fields before creating folder</li>
+            <li>If fields missing — posts "fix these" comment, no folder wasted</li>
+            <li>Full setup takes ~5 minutes once triggered</li>
+          </ul>
+          <p><strong>Who benefits:</strong> Sales team (instant handoff), PM team (project ready to go), Gail (claims created), Leah (notified of manual steps)</p>
+          <span class="url-box">Detailed infographic: michael-sbi.github.io/sbi-workflows/project-setup-automation.html</span>
+        </div>
+      </div>
+
+      <!-- Dashboard Refresh -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Dashboard Refresh</div>
+            <div class="tool-who">Every <strong>Tuesday 7:00am</strong> &bull; before Projects Meeting</div>
+          </div>
+          <span class="tool-tag tag-scheduled">SCHEDULED</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p><strong>What happens:</strong> Every Tuesday morning, all project dashboards are automatically refreshed with the latest ClickUp data — claims, budgets, procurement status, schedule progress, compliance checklists.</p>
+          <div class="schedule-info">Runs via Windows Task Scheduler — no one needs to do anything</div>
+          <ul>
+            <li>Pulls fresh data from every project's ClickUp lists</li>
+            <li>Updates the GitHub Pages dashboards (live links)</li>
+            <li>Posts a summary on the current Projects Meeting task</li>
+            <li>Narrative sections (actions, summaries) are preserved — only data refreshed</li>
+          </ul>
+          <p><strong>Who benefits:</strong> PM team (up-to-date dashboards for Tuesday meeting), Michael (overview of all projects)</p>
+          <p>Can also be run on-demand: <code>/refresh-dashboards</code></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ON-DEMAND — PROJECT LIFECYCLE -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-demand">D</div>
+        <h2 style="color:var(--blue)">On-Demand — Project Lifecycle</h2>
+      </div>
+
+      <!-- Sales Handover -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Sales Handover</div>
+            <div class="tool-who">Run by <strong>Michael</strong> &bull; part of project setup chain</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Populates a new project folder with all sales data. Renames the folder, multi-lists the sales task, creates progress claims, sets schedule dates, creates site tasks from the proposal, and assigns the handover meeting.</p>
+          <p>Usually runs as part of the orchestrator chain, but can be run standalone for re-processing.</p>
+        </div>
+      </div>
+
+      <!-- Budget Cost Sheet -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Budget Cost Sheet</div>
+            <div class="tool-who">Run by <strong>Michael</strong> &bull; BUILD projects only</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Reads the Buildsoft Excel file and generates an "SBI Cost Budget" tab with detailed cost breakdowns. Exports a styled PDF with two donut charts (Cost Breakdown + Sales Breakdown).</p>
+          <ul>
+            <li>Pre-flight validates actual pricing data exists</li>
+            <li>Summary + Detail tables with all cost codes</li>
+            <li>Footer shows: Total Cost, Markup, Overhead, Profit, Sell incl-GST</li>
+            <li>Cross-checks budget total against deal value</li>
+          </ul>
+          <p><strong>Who benefits:</strong> Michael (cost visibility), Gail (cost codes for Xero)</p>
+        </div>
+      </div>
+
+      <!-- Budget to Procurement -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Procurement Setup</div>
+            <div class="tool-who">Run by <strong>Michael</strong> &bull; after budget generated</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Reads cost codes from the budget and creates one procurement task per category in List 08. Sets budget allowance amounts so the PM can track spend against budget.</p>
+          <ul>
+            <li>Task names: <code>310 Sunshine Kebabs BUILD Materials</code></li>
+            <li>Budget Allowance SBI field set on each task</li>
+            <li>Categories: Labour, Build Supplier, Joinery, Contractors</li>
+            <li>PM progresses workflow: Not Started &rarr; Quoting &rarr; Ordered &rarr; Received</li>
+          </ul>
+          <p><strong>Who benefits:</strong> PM team (budget tracking), Chadd (procurement workflow)</p>
+        </div>
+      </div>
+
+      <!-- Project Dashboard -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Project Dashboard</div>
+            <div class="tool-who">Run by <strong>Michael</strong> &bull; generates full interactive dashboard</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Generates a full interactive HTML dashboard for a project — 7 tabs covering overview, sales, financials, procurement, schedule, compliance, and actions. Deployed to GitHub Pages for the team to view.</p>
+          <ul>
+            <li>Overview tab with health badge and key metrics</li>
+            <li>Financials tab with budget vs actual bar charts</li>
+            <li>Schedule tab with Gantt chart</li>
+            <li>Actions tab with next steps for Tuesday meeting</li>
+          </ul>
+          <span class="url-box">michael-sbi.github.io/sbi-dashboards/{project-slug}/</span>
+          <p><strong>Who benefits:</strong> Everyone — the primary project status tool for Tuesday meetings</p>
+        </div>
+      </div>
+
+      <!-- Health Check -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Project Health Check</div>
+            <div class="tool-who">Run by <strong>Michael</strong> &bull; quick text-based status</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Quick text-based status report for any project — current phase, schedule health, compliance blockers, procurement status, financial claims, risks, and recommended next actions. No HTML generation — just a structured summary in the chat.</p>
+          <p><strong>Who benefits:</strong> Michael (quick check before meetings or calls)</p>
+        </div>
+      </div>
+
+      <!-- Handover Audit -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Handover Audit</div>
+            <div class="tool-who">Run by <strong>Michael</strong> &bull; verifies project setup quality</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Compares a project folder against what a fresh setup would create, and produces an interactive HTML report showing every difference. Identifies missing tasks, incomplete fields, outdated data — then lets you select which fixes to apply.</p>
+          <p><strong>Who benefits:</strong> Michael (quality control on project setup)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ON-DEMAND — WEEKLY / ADMIN -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-demand">W</div>
+        <h2 style="color:var(--blue)">On-Demand — Weekly &amp; Admin</h2>
+      </div>
+
+      <!-- Meeting Agenda -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Meeting Agenda Generator</div>
+            <div class="tool-who">Run by <strong>Michael</strong> &bull; before Tuesday Projects Meeting</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Pulls live data from ALL active projects in ClickUp and generates a structured meeting agenda. Written directly into the current Projects Meeting task description so everyone can see it.</p>
+          <ul>
+            <li>Covers all active projects — schedule, claims, procurement, blockers</li>
+            <li>Highlights what changed since last meeting</li>
+            <li>Flags risks and overdue items</li>
+          </ul>
+          <p><strong>Who benefits:</strong> Michael (meeting prep), PM team (structured agenda), Gail (financial items flagged)</p>
+        </div>
+      </div>
+
+      <!-- Transaction Match -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Transaction Matcher</div>
+            <div class="tool-who">Run by <strong>Michael / Gail</strong> &bull; supplier statement processing</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Takes a CSV, Excel, or PDF of supplier transactions (e.g. Bunnings statement) and matches each line to a ClickUp project. Updates procurement tasks with actual spend amounts.</p>
+          <p><strong>Who benefits:</strong> Gail (saves hours of manual matching), Michael (accurate cost tracking)</p>
+        </div>
+      </div>
+
+      <!-- Fire Safety -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Fire Safety Certificate</div>
+            <div class="tool-who">Run by <strong>Michael / Leah</strong> &bull; tenancy compliance</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Processes fire safety certificate tenancy updates — extracts data from certificates and updates the relevant compliance records.</p>
+          <p><strong>Who benefits:</strong> Leah (compliance paperwork), building managers</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALWAYS ON -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-always">L</div>
+        <h2 style="color:var(--orange)">Always Running</h2>
+      </div>
+
+      <!-- Labour Scheduler -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Labour Scheduler</div>
+            <div class="tool-who">Used by <strong>Chadd &amp; site team</strong> &bull; mobile-first PWA</div>
+          </div>
+          <span class="tool-tag tag-pwa">LIVE APP</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>A mobile-first web app for scheduling labour across projects and service jobs. Drag-and-drop weekly view, synced with ClickUp projects via Supabase.</p>
+          <ul>
+            <li>Deployed on Netlify — works on any phone or desktop</li>
+            <li>Team members see their weekly schedule</li>
+            <li>Chadd allocates workers to projects and service tasks</li>
+            <li>Syncs project list from ClickUp automatically</li>
+          </ul>
+          <span class="url-box">sbi-labour-scheduler.netlify.app</span>
+          <p><strong>Who benefits:</strong> Chadd (workforce planning), site team (know where to be), Michael (labour visibility)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHO DOES WHAT -->
+    <div class="swimlane">
+      <h2>Who Benefits From What</h2>
+      <div class="swimlane-grid">
+        <div class="swim-item">
+          <div class="swim-icon michael">MC</div>
+          <div>
+            <div class="swim-label">Michael</div>
+            <div class="swim-desc">All tools — triggers orchestrator, reviews dashboards</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon pm">PM</div>
+          <div>
+            <div class="swim-label">PM Team</div>
+            <div class="swim-desc">Dashboards, procurement, schedule, meeting agenda</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon gail">G</div>
+          <div>
+            <div class="swim-label">Gail</div>
+            <div class="swim-desc">Claims, budgets, transaction matching, Xero setup</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon leah">L</div>
+          <div>
+            <div class="swim-label">Leah</div>
+            <div class="swim-desc">Fire safety certificates, drive folders, contracts</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon chadd">C</div>
+          <div>
+            <div class="swim-label">Chadd</div>
+            <div class="swim-desc">Labour scheduler, procurement workflow</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon sales">S</div>
+          <div>
+            <div class="swim-label">Sales Team</div>
+            <div class="swim-desc">Project setup triggers automatically on Won</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <strong>Spoke Building & Interiors</strong> &mdash; Tools &amp; Automation Overview v1.0<br>
+    Last updated April 2026
+  </div>
+
+  <script>
+    function toggleCard(card){
+      if(event&&event.target.closest('.url-box'))return;
+      card.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>
