@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SBI Project Setup Automation</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;scroll-behavior:smooth}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0D1B2A;color:#FFFFFF;line-height:1.5;-webkit-font-smoothing:antialiased}
+    :root{--navy:#1F3864;--navy-deep:#0D1B2A;--navy-light:#2A4A7F;--orange:#FF6B00;--orange-light:#FF8C33;--orange-glow:rgba(255,107,0,0.15);--green:#00C853;--green-dark:#009624;--blue:#2196F3;--purple:#9C27B0;--red:#FF1744;--yellow:#FFD600;--white:#FFFFFF;--grey-light:#B0BEC5;--grey-dark:#37474F;--card-bg:#1A2F4A;--border:3px solid}
+    .banner{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);border-bottom:4px solid var(--orange);padding:24px 20px 20px;text-align:center;position:relative;overflow:hidden}
+    .banner::before{content:'';position:absolute;top:-50%;right:-10%;width:300px;height:300px;background:radial-gradient(circle,var(--orange-glow) 0%,transparent 70%);pointer-events:none}
+    .banner-badge{display:inline-block;background:var(--orange);color:var(--white);font-weight:800;font-size:1rem;letter-spacing:2px;padding:4px 16px;border-radius:4px;margin-bottom:10px;text-transform:uppercase}
+    .banner h1{font-size:clamp(1.6rem,5vw,2.4rem);font-weight:900;letter-spacing:-0.5px;margin-bottom:6px}
+    .banner h1 span{color:var(--orange)}
+    .banner p{font-size:1rem;color:var(--grey-light);max-width:600px;margin:0 auto}
+    .container{max-width:900px;margin:0 auto;padding:0 16px}
+    .prereqs{background:linear-gradient(135deg,#1A2F4A 0%,#152238 100%);border:3px solid var(--yellow);border-radius:12px;padding:20px;margin:20px 0 24px}
+    .prereqs h2{font-size:1.15rem;font-weight:800;color:var(--yellow);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    .prereqs ul{list-style:none;display:grid;grid-template-columns:1fr;gap:8px}
+    .prereqs li{font-size:0.95rem;padding:8px 12px;background:rgba(255,214,0,0.08);border-left:3px solid var(--yellow);border-radius:0 6px 6px 0}
+    .prereqs li strong{color:var(--yellow)}
+    .timeline{position:relative;padding:10px 0 30px}
+    .timeline::before{content:'';position:absolute;left:28px;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,var(--orange),var(--blue),var(--purple),var(--green));border-radius:2px}
+    .phase{position:relative;margin-bottom:20px;padding-left:60px}
+    .phase-dot{position:absolute;left:16px;top:18px;width:28px;height:28px;border-radius:50%;border:3px solid var(--white);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.75rem;z-index:2}
+    .phase[data-phase="1"] .phase-dot{background:var(--orange)}
+    .phase[data-phase="2"] .phase-dot{background:var(--blue)}
+    .phase[data-phase="3"] .phase-dot{background:var(--purple)}
+    .phase[data-phase="4"] .phase-dot{background:var(--green)}
+    .phase[data-phase="manual"] .phase-dot{background:var(--red);border-color:var(--red)}
+    .phase-header{background:var(--card-bg);border:3px solid var(--grey-dark);border-radius:12px;padding:16px 18px;cursor:pointer;transition:all 0.2s;user-select:none;-webkit-tap-highlight-color:transparent}
+    .phase-header:hover,.phase-header:active{border-color:var(--orange)}
+    .phase.open .phase-header{border-color:var(--orange);border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom:none}
+    .phase-header-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .phase-header h3{font-size:1.1rem;font-weight:800;flex:1}
+    .phase-header h3 span{color:var(--orange)}
+    .phase-tag{display:inline-block;padding:2px 10px;border-radius:4px;font-size:0.7rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;flex-shrink:0}
+    .tag-auto{background:var(--green-dark);color:var(--white)}
+    .tag-manual{background:var(--red);color:var(--white)}
+    .tag-make{background:#7B1FA2;color:var(--white)}
+    .tag-claude{background:var(--green-dark);color:var(--white)}
+    .phase-chevron{width:24px;height:24px;flex-shrink:0;transition:transform 0.25s;fill:var(--grey-light)}
+    .phase.open .phase-chevron{transform:rotate(180deg)}
+    .phase-who{font-size:0.8rem;color:var(--grey-light);margin-top:4px}
+    .phase-who strong{color:var(--orange-light)}
+    .phase-body{background:var(--card-bg);border:3px solid var(--orange);border-top:none;border-radius:0 0 12px 12px;padding:0 18px;max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.35s ease}
+    .phase.open .phase-body{max-height:3000px;padding:14px 18px 18px}
+    .phase-body ol,.phase-body ul{padding-left:0;list-style:none;counter-reset:step}
+    .phase-body li{position:relative;padding:8px 0 8px 36px;font-size:0.95rem;border-bottom:1px solid rgba(255,255,255,0.06)}
+    .phase-body li:last-child{border-bottom:none}
+    .phase-body ol>li::before{counter-increment:step;content:counter(step);position:absolute;left:0;top:8px;width:26px;height:26px;background:var(--navy-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.75rem;color:var(--orange);border:2px solid var(--orange)}
+    .phase-body .sub-detail{font-size:0.85rem;color:var(--grey-light);margin-top:4px;padding-left:4px}
+    .phase-body .sub-detail em{color:var(--orange-light);font-style:normal;font-weight:700}
+    .phase-body li.has-flyout{cursor:pointer}
+    .phase-body li.has-flyout:hover{background:rgba(255,107,0,0.06);border-radius:6px}
+    .phase-body li.has-flyout::after{content:'+';position:absolute;right:4px;top:10px;width:20px;height:20px;font-size:0.75rem;font-weight:900;color:var(--orange);border:2px solid var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0.5;transition:all 0.2s}
+    .phase-body li.has-flyout:hover::after{opacity:1}
+    .phase-body li.has-flyout.flyout-open::after{content:'\2212';opacity:1;background:var(--orange);color:var(--white)}
+    .step-flyout{max-height:0;overflow:hidden;transition:max-height 0.3s ease,margin 0.3s ease;margin:0}
+    .flyout-open .step-flyout{max-height:600px;margin:8px 0 4px}
+    .step-flyout-inner{background:rgba(255,107,0,0.08);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;padding:12px 14px;font-size:0.85rem;line-height:1.6;color:var(--grey-light)}
+    .step-flyout-inner strong{color:var(--white);font-weight:700}
+    .step-flyout-inner code{background:rgba(255,255,255,0.1);padding:1px 5px;border-radius:3px;font-size:0.8rem}
+    .step-flyout-inner .flyout-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:0.8rem}
+    .step-flyout-inner .flyout-table th{text-align:left;padding:4px 8px;background:rgba(255,255,255,0.08);color:var(--orange-light);font-weight:700;border-bottom:1px solid rgba(255,255,255,0.1)}
+    .step-flyout-inner .flyout-table td{padding:4px 8px;border-bottom:1px solid rgba(255,255,255,0.05)}
+    .manual-person{margin-top:14px;padding:12px 14px;background:rgba(255,255,255,0.04);border:2px solid var(--grey-dark);border-radius:8px}
+    .manual-person:first-child{margin-top:0}
+    .manual-person h4{font-size:1rem;font-weight:800;color:var(--orange);margin-bottom:8px}
+    .manual-person ul{list-style:none}
+    .manual-person li{padding:6px 0 6px 32px;position:relative;font-size:0.95rem}
+    .manual-person li::before{content:'';position:absolute;left:2px;top:10px;width:20px;height:20px;border:2px solid var(--orange);border-radius:4px;background:transparent}
+    .swimlane{margin:24px 0;padding:16px 20px;background:var(--card-bg);border:3px solid var(--navy-light);border-radius:12px}
+    .swimlane h2{font-size:1.05rem;font-weight:800;margin-bottom:14px;color:var(--white)}
+    .swimlane-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .swim-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:rgba(255,255,255,0.04)}
+    .swim-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.75rem;flex-shrink:0;border:2px solid var(--white)}
+    .swim-icon.make{background:#7B1FA2}
+    .swim-icon.claude{background:var(--green-dark)}
+    .swim-icon.michael{background:var(--orange)}
+    .swim-icon.leah{background:#E91E63}
+    .swim-icon.gail{background:#9C27B0}
+    .swim-icon.pm{background:var(--blue)}
+    .swim-label{font-size:0.85rem;font-weight:700}
+    .swim-desc{font-size:0.75rem;color:var(--grey-light)}
+    .footer{text-align:center;padding:24px 20px 40px;color:var(--grey-light);font-size:0.8rem;border-top:2px solid var(--grey-dark);margin-top:30px}
+    .footer strong{color:var(--orange)}
+    .flow-arrow{text-align:center;padding:6px 0;font-size:1.5rem;color:var(--orange);opacity:0.6}
+    @media print{
+      body{background:#fff;color:#000;font-size:11pt}
+      .banner{background:#1F3864!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .banner h1,.banner p,.banner-badge{color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .phase-body{max-height:none!important;padding:14px 18px 18px!important;overflow:visible!important}
+      .phase-header{border-bottom:3px solid var(--orange)!important;border-radius:12px 12px 0 0!important}
+      .phase-chevron{display:none}
+      .step-flyout{max-height:none!important;margin:8px 0 4px!important}
+      .phase-body li.has-flyout::after{display:none}
+      .phase-header,.phase-body,.card-bg,.prereqs,.swimlane,.manual-person{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .phase{break-inside:avoid}
+      .timeline::before{display:none}
+      .phase-dot{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    }
+    @media(max-width:480px){
+      .swimlane-grid{grid-template-columns:1fr}
+      .phase{padding-left:50px}
+      .timeline::before{left:22px}
+      .phase-dot{left:10px;width:24px;height:24px;font-size:0.65rem}
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="banner">
+    <div class="banner-badge">Spoke Building & Interiors</div>
+    <h1>Project Setup <span>Automation</span></h1>
+    <p>Make.com triggers instantly, Claude Code does the heavy lifting locally. Tap each phase to see the steps.</p>
+  </div>
+
+  <div class="container">
+
+    <div class="prereqs">
+      <h2>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFD600" stroke-width="2.5" stroke-linecap="round">
+          <path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+        </svg>
+        Pre-flight &mdash; 7 Required Fields on the Sales Task
+      </h2>
+      <ul>
+        <li><strong>Contact Name(s)</strong> &mdash; who the project is for</li>
+        <li><strong>Email PRIMARY</strong> &mdash; client contact email</li>
+        <li><strong>Contact Number</strong> &mdash; phone for site team</li>
+        <li><strong>Deal Value (incl GST)</strong> &mdash; sets progress claim amounts</li>
+        <li><strong>Job Address</strong> &mdash; site location</li>
+        <li><strong>Construction Plans</strong> &mdash; linked drawings</li>
+        <li><strong>Approved Proposal</strong> &mdash; signed scope of works</li>
+      </ul>
+    </div>
+
+    <div class="timeline">
+
+      <!-- PHASE 1: TRIGGER -->
+      <div class="phase open" data-phase="1">
+        <div class="phase-dot">1</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 1</span> &mdash; Trigger</h3>
+            <span class="phase-tag tag-make">MAKE.COM</span>
+            <span class="phase-tag tag-auto">INSTANT</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="phase-who">Fires automatically when task status &rarr; <strong>Closed Won</strong> &bull; ~2 seconds</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Sales task moves to <strong>"Closed Won"</strong> in ClickUp
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Anyone on the sales team (Gemma, Michael, etc.) moves the task status. A <strong>ClickUp API webhook</strong> fires instantly to Make.com &mdash; filtered to only <code>taskStatusUpdated</code> events where the new status is "closed won".
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Make.com checks all 7 required fields exist
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>Router with pre-flight filter</strong> checks the sales task's custom fields:<br><br>
+                  <table class="flyout-table">
+                    <tr><th>Field</th><th>Why Required</th></tr>
+                    <tr><td>Contact Name</td><td>Folder naming, project doc</td></tr>
+                    <tr><td>Email</td><td>Client contact, project doc</td></tr>
+                    <tr><td>Phone</td><td>Site team needs this</td></tr>
+                    <tr><td>Deal Value</td><td>Progress claim amounts</td></tr>
+                    <tr><td>Job Address</td><td>Project doc, site reference</td></tr>
+                    <tr><td>Construction Plans</td><td>Plans reference table</td></tr>
+                    <tr><td>Approved Proposal</td><td>Scope extraction, site tasks</td></tr>
+                  </table>
+                  If ANY field is missing &rarr; <strong>Route B fires</strong> (no folder created, "fix these fields" comment posted).
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Project folder created from template (10 lists)
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>Only runs if all 7 fields pass (Route A).</strong><br><br>
+                  Make.com calls <code>POST /v2/space/54603442/folder_template/t-90161746266</code> with <code>return_immediately: true</code>. ClickUp starts provisioning the folder in the background &mdash; 10 template lists, all template tasks, custom fields, and the Project Doc.<br><br>
+                  Provisioning takes 2&ndash;3 minutes. By the time you run the orchestrator, it's usually done.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Assigned comment posted to <strong>Michael</strong>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  An <strong>assigned comment</strong> appears in Michael's ClickUp tray:<br><br>
+                  <div style="background:rgba(0,200,83,0.1);border:2px solid var(--green);border-radius:8px;padding:10px;margin:4px 0;font-size:0.85rem">
+                    Project folder created for TS260306 Sunshine Kebabs.<br><br>
+                    Run in Claude Code:<br>
+                    <code>/project-setup-orchestrator 86d2xxxxx</code><br><br>
+                    Folder ID: 90169xxxxxx
+                  </div>
+                  <br>
+                  <strong>If fields were missing</strong>, the comment says:<br>
+                  <div style="background:rgba(255,23,68,0.1);border:2px solid var(--red);border-radius:8px;padding:10px;margin:4px 0;font-size:0.85rem">
+                    Project Setup Blocked &mdash; Required fields missing.<br>
+                    Please check and complete: Contact Name, Email, Phone, Deal Value, Job Address, Plans, Proposal.<br>
+                    Move task back to Won to re-trigger.
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PHASE 2: ORCHESTRATOR -->
+      <div class="phase" data-phase="2">
+        <div class="phase-dot">2</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 2</span> &mdash; Orchestrator</h3>
+            <span class="phase-tag tag-claude">CLAUDE CODE</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="phase-who">Run by <strong>Michael</strong> locally &bull; <code>/project-setup-orchestrator {taskId}</code></div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Find the project folder (already created by Make.com)
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  The orchestrator searches <strong>SBI PROJECTS space</strong> for a folder matching the sales task's job number prefix (e.g. <code>260306</code>). Make.com already created it &mdash; the orchestrator finds it, doesn't create a duplicate.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Poll for provisioning readiness (smart check)
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>No fixed sleep timers.</strong> The orchestrator polls every 10 seconds:<br><br>
+                  &bull; Fetch <code>GET /v2/folder/{id}/list</code><br>
+                  &bull; Count lists &mdash; need all 10<br>
+                  &bull; Check Project Doc exists<br>
+                  &bull; Up to 3 minutes (18 attempts)<br><br>
+                  If already provisioned (usual case), continues <strong>instantly</strong>. If still in progress, waits only as long as needed.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Detect project type &mdash; BUILD or DESIGN
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Checked in order:<br>
+                  1. Task/folder name contains "DESIGN" or "CERT &amp; DESIGN" &rarr; <strong>DESIGN</strong><br>
+                  2. Task/folder name contains "BUILD" &rarr; <strong>BUILD</strong><br>
+                  3. Job Type custom field on sales task<br>
+                  4. Ask user if still unclear
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Read sales documents and custom fields
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Reads from the sales task: contact details, deal value, job address, plans links, proposal, Buildsoft, date sold, notes.<br><br>
+                  Also checks the shared drive for uploaded documents at:<br>
+                  <code>G:\Shared drives\SBI JOB FILES_Share\{project}\</code>
+                </div>
+              </div>
+            </li>
+            <li>Check what's already done &mdash; skip completed steps</li>
+            <li>Call sub-skills in sequence (Phase 3)</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PHASE 3: SUB-SKILLS -->
+      <div class="phase" data-phase="3">
+        <div class="phase-dot">3</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 3</span> &mdash; Sub-Skills Chain</h3>
+            <span class="phase-tag tag-claude">CLAUDE CODE</span>
+            <span class="phase-tag tag-auto">SEQUENTIAL</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="phase-who">Run by <strong>Claude</strong> automatically &bull; 4 sub-skills in order</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" onclick="toggleFlyout(this)"><strong>Sales Handover</strong> &mdash; populate folder with sales data
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>Sub-skill:</strong> <code>/sales-handover</code><br><br>
+                  &bull; Folder renamed: <code>260306 BUILD Sunshine Kebabs</code><br>
+                  &bull; Sales task multi-listed to List 01 + prefixed "SOLD"<br>
+                  &bull; Template tasks customised with job name<br>
+                  &bull; Project Info Doc populated (client, plans, address)<br>
+                  &bull; Progress claims created in List 04 (40/30/20/10% BUILD, 60/40% DESIGN)<br>
+                  &bull; Schedule dates set in List 06 (sequential from date sold)<br>
+                  &bull; Site works tasks created from proposal scope<br>
+                  &bull; Handover task assigned (Chadd, Gemma, Gail, Michael)
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)"><strong>Budget Cost Sheet</strong> &mdash; generate Excel from Buildsoft
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>Sub-skill:</strong> <code>/budget-cost-sheet</code> &bull; BUILD only<br><br>
+                  &bull; Reads Buildsoft Excel from <code>1.2 COST SHEETS/</code><br>
+                  &bull; Pre-flight: verifies pricing data exists (Qty &times; Rate &times; Total &gt; 0)<br>
+                  &bull; Generates "SBI Cost Budget" tab with Detail + Summary tables<br>
+                  &bull; Styled PDF export with two donut charts (Cost Breakdown + Sales Breakdown)<br>
+                  &bull; Totals verified against deal value
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)"><strong>Budget to Procurement</strong> &mdash; create procurement tasks
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>Sub-skill:</strong> <code>/budget-to-procurement</code><br><br>
+                  &bull; Reads cost codes from SBI Cost Budget tab<br>
+                  &bull; One task per cost code in List 08 (e.g. <code>310 Sunshine Kebabs BUILD Materials</code>)<br>
+                  &bull; Budget Allowance SBI field set on each task<br>
+                  &bull; Procurement category + workflow initialised<br>
+                  &bull; Existing tasks matched by code &mdash; no duplicates on re-run
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)"><strong>Project Dashboard</strong> &mdash; generate &amp; deploy
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>Sub-skill:</strong> <code>/project-dashboard</code><br><br>
+                  &bull; Fetches all project data from ClickUp (claims, budget, schedule, procurement, compliance)<br>
+                  &bull; Generates interactive HTML dashboard with 7 tabs<br>
+                  &bull; Deployed to GitHub Pages: <code>michael-sbi.github.io/sbi-dashboards/{slug}/</code><br>
+                  &bull; Saved to shared drive<br>
+                  &bull; Link posted to Projects Meeting task (Tuesday review)
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PHASE 4: COMPLETION -->
+      <div class="phase" data-phase="4">
+        <div class="phase-dot">4</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 4</span> &mdash; Completion</h3>
+            <span class="phase-tag tag-auto">AUTOMATED</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="phase-who">Posted by <strong>Claude</strong> &bull; tags Michael, Gail, Leah</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Summary comment posted on sales task
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  A single completion comment is posted on the original sales task, tagged to <strong>Michael, Gail, and Leah</strong>. Shows:<br><br>
+                  &bull; Each phase: completed / skipped / failed<br>
+                  &bull; Key numbers: claim amounts, budget total, procurement count<br>
+                  &bull; Dashboard link<br>
+                  &bull; Manual steps checklist (below)
+                </div>
+              </div>
+            </li>
+            <li>Sales task marked: <strong>"Project Folder Ready"</strong> ticked</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- MANUAL STEPS -->
+      <div class="phase" data-phase="manual">
+        <div class="phase-dot">!</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3 style="color: var(--red);">Manual Steps Checklist</h3>
+            <span class="phase-tag tag-manual">MANUAL</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="phase-who">Flagged in completion comment &bull; <strong>Leah, Gail, PM Team</strong></div>
+        </div>
+        <div class="phase-body">
+          <div class="manual-person">
+            <h4>Leah</h4>
+            <ul>
+              <li>Job folder set up in Shared Drive</li>
+              <li>Client Information Form sent</li>
+              <li>Master Builders Contract sent</li>
+            </ul>
+          </div>
+          <div class="manual-person">
+            <h4>Gail</h4>
+            <ul>
+              <li>Xero project created</li>
+              <li>Deposit invoice sent</li>
+              <li>Cost codes set up in Xero</li>
+            </ul>
+          </div>
+          <div class="manual-person">
+            <h4>PM Team</h4>
+            <ul>
+              <li>Handover meeting within 2 days</li>
+              <li>Joinery project set up (if applicable)</li>
+              <li>Confirm no materials ordered before deposit paid</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="swimlane">
+      <h2>Who Does What</h2>
+      <div class="swimlane-grid">
+        <div class="swim-item">
+          <div class="swim-icon make">M</div>
+          <div>
+            <div class="swim-label">Make.com (Automated)</div>
+            <div class="swim-desc">Webhook, pre-flight, folder creation, notification</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon claude">AI</div>
+          <div>
+            <div class="swim-label">Claude Code (Local)</div>
+            <div class="swim-desc">Orchestrator + 4 sub-skills, runs on Michael's machine</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon michael">MC</div>
+          <div>
+            <div class="swim-label">Michael</div>
+            <div class="swim-desc">Triggers orchestrator from assigned comment</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon leah">L</div>
+          <div>
+            <div class="swim-label">Leah</div>
+            <div class="swim-desc">Drive folders, contracts, client forms</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon gail">G</div>
+          <div>
+            <div class="swim-label">Gail</div>
+            <div class="swim-desc">Xero setup, invoicing, cost codes</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon pm">PM</div>
+          <div>
+            <div class="swim-label">PM Team</div>
+            <div class="swim-desc">Handover meeting, joinery, materials hold</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <strong>Spoke Building & Interiors</strong> &mdash; Project Setup Automation v2.0<br>
+    Last updated April 2026
+  </div>
+
+  <script>
+    function togglePhase(header){header.closest('.phase').classList.toggle('open')}
+    function toggleFlyout(li){if(event&&event.target.closest('.step-flyout-inner'))return;li.classList.toggle('flyout-open')}
+  </script>
+</body>
+</html>
