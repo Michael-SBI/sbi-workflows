@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{CLIENT_NAME}} — Hospitality Fitout Proposal</title>
+<style>
+:root { --primary:#1a2a3a; --accent:#b89c7d; --bg:#f4f7f9; --white:#fff; --gold:#d4af37; --gold-bg:#fff9e6; }
+body { font-family:'Segoe UI',Arial,sans-serif; line-height:1.6; color:#333; margin:0; background:var(--bg); }
+.hero { background:var(--primary); color:var(--white); padding:80px 20px; text-align:center; }
+.hero h1 { margin:0; font-size:2.8em; text-transform:uppercase; letter-spacing:3px; }
+.hero p { font-size:1.1em; opacity:0.85; margin-top:10px; }
+.container { max-width:1000px; margin:-40px auto 40px; background:var(--white); padding:40px; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
+.render-container { width:100%; height:400px; background:#e1e8ed; display:flex; align-items:center; justify-content:center; border:2px dashed var(--accent); margin-bottom:40px; border-radius:6px; flex-direction:column; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-bottom:40px; }
+h2 { color:var(--primary); border-bottom:2px solid var(--accent); display:inline-block; padding-bottom:5px; }
+.knowledge-box { background:var(--gold-bg); border-left:5px solid var(--gold); padding:25px; margin:40px 0; border-radius:0 4px 4px 0; }
+.knowledge-box h3 { margin-top:0; color:#856404; font-size:1.1em; }
+.diff-table, .price-table { width:100%; border-collapse:collapse; margin-top:20px; }
+.diff-table th, .price-table th { background:var(--primary); color:var(--white); text-align:left; padding:15px; }
+.diff-table td, .price-table td { padding:15px; border-bottom:1px solid #eee; vertical-align:top; }
+.diff-table tr td:first-child { font-weight:bold; width:25%; }
+.diff-table .sbi { background:#f4f7f9; }
+.optional { color:#2980b9; font-weight:bold; font-style:italic; }
+.total-row { font-size:1.3em; font-weight:bold; background:#f9f9f9; }
+.footer-action { text-align:center; margin-top:50px; padding-top:30px; border-top:1px solid #eee; }
+.btn { background:var(--accent); color:white; padding:18px 40px; text-decoration:none; font-weight:bold; border-radius:50px; display:inline-block; transition:transform 0.2s; }
+.btn:hover { transform:scale(1.05); }
+@media (max-width:768px) { .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+    <p>HOSPITALITY FITOUT SPECIALISTS</p>
+    <h1>{{VENUE_NAME}}</h1>
+    <p>Proposal: {{ZONE_HEADLINE}}</p>
+</div>
+
+<div class="container">
+    <div class="render-container">
+        <strong style="font-size:1.5em; color:var(--primary);">[ PLACE 3D RENDER / MOOD BOARD HERE ]</strong>
+        <p style="padding:0 40px; text-align:center;">Visualisation of the bar, FOH and service line in final finish.</p>
+    </div>
+
+    <div class="grid">
+        <div>
+            <h2>The Project Vision</h2>
+            <p>{{VISION_PARAGRAPH — open with the guest experience: atmosphere, flow from entry to bar to seating, how the fitout supports service speed during peak trade.}}</p>
+            <p>{{VISION_PARAGRAPH_2 — durability angle: commercial-grade materials chosen to survive daily grease, spills, and cleaning chemicals without looking tired in year 3.}}</p>
+        </div>
+        <div>
+            <h2>Technical Specs</h2>
+            <ul>
+                <li><strong>Substrate:</strong> {{e.g. Marine-ply behind cookline, MR-MDF elsewhere}}</li>
+                <li><strong>Surfaces:</strong> {{e.g. Food-grade stainless benchtops, 20mm stone on bar}}</li>
+                <li><strong>Finish:</strong> {{e.g. Commercial-grade laminate, sealed joinery}}</li>
+                <li><strong>Compliance:</strong> {{e.g. Food Authority approved, BCA Class 6}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="knowledge-box">
+        <h3>Expert Knowledge: Why Hospitality Joinery Fails Early</h3>
+        <p>Most fitouts fail at the <strong>kickboard and cookline junction</strong> — grease migrates behind standard kick panels, pests establish, and the carcass rots from below within 3 years. SBI specifies <strong>marine-ply substrate with sealed, removable kick panels</strong> and a continuous silicone seal at the floor interface. Result: the fitout keeps its Food Authority sign-off and visual finish 5–7 years longer than a standard commercial cabinet build.</p>
+    </div>
+
+    <h2>The SBI Difference</h2>
+    <table class="diff-table">
+        <thead>
+            <tr><th>&nbsp;</th><th>SBI Hospitality Fitout</th><th>Standard Shopfitter</th></tr>
+        </thead>
+        <tbody>
+            <tr class="sbi"><td>Substrate behind wet/cook zones</td><td>Marine-ply, sealed edges</td><td>Standard MR-MDF</td></tr>
+            <tr><td>Kickboards</td><td>Removable, silicone-sealed to slab</td><td>Fixed, glued to carcass</td></tr>
+            <tr class="sbi"><td>Bench-to-wall junction</td><td>Coved & sealed to AS4674</td><td>Silicone bead, fails early</td></tr>
+            <tr><td>Planning</td><td>Service points pre-modelled in 3D</td><td>Coordinated on site</td></tr>
+        </tbody>
+    </table>
+
+    <h2 style="margin-top:40px;">Investment Summary</h2>
+    <table class="price-table">
+        <thead><tr><th>Zone Package</th><th style="text-align:right;">Amount</th></tr></thead>
+        <tbody>
+            <tr><td><strong>{{BAR_PACKAGE_NAME}}:</strong> {{one-line scope}}.</td><td style="text-align:right;">${{AMOUNT}}</td></tr>
+            <tr><td><strong>{{KITCHEN_PACKAGE_NAME}}:</strong> {{one-line scope}}.</td><td style="text-align:right;">${{AMOUNT}}</td></tr>
+            <tr><td><strong>{{FOH_PACKAGE_NAME}}:</strong> {{one-line scope}}.</td><td style="text-align:right;">${{AMOUNT}}</td></tr>
+            <tr class="optional"><td>[OPTIONAL] {{e.g. Feature pendant lighting over bar}}</td><td style="text-align:right;">+ ${{AMOUNT}}</td></tr>
+            <tr class="total-row"><td>Estimated Project Total</td><td style="text-align:right;">${{TOTAL}}</td></tr>
+        </tbody>
+    </table>
+
+    <div class="footer-action">
+        <p>This proposal is valid for 30 days. Approve below to lock in the 3D design and open-book procurement.</p>
+        <a href="#" class="btn">APPROVE & COMMENCE DESIGN</a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{CLIENT_NAME}} — Retail Fitout Proposal</title>
+<style>
+:root { --primary:#1a2a3a; --accent:#b89c7d; --bg:#f4f7f9; --white:#fff; --gold:#d4af37; --gold-bg:#fff9e6; }
+body { font-family:'Segoe UI',Arial,sans-serif; line-height:1.6; color:#333; margin:0; background:var(--bg); }
+.hero { background:var(--primary); color:var(--white); padding:80px 20px; text-align:center; }
+.hero h1 { margin:0; font-size:2.8em; text-transform:uppercase; letter-spacing:3px; }
+.hero p { font-size:1.1em; opacity:0.85; margin-top:10px; }
+.container { max-width:1000px; margin:-40px auto 40px; background:var(--white); padding:40px; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
+.render-container { width:100%; height:400px; background:#e1e8ed; display:flex; align-items:center; justify-content:center; border:2px dashed var(--accent); margin-bottom:40px; border-radius:6px; flex-direction:column; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-bottom:40px; }
+h2 { color:var(--primary); border-bottom:2px solid var(--accent); display:inline-block; padding-bottom:5px; }
+.knowledge-box { background:var(--gold-bg); border-left:5px solid var(--gold); padding:25px; margin:40px 0; border-radius:0 4px 4px 0; }
+.knowledge-box h3 { margin-top:0; color:#856404; font-size:1.1em; }
+.diff-table, .price-table { width:100%; border-collapse:collapse; margin-top:20px; }
+.diff-table th, .price-table th { background:var(--primary); color:var(--white); text-align:left; padding:15px; }
+.diff-table td, .price-table td { padding:15px; border-bottom:1px solid #eee; vertical-align:top; }
+.diff-table tr td:first-child { font-weight:bold; width:25%; }
+.diff-table .sbi { background:#f4f7f9; }
+.optional { color:#2980b9; font-weight:bold; font-style:italic; }
+.total-row { font-size:1.3em; font-weight:bold; background:#f9f9f9; }
+.footer-action { text-align:center; margin-top:50px; padding-top:30px; border-top:1px solid #eee; }
+.btn { background:var(--accent); color:white; padding:18px 40px; text-decoration:none; font-weight:bold; border-radius:50px; display:inline-block; transition:transform 0.2s; }
+.btn:hover { transform:scale(1.05); }
+@media (max-width:768px) { .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+    <p>RETAIL FITOUT SPECIALISTS</p>
+    <h1>{{BRAND_NAME}}</h1>
+    <p>Proposal: {{STORE_LOCATION}} Fitout</p>
+</div>
+
+<div class="container">
+    <div class="render-container">
+        <strong style="font-size:1.5em; color:var(--primary);">[ PLACE STOREFRONT RENDER HERE ]</strong>
+        <p style="padding:0 40px; text-align:center;">Shopfront, customer flow, display walls and POS zone in final finish.</p>
+    </div>
+
+    <div class="grid">
+        <div>
+            <h2>The Project Vision</h2>
+            <p>{{VISION_PARAGRAPH — the customer journey: shopfront pull, product hero wall, dwell zones, frictionless path to POS. Every metre works commercially.}}</p>
+            <p>{{VISION_PARAGRAPH_2 — delivered inside landlord fitout allowance, handed over in time for trading target.}}</p>
+        </div>
+        <div>
+            <h2>Technical Specs</h2>
+            <ul>
+                <li><strong>Shopfront:</strong> {{e.g. Framed glazing with operable entry, custom signage substrate}}</li>
+                <li><strong>Display Joinery:</strong> {{e.g. Adjustable shelving system, backlit hero wall}}</li>
+                <li><strong>Finishes:</strong> {{e.g. Impact-grade laminate on customer-contact zones}}</li>
+                <li><strong>Landlord Compliance:</strong> {{e.g. Design approval package, make-good brief}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="knowledge-box">
+        <h3>Expert Knowledge: Why Retail Joinery Looks Tired by Year 2</h3>
+        <p>Customer-contact edges — counter fronts, low shelves, display returns — take more daily impact than any residential joinery will see in a decade. Standard 1mm PVC edging <strong>chips within the first peak season</strong>. SBI specifies <strong>2mm impact-grade ABS edging radiused to the substrate</strong> and reinforced shelf pins rated to twice the display load. The store still photographs like day-one at your first lease review.</p>
+    </div>
+
+    <h2>The SBI Difference</h2>
+    <table class="diff-table">
+        <thead>
+            <tr><th>&nbsp;</th><th>SBI Retail Fitout</th><th>Generic Shopfitter</th></tr>
+        </thead>
+        <tbody>
+            <tr class="sbi"><td>Customer-contact edges</td><td>2mm radiused ABS, impact-grade</td><td>1mm PVC, chips early</td></tr>
+            <tr><td>Display shelf load</td><td>Rated to 2× typical stock load</td><td>Standard pins, sags under stock</td></tr>
+            <tr class="sbi"><td>Landlord approvals</td><td>Design & compliance package handled</td><td>Client chases landlord approvals</td></tr>
+            <tr><td>Program</td><td>Locked to trading-launch date</td><td>Best-efforts program</td></tr>
+        </tbody>
+    </table>
+
+    <h2 style="margin-top:40px;">Investment Summary</h2>
+    <table class="price-table">
+        <thead><tr><th>Zone Package</th><th style="text-align:right;">Amount</th></tr></thead>
+        <tbody>
+            <tr><td><strong>{{SHOPFRONT_PACKAGE_NAME}}:</strong> {{one-line scope}}.</td><td style="text-align:right;">${{AMOUNT}}</td></tr>
+            <tr><td><strong>{{DISPLAY_JOINERY_NAME}}:</strong> {{one-line scope}}.</td><td style="text-align:right;">${{AMOUNT}}</td></tr>
+            <tr><td><strong>{{POS_BOH_NAME}}:</strong> {{one-line scope}}.</td><td style="text-align:right;">${{AMOUNT}}</td></tr>
+            <tr class="optional"><td>[OPTIONAL] {{e.g. Feature LED wash to hero wall}}</td><td style="text-align:right;">+ ${{AMOUNT}}</td></tr>
+            <tr class="total-row"><td>Estimated Project Total</td><td style="text-align:right;">${{TOTAL}}</td></tr>
+        </tbody>
+    </table>
+
+    <div class="footer-action">
+        <p>Proposal valid for 30 days. Approve below to lock design and start the landlord approvals package.</p>
+        <a href="#" class="btn">APPROVE & START LANDLORD PACKAGE</a>
+    </div>
+</div>
+
+</body>
+</html>

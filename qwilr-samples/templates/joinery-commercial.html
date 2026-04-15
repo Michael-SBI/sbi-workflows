@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{CLIENT_NAME}} — Commercial Joinery Proposal</title>
+<style>
+:root { --primary:#1a2a3a; --accent:#b89c7d; --bg:#f4f7f9; --white:#fff; --gold:#d4af37; --gold-bg:#fff9e6; }
+body { font-family:'Segoe UI',Arial,sans-serif; line-height:1.6; color:#333; margin:0; background:var(--bg); }
+.hero { background:var(--primary); color:var(--white); padding:80px 20px; text-align:center; }
+.hero h1 { margin:0; font-size:2.8em; text-transform:uppercase; letter-spacing:3px; }
+.hero p { font-size:1.1em; opacity:0.85; margin-top:10px; }
+.container { max-width:1000px; margin:-40px auto 40px; background:var(--white); padding:40px; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
+.render-container { width:100%; height:400px; background:#e1e8ed; display:flex; align-items:center; justify-content:center; border:2px dashed var(--accent); margin-bottom:40px; border-radius:6px; flex-direction:column; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-bottom:40px; }
+h2 { color:var(--primary); border-bottom:2px solid var(--accent); display:inline-block; padding-bottom:5px; }
+.knowledge-box { background:var(--gold-bg); border-left:5px solid var(--gold); padding:25px; margin:40px 0; border-radius:0 4px 4px 0; }
+.knowledge-box h3 { margin-top:0; color:#856404; font-size:1.1em; }
+.diff-table, .price-table { width:100%; border-collapse:collapse; margin-top:20px; }
+.diff-table th, .price-table th { background:var(--primary); color:var(--white); text-align:left; padding:15px; }
+.diff-table td, .price-table td { padding:15px; border-bottom:1px solid #eee; vertical-align:top; }
+.diff-table tr td:first-child { font-weight:bold; width:25%; }
+.diff-table .sbi { background:#f4f7f9; }
+.optional { color:#2980b9; font-weight:bold; font-style:italic; }
+.total-row { font-size:1.3em; font-weight:bold; background:#f9f9f9; }
+.footer-action { text-align:center; margin-top:50px; padding-top:30px; border-top:1px solid #eee; }
+.btn { background:var(--accent); color:white; padding:18px 40px; text-decoration:none; font-weight:bold; border-radius:50px; display:inline-block; transition:transform 0.2s; }
+.btn:hover { transform:scale(1.05); }
+@media (max-width:768px) { .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+    <p>CUSTOM COMMERCIAL JOINERY</p>
+    <h1>{{CLIENT_NAME}}</h1>
+    <p>Proposal: {{JOINERY_HEADLINE}}</p>
+</div>
+
+<div class="container">
+    <div class="render-container">
+        <strong style="font-size:1.5em; color:var(--primary);">[ PLACE 3D JOINERY RENDER HERE ]</strong>
+        <p style="padding:0 40px; text-align:center;">Elevations and material call-outs showing grain alignment and service integration.</p>
+    </div>
+
+    <div class="grid">
+        <div>
+            <h2>The Project Vision</h2>
+            <p>{{VISION_PARAGRAPH — purpose-built joinery as a brand statement: reception desk as first impression, boardroom suite as credibility piece, storage walls that disappear into the architecture.}}</p>
+            <p>{{VISION_PARAGRAPH_2 — fabricated off-site in the SBI workshop for quality control, installed in a single site visit to minimise tenancy disruption.}}</p>
+        </div>
+        <div>
+            <h2>Technical Specs</h2>
+            <ul>
+                <li><strong>Substrate:</strong> {{e.g. 18mm MR-MDF with concealed steel sub-frame}}</li>
+                <li><strong>Hardware:</strong> {{e.g. Blum Soft-close hinges & Tandembox runners}}</li>
+                <li><strong>Benchtop:</strong> {{e.g. 20mm reconstituted stone, mitred edge}}</li>
+                <li><strong>Finish:</strong> {{e.g. Anti-fingerprint matte laminate / veneer book-matched}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="knowledge-box">
+        <h3>Expert Knowledge: What Holds a Feature Joinery Piece Together</h3>
+        <p>On any joinery run over 2.4m carrying stone, the failure point is <strong>micro-sag in the cabinet carcass</strong> over 12–18 months. The benchtop develops a visible wave, doors stop sitting flush, and the piece loses the premium feel it was sold on. SBI engineers a <strong>concealed steel sub-frame</strong> tied to wall and slab, and pre-models all service points (power, data, plumbing) in 3D — the piece installs zero-clash in one visit and stays flat for its full lifecycle.</p>
+    </div>
+
+    <h2>The SBI Difference</h2>
+    <table class="diff-table">
+        <thead>
+            <tr><th>&nbsp;</th><th>SBI Custom Joinery</th><th>Flat-Pack / Generic Joiner</th></tr>
+        </thead>
+        <tbody>
+            <tr class="sbi"><td>Structural integrity</td><td>Concealed steel sub-frame</td><td>Cabinet-to-cabinet fixing only</td></tr>
+            <tr><td>Service integration</td><td>Pre-modelled in 3D, zero-clash</td><td>Coordinated on site</td></tr>
+            <tr class="sbi"><td>Finish consistency</td><td>Workshop-sprayed, book-matched grain</td><td>Site-finished, variable</td></tr>
+            <tr><td>Install window</td><td>Single visit, after-hours available</td><td>Multi-day, trade-by-trade</td></tr>
+        </tbody>
+    </table>
+
+    <h2 style="margin-top:40px;">Investment Summary</h2>
+    <table class="price-table">
+        <thead><tr><th>Zone Package</th><th style="text-align:right;">Amount</th></tr></thead>
+        <tbody>
+            <tr><td><strong>{{PACKAGE_1_NAME}}:</strong> {{one-line scope — e.g. Reception desk suite}}.</td><td style="text-align:right;">${{AMOUNT}}</td></tr>
+            <tr><td><strong>{{PACKAGE_2_NAME}}:</strong> {{one-line scope — e.g. Boardroom credenza}}.</td><td style="text-align:right;">${{AMOUNT}}</td></tr>
+            <tr><td><strong>{{PACKAGE_3_NAME}}:</strong> {{one-line scope — e.g. Storage wall}}.</td><td style="text-align:right;">${{AMOUNT}}</td></tr>
+            <tr class="optional"><td>[OPTIONAL] {{e.g. Integrated LED reveal lighting}}</td><td style="text-align:right;">+ ${{AMOUNT}}</td></tr>
+            <tr class="total-row"><td>Estimated Project Total</td><td style="text-align:right;">${{TOTAL}}</td></tr>
+        </tbody>
+    </table>
+
+    <div class="footer-action">
+        <p>Proposal valid for 30 days. Approve below to lock the 3D design and open the workshop slot.</p>
+        <a href="#" class="btn">APPROVE & COMMENCE BUILD</a>
+    </div>
+</div>
+
+</body>
+</html>
