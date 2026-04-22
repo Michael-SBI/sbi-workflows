@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SBI Project Setup Orchestrator</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0D1B2A;
+      color: #FFFFFF;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :root {
+      --navy: #1F3864;
+      --navy-deep: #0D1B2A;
+      --navy-light: #2A4A7F;
+      --orange: #FF6B00;
+      --orange-light: #FF8C33;
+      --orange-glow: rgba(255, 107, 0, 0.15);
+      --green: #00C853;
+      --green-dark: #009624;
+      --blue: #2196F3;
+      --purple: #9C27B0;
+      --red: #FF1744;
+      --yellow: #FFD600;
+      --white: #FFFFFF;
+      --grey-light: #B0BEC5;
+      --grey-dark: #37474F;
+      --card-bg: #1A2F4A;
+      --border: 3px solid;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+      border-bottom: 4px solid var(--orange);
+      padding: 24px 20px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, var(--orange-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .banner-badge {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--white);
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      padding: 4px 16px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .banner h1 {
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .banner h1 span {
+      color: var(--orange);
+    }
+
+    .banner p {
+      font-size: 1rem;
+      color: var(--grey-light);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .mode-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px 0 10px;
+    }
+
+    .mode-btn {
+      padding: 10px 28px;
+      border: 3px solid var(--orange);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--orange);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .mode-btn.active {
+      background: var(--orange);
+      color: var(--white);
+      box-shadow: 0 4px 20px rgba(255, 107, 0, 0.4);
+    }
+
+    .mode-btn:hover:not(.active) {
+      background: rgba(255, 107, 0, 0.15);
+    }
+
+    .mode-hint {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--grey-light);
+      padding-bottom: 16px;
+    }
+
+    /* Trigger flow card */
+    .trigger-flow {
+      background: linear-gradient(135deg, #1A2F4A 0%, #152238 100%);
+      border: 3px solid var(--green);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 16px 0 24px;
+    }
+
+    .trigger-flow h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--green);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .trigger-chain {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+
+    .trigger-node {
+      background: rgba(0, 200, 83, 0.12);
+      border: 2px solid var(--green);
+      color: var(--white);
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .trigger-arrow {
+      color: var(--orange);
+      font-weight: 900;
+      padding: 0 2px;
+    }
+
+    .trigger-flow p {
+      margin-top: 10px;
+      font-size: 0.88rem;
+      color: var(--grey-light);
+    }
+
+    /* Prereqs */
+    .prereqs {
+      background: linear-gradient(135deg, #1A2F4A 0%, #152238 100%);
+      border: 3px solid var(--yellow);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 0 0 24px;
+    }
+
+    .prereqs h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--yellow);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .prereqs ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .prereqs li {
+      font-size: 0.95rem;
+      padding: 8px 12px;
+      background: rgba(255, 214, 0, 0.08);
+      border-left: 3px solid var(--yellow);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .prereqs li strong {
+      color: var(--yellow);
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding: 10px 0 30px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, var(--red) 0%, var(--orange) 18%, var(--blue) 40%, var(--purple) 62%, var(--green) 85%, var(--orange-light) 100%);
+      border-radius: 2px;
+    }
+
+    .phase {
+      position: relative;
+      margin-bottom: 20px;
+      padding-left: 60px;
+    }
+
+    .phase-dot {
+      position: absolute;
+      left: 16px;
+      top: 18px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 3px solid var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.75rem;
+      z-index: 2;
+    }
+
+    .phase[data-phase="0"] .phase-dot {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .phase[data-phase="1"] .phase-dot {
+      background: var(--orange);
+    }
+
+    .phase[data-phase="2"] .phase-dot {
+      background: var(--blue);
+    }
+
+    .phase[data-phase="3"] .phase-dot {
+      background: var(--purple);
+    }
+
+    .phase[data-phase="4"] .phase-dot {
+      background: var(--green);
+    }
+
+    .phase[data-phase="done"] .phase-dot {
+      background: var(--orange-light);
+      border-color: var(--orange-light);
+    }
+
+    .phase[data-phase="manual"] .phase-dot {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .phase-header {
+      background: var(--card-bg);
+      border: 3px solid var(--grey-dark);
+      border-radius: 12px;
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .phase-header:hover,
+    .phase-header:active {
+      border-color: var(--orange);
+    }
+
+    .phase.open .phase-header {
+      border-color: var(--orange);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      border-bottom: none;
+    }
+
+    .phase-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .phase-header h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .phase-header h3 span {
+      color: var(--orange);
+    }
+
+    .phase-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .tag-auto {
+      background: var(--green-dark);
+      color: var(--white);
+    }
+
+    .tag-manual {
+      background: var(--red);
+      color: var(--white);
+    }
+
+    .tag-gate {
+      background: var(--yellow);
+      color: var(--navy-deep);
+    }
+
+    .tag-build-only {
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    .tag-summary {
+      background: var(--orange-light);
+      color: var(--white);
+    }
+
+    .phase-chevron {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      transition: transform 0.25s;
+      fill: var(--grey-light);
+    }
+
+    .phase.open .phase-chevron {
+      transform: rotate(180deg);
+    }
+
+    .phase-who {
+      font-size: 0.8rem;
+      color: var(--grey-light);
+      margin-top: 4px;
+    }
+
+    .phase-who strong {
+      color: var(--orange-light);
+    }
+
+    .phase-body {
+      background: var(--card-bg);
+      border: 3px solid var(--orange);
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      padding: 0 18px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+
+    .phase.open .phase-body {
+      max-height: 3000px;
+      padding: 14px 18px 18px;
+    }
+
+    .phase-body ol,
+    .phase-body ul {
+      padding-left: 0;
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .phase-body li {
+      position: relative;
+      padding: 8px 0 8px 36px;
+      font-size: 0.95rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .phase-body li:last-child {
+      border-bottom: none;
+    }
+
+    .phase-body ol>li::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 26px;
+      height: 26px;
+      background: var(--navy-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.75rem;
+      color: var(--orange);
+      border: 2px solid var(--orange);
+    }
+
+    .phase-body li.has-flyout {
+      cursor: pointer;
+    }
+
+    .phase-body li.has-flyout:hover {
+      background: rgba(255, 107, 0, 0.06);
+      border-radius: 6px;
+    }
+
+    .phase-body li.has-flyout::after {
+      content: '+';
+      position: absolute;
+      right: 4px;
+      top: 10px;
+      width: 20px;
+      height: 20px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      color: var(--orange);
+      border: 2px solid var(--orange);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.5;
+      transition: all 0.2s;
+    }
+
+    .phase-body li.has-flyout:hover::after {
+      opacity: 1;
+    }
+
+    .phase-body li.has-flyout.flyout-open::after {
+      content: '\2212';
+      opacity: 1;
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    .step-flyout {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, margin 0.3s ease;
+      margin: 0;
+    }
+
+    .flyout-open .step-flyout {
+      max-height: 800px;
+      margin: 8px 0 4px;
+    }
+
+    .step-flyout-inner {
+      background: rgba(255, 107, 0, 0.08);
+      border-left: 3px solid var(--orange);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--grey-light);
+    }
+
+    .step-flyout-inner strong {
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .step-flyout-inner code {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      color: var(--orange-light);
+    }
+
+    .step-flyout-inner .flyout-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0;
+      font-size: 0.8rem;
+    }
+
+    .step-flyout-inner .flyout-table th {
+      text-align: left;
+      padding: 4px 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--orange-light);
+      font-weight: 700;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .step-flyout-inner .flyout-table td {
+      padding: 4px 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .build-only-tag,
+    .design-only-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 3px;
+      vertical-align: middle;
+      margin-left: 6px;
+      text-transform: uppercase;
+    }
+
+    .build-only-tag {
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    .design-only-tag {
+      background: var(--purple);
+      color: var(--white);
+    }
+
+    /* Completion card styling override */
+    .phase[data-phase="done"].open .phase-header,
+    .phase[data-phase="done"] .phase-header:hover {
+      border-color: var(--orange-light);
+    }
+
+    .phase[data-phase="done"].open .phase-body {
+      border-color: var(--orange-light);
+    }
+
+    /* Manual sub-sections */
+    .manual-person {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 2px solid var(--grey-dark);
+      border-radius: 8px;
+    }
+
+    .manual-person:first-child {
+      margin-top: 0;
+    }
+
+    .manual-person h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--orange);
+      margin-bottom: 8px;
+    }
+
+    .manual-person ul {
+      list-style: none;
+    }
+
+    .manual-person li {
+      padding: 6px 0 6px 32px;
+      position: relative;
+      font-size: 0.95rem;
+    }
+
+    .manual-person li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 10px;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--orange);
+      border-radius: 4px;
+      background: transparent;
+    }
+
+    /* Re-run safety callout */
+    .rerun-safety {
+      margin: 8px 0 24px;
+      padding: 18px 20px;
+      background: var(--card-bg);
+      border: 3px solid var(--red);
+      border-radius: 12px;
+    }
+
+    .rerun-safety h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--red);
+      margin-bottom: 10px;
+    }
+
+    .rerun-safety p {
+      font-size: 0.9rem;
+      color: var(--grey-light);
+      margin-bottom: 8px;
+    }
+
+    .rerun-safety ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .rerun-safety li {
+      font-size: 0.88rem;
+      padding: 6px 0 6px 26px;
+      position: relative;
+      color: var(--grey-light);
+    }
+
+    .rerun-safety li::before {
+      content: '\2713';
+      position: absolute;
+      left: 4px;
+      top: 6px;
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    .rerun-safety li.dont::before {
+      content: '\2715';
+      color: var(--red);
+    }
+
+    .rerun-safety li strong {
+      color: var(--white);
+    }
+
+    /* Swimlane */
+    .swimlane {
+      margin: 24px 0;
+      padding: 16px 20px;
+      background: var(--card-bg);
+      border: 3px solid var(--navy-light);
+      border-radius: 12px;
+    }
+
+    .swimlane h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 14px;
+      color: var(--white);
+    }
+
+    .swimlane-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .swim-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .swim-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      border: 2px solid var(--white);
+    }
+
+    .swim-icon.claude {
+      background: var(--green-dark);
+    }
+
+    .swim-icon.make {
+      background: var(--purple);
+    }
+
+    .swim-icon.salesperson {
+      background: var(--orange);
+    }
+
+    .swim-icon.leah {
+      background: #E91E63;
+    }
+
+    .swim-icon.gail {
+      background: #9C27B0;
+    }
+
+    .swim-icon.pm {
+      background: var(--blue);
+    }
+
+    .swim-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .swim-desc {
+      font-size: 0.75rem;
+      color: var(--grey-light);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 24px 20px 40px;
+      color: var(--grey-light);
+      font-size: 0.8rem;
+      border-top: 2px solid var(--grey-dark);
+      margin-top: 30px;
+    }
+
+    .footer strong {
+      color: var(--orange);
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+        font-size: 11pt;
+      }
+
+      .banner {
+        background: #1F3864 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .banner h1,
+      .banner p,
+      .banner-badge {
+        color: #fff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .mode-toggle,
+      .mode-hint {
+        display: none;
+      }
+
+      .phase-body {
+        max-height: none !important;
+        padding: 14px 18px 18px !important;
+        overflow: visible !important;
+      }
+
+      .phase-header {
+        border-bottom: 3px solid var(--orange) !important;
+        border-radius: 12px 12px 0 0 !important;
+      }
+
+      .phase-chevron {
+        display: none;
+      }
+
+      .step-flyout {
+        max-height: none !important;
+        margin: 8px 0 4px !important;
+      }
+
+      .phase-body li.has-flyout::after {
+        display: none;
+      }
+
+      .phase-header,
+      .phase-body,
+      .card-bg,
+      .prereqs,
+      .swimlane,
+      .manual-person,
+      .trigger-flow,
+      .rerun-safety {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .phase {
+        break-inside: avoid;
+      }
+
+      .timeline::before {
+        display: none;
+      }
+
+      .phase-dot {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .swimlane-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .phase {
+        padding-left: 50px;
+      }
+
+      .timeline::before {
+        left: 22px;
+      }
+
+      .phase-dot {
+        left: 10px;
+        width: 24px;
+        height: 24px;
+        font-size: 0.65rem;
+      }
+    }
+
+    [data-mode="build-only"] {
+      display: block;
+    }
+
+    body.mode-design [data-mode="build-only"] {
+      display: none;
+    }
+
+    [data-mode="design-only"] {
+      display: none;
+    }
+
+    body.mode-design [data-mode="design-only"] {
+      display: block;
+    }
+
+    body.mode-design .phase[data-build-only="true"] {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="mode-build">
+
+  <div class="banner">
+    <div class="banner-badge">Spoke Building &amp; Interiors</div>
+    <h1>Project Setup <span>Orchestrator</span></h1>
+    <p>What the automated orchestrator does the moment a sales task moves to Won &mdash; pre-flight, four sub-skills, summary comment. Tap any phase to drill in.</p>
+  </div>
+
+  <div class="container">
+
+    <div class="mode-toggle">
+      <button class="mode-btn active" data-target="build" onclick="setMode('build')">BUILD</button>
+      <button class="mode-btn" data-target="design" onclick="setMode('design')">DESIGN</button>
+    </div>
+    <div class="mode-hint">Toggle to see BUILD vs DESIGN differences</div>
+
+    <!-- TRIGGER FLOW -->
+    <div class="trigger-flow">
+      <h2>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00C853" stroke-width="2.5" stroke-linecap="round">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+        How It Fires
+      </h2>
+      <div class="trigger-chain">
+        <span class="trigger-node">Sales task &rarr; Won</span>
+        <span class="trigger-arrow">&rarr;</span>
+        <span class="trigger-node">ClickUp Automation</span>
+        <span class="trigger-arrow">&rarr;</span>
+        <span class="trigger-node">Make.com webhook</span>
+        <span class="trigger-arrow">&rarr;</span>
+        <span class="trigger-node">Remote trigger &mdash; Claude</span>
+        <span class="trigger-arrow">&rarr;</span>
+        <span class="trigger-node">Orchestrator <code>--unattended --triggered-by=&#123;userId&#125;</code></span>
+      </div>
+      <p>Can also be run manually: <code>/project-setup-orchestrator sunshine kebabs</code>. Interactive mode asks questions; unattended mode makes safe default choices and logs every decision.</p>
+    </div>
+
+    <!-- PREREQS -->
+    <div class="prereqs">
+      <h2>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFD600" stroke-width="2.5" stroke-linecap="round">
+          <path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+        </svg>
+        Required Fields on the Sales Task
+      </h2>
+      <ul>
+        <li><strong>Contact Name, Email, Phone</strong> &mdash; needed for Project Doc + site crew</li>
+        <li><strong>Deal Value (incl GST)</strong> &mdash; needed to create progress claims</li>
+        <li><strong>Job Address</strong> &mdash; populates the Project Doc</li>
+        <li><strong>Construction Plans</strong> attached &mdash; for plans reference and site tasks</li>
+        <li><strong>Approved Proposal</strong> attached &mdash; for scope extraction</li>
+        <li data-mode="build-only"><strong>Buildsoft Spreadsheet</strong> &mdash; needed for budget + procurement <span class="build-only-tag">BUILD ONLY</span></li>
+        <li><strong>Job Type</strong> (recommended) &mdash; BUILD / DESIGN / CERT &amp; DESIGN</li>
+      </ul>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="timeline">
+
+      <!-- PHASE 0 — PRE-FLIGHT -->
+      <div class="phase" data-phase="0">
+        <div class="phase-dot">0</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 0</span> &mdash; Pre-flight Validation</h3>
+            <span class="phase-tag tag-gate">GATE</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </div>
+          <div class="phase-who">Run by <strong>Claude (orchestrator)</strong> &bull; ~10 sec</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Detect mode &mdash; interactive vs unattended
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  The orchestrator reads <code>$ARGUMENTS</code> for <code>--unattended</code> and <code>--triggered-by=&#123;userId&#125;</code>.<br><br>
+                  <strong>Interactive</strong> (Michael running it manually): can ask questions, wait for file uploads, pause for decisions.<br>
+                  <strong>Unattended</strong> (Make.com trigger): never blocks &mdash; uses safe defaults, logs every decision made, reports them in the completion comment.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Find sales task + project folder in ClickUp
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Resolves the project from any of: task ID, task URL, job number (e.g. <code>260306</code>), or partial name (e.g. <code>sunshine kebabs</code>).<br><br>
+                  Searches the <strong>Sales Deals list</strong> (<code>900301389267</code>) for the task, and the <strong>SBI PROJECTS space</strong> (<code>54603442</code>) for a folder with a matching job number prefix.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Check all 7 required custom fields
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Every field is checked for a value before any write operation runs. If <strong>any</strong> required field is empty, setup is blocked at this gate.<br><br>
+                  <table class="flyout-table">
+                    <tr><th>Field</th><th>Blocks if missing?</th></tr>
+                    <tr><td>Contact Name</td><td>Yes</td></tr>
+                    <tr><td>Email Primary</td><td>Yes</td></tr>
+                    <tr><td>Contact Number</td><td>Yes</td></tr>
+                    <tr><td>Deal Value</td><td>Yes</td></tr>
+                    <tr><td>Job Address</td><td>Yes</td></tr>
+                    <tr><td>Construction Plans</td><td>Yes</td></tr>
+                    <tr><td>Approved Proposal</td><td>Yes</td></tr>
+                    <tr data-mode="build-only"><td>Buildsoft (BUILD)</td><td>Yes</td></tr>
+                    <tr><td>Job Type / Joinery Plans</td><td>Warn only</td></tr>
+                  </table>
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Detect project type &mdash; BUILD or DESIGN
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Checked in order, first match wins:<br>
+                  1. Folder/task name contains <code>DESIGN</code> or <code>CERT &amp; DESIGN</code> &rarr; DESIGN<br>
+                  2. Folder/task name contains <code>BUILD</code> &rarr; BUILD<br>
+                  3. Check the Job Type custom field label<br>
+                  4. Unattended fallback: default to BUILD and log the decision<br>
+                  5. Interactive fallback: ask the user<br><br>
+                  Project type drives downstream behaviour: DESIGN skips Phases 2 &amp; 3, uses a simplified schedule and a 60/40 claim split.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">If fields missing &rarr; post blocking comment, STOP
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  In <strong>unattended mode</strong>, the orchestrator posts an <strong>assigned comment</strong> on the sales task (using the ClickUp REST API, <code>assignee</code> = the person who triggered it, <code>notify_all: true</code>).<br><br>
+                  The comment appears in the salesperson's Assigned Comments tray. They can't miss it.<br><br>
+                  <strong>Recovery:</strong> salesperson fills the missing fields, toggles the status off Won and back to Won. The webhook fires again, the orchestrator runs again, pre-flight now passes, and Phases 1-4 proceed.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Wait for folder provisioning (poll up to 3 min)
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  When the Make.com scenario fires, it creates the project folder from the SBI PROJECT TEMPLATE with <code>return_immediately: true</code> &mdash; ClickUp then provisions the 10 lists asynchronously.<br><br>
+                  The orchestrator polls <code>GET /v2/folder/&#123;folderId&#125;/list</code> every 10 seconds until all 10 lists exist, then checks for the Project Doc. Max wait 3 minutes. If still incomplete, it logs a warning and continues with whatever's ready.
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PHASE 1 — SALES HANDOVER -->
+      <div class="phase" data-phase="1">
+        <div class="phase-dot">1</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 1</span> &mdash; Sales Handover</h3>
+            <span class="phase-tag tag-auto">AUTOMATED</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </div>
+          <div class="phase-who">Sub-skill <strong>/sales-handover</strong> &bull; ~2 min</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Folder renamed &mdash; <code>YYMMDD BUILD/DESIGN Project Name</code>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Make.com has already created the folder from template (10 lists + Project Doc). The orchestrator finds it by job number prefix and renames.<br><br>
+                  <strong>Examples:</strong><br>
+                  &bull; <code>260306 BUILD Natural Foot Podiatry Erina Fair</code><br>
+                  &bull; <code>260317 DESIGN Tracey Fletcher Wamberal</code><br><br>
+                  The schedule list (List 06) is also renamed to include the full folder name.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Template tasks customised with job name
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Placeholders across List 02 (Design) and List 08 (Procurement) are replaced with the job name.<br><br>
+                  <strong>List 08 parent tasks:</strong><br>
+                  &bull; <code>300 &#123;Job Name&#125; BUILD LABOUR</code><br>
+                  &bull; <code>301 &#123;Job Name&#125; PM/OFFICE/SALES</code><br>
+                  &bull; <code>302 &#123;Job Name&#125; CAD/Design LABOUR</code><br>
+                  &bull; <code>303_304 &#123;Job Name&#125; JOINERY/FACTORY LABOUR</code><br><br>
+                  Writes are directed at the <strong>original</strong> List 08 (the one without "copy" in the name).
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Project Doc populated &mdash; client details, plans
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Page 1 of the ClickUp Doc is populated with:<br>
+                  &bull; Client name, email, phone<br>
+                  &bull; Job address<br>
+                  &bull; Construction plans reference table (links from sales task)<br>
+                  &bull; Joinery plans reference table (if joinery in scope)<br><br>
+                  This becomes the site team's reference document.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Sales task multi-listed into List 01, prefixed <strong>"SOLD"</strong>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Three writes in sequence:<br><br>
+                  <strong>1.</strong> Multi-list the original sales task into List 01 &mdash; same task in both Deals and the project folder.<br>
+                  <strong>2.</strong> Prefix the task name with <code>SOLD</code> &mdash; visible in both locations.<br>
+                  <strong>3.</strong> Rename the <code>ADD WON sales Task</code> placeholder in List 01 and mark it done.<br><br>
+                  Historically the multi-list step was sometimes missed &mdash; the sub-skill now enforces both parts.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Progress claims created in List 04
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Claims are created and assigned to <strong>Gail</strong>. Dollar amounts are calculated from Deal Value (incl GST).<br><br>
+                  <table class="flyout-table" data-mode="build-only">
+                    <tr><th>Claim</th><th>%</th><th>Stage</th></tr>
+                    <tr><td>Progress Claim 1</td><td>40%</td><td>Deposit</td></tr>
+                    <tr><td>Progress Claim 2</td><td>30%</td><td>Start on Site</td></tr>
+                    <tr><td>Progress Claim 3</td><td>20%</td><td>Practical Completion</td></tr>
+                    <tr><td>Progress Claim 4</td><td>10%</td><td>Final</td></tr>
+                  </table>
+                  <table class="flyout-table" data-mode="design-only">
+                    <tr><th>Claim</th><th>%</th><th>Stage</th></tr>
+                    <tr><td>Design Deposit Invoice</td><td>60%</td><td>Deposit</td></tr>
+                    <tr><td>Design Final Invoice</td><td>40%</td><td>Final</td></tr>
+                  </table>
+                  Example task name: <code>Progress Claim 1 - Deposit 40% ($31,600 incl GST)</code>
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Schedule set in List 06 (sequential phase dates)
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <span data-mode="build-only">
+                    <strong>BUILD</strong> &mdash; 5 high-level tasks dated from <code>dateSold</code>:<br>
+                    <table class="flyout-table">
+                      <tr><th>Task</th><th>Start</th><th>End</th></tr>
+                      <tr><td>JOB SOLD</td><td>&mdash;</td><td>Date Sold</td></tr>
+                      <tr><td>08 Procurement</td><td>Date Sold</td><td>+ 7 days</td></tr>
+                      <tr><td>07 Pre-Manufacture</td><td>+ 7 days</td><td>+ 14 days</td></tr>
+                      <tr><td>09 Manufacturing</td><td>+ 14 days</td><td>+ 21 days</td></tr>
+                      <tr><td>10 SITE WORKS</td><td>+ 14 days</td><td>+ 21 days</td></tr>
+                    </table>
+                    Pre-Manufacture and Manufacturing are <strong>sequential</strong> (not parallel) &mdash; Pre-Mfg produces drawings/material calcs, then Manufacturing builds.
+                  </span>
+                  <span data-mode="design-only">
+                    <strong>DESIGN</strong> &mdash; simplified schedule:<br>
+                    &bull; JOB SOLD &mdash; due date = Date Sold<br>
+                    &bull; Design Start &mdash; due date = Date Sold<br>
+                    &bull; Design Finish &mdash; due date = + 3 weeks<br>
+                    &bull; Build-phase task dates cleared
+                  </span><br><br>
+                  <strong>Never touched:</strong> JOB SOLD, 10.1 SITE WORKS, and all site subtasks &mdash; those are PM-owned once set.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-mode="build-only" onclick="toggleFlyout(this)">Site works tasks created from proposal scope <span class="build-only-tag">BUILD ONLY</span>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  The signed proposal and cost budget are read to extract the scope of works. This is broken into <strong>5-10 sequential install tasks</strong>, created as subtasks of the <code>10.1 SITE WORKS</code> parent task in List 06 (NOT at the top of List 10).<br><br>
+                  Task names reference actual materials and quantities from the proposal. A scope summary is posted as a comment on the <code>Completions_Punchlist</code> task in List 10.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Handover task assigned &mdash; Chadd, Gemma, Gail, Michael
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>BUILD:</strong> The "Handover between SALES and PM" task in List 05 gets a due date within 2 days and is assigned to the full team.<br><br>
+                  <strong>DESIGN</strong> (when salesperson = designer): handover is skipped &mdash; same person doing the work.
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PHASE 2 — COST BUDGET -->
+      <div class="phase" data-phase="2" data-build-only="true">
+        <div class="phase-dot">2</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 2</span> &mdash; Cost Budget</h3>
+            <span class="phase-tag tag-build-only">BUILD ONLY</span>
+            <span class="phase-tag tag-auto">AUTOMATED</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </div>
+          <div class="phase-who">Sub-skill <strong>/budget-cost-sheet</strong> &bull; ~1 min</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Buildsoft file located + copied
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  The Buildsoft Excel file is found at <code>G:\Shared drives\SBI JOB FILES_Share\&#123;project&#125;\1.2 COST SHEETS\</code>.<br><br>
+                  <strong>Always work on a copy.</strong> SheetJS <code>writeFile</code> corrupts Buildsoft's parameterised formulas &mdash; the original must never be touched directly.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Pre-flight &mdash; verify Qty, Rate, Total values exist
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>Why:</strong> A Buildsoft with cost-code structure but no numbers generates a $0 budget.<br><br>
+                  The check looks for at least one line with Qty &gt; 0, Rate &gt; 0, Total &gt; 0. If empty:<br>
+                  &bull; <strong>Interactive:</strong> ask user to Price / Mark N/A / Generate stub<br>
+                  &bull; <strong>Unattended:</strong> mark budget as "pending" &mdash; skip Phase 2 &amp; 3, log it, continue to Phase 4
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">SBI Cost Budget tab generated
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  A new <strong>"SBI Cost Budget"</strong> sheet is added to the working copy with two tables:<br><br>
+                  <strong>Cost Sheet Summary</strong> (top) &mdash; one row per cost code with Budget, Rate/hr, Hours Allowed, Man Days.<br>
+                  <strong>Cost Sheet Detail</strong> (bottom) &mdash; every line item with Qty &times; Rate = Budget.<br><br>
+                  Footer: Total Cost, Markup, Overhead Recovery (66%), Budgeted Profit (33%), Sell ex-GST, GST, Sell incl-GST.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Styled PDF exported with two donut charts
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  The tab is formatted and exported via Excel COM automation to a single-page PDF with two donut charts side-by-side:<br>
+                  &bull; <strong>Cost Breakdown</strong> &mdash; one slice per cost code category<br>
+                  &bull; <strong>Sales Breakdown</strong> &mdash; Cost vs Overhead vs Profit vs GST<br><br>
+                  Saved next to the source xlsx as <code>SBI Cost Budget - &#123;project name&#125;.pdf</code>.
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PHASE 3 — PROCUREMENT -->
+      <div class="phase" data-phase="3" data-build-only="true">
+        <div class="phase-dot">3</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 3</span> &mdash; Procurement</h3>
+            <span class="phase-tag tag-build-only">BUILD ONLY</span>
+            <span class="phase-tag tag-auto">AUTOMATED</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </div>
+          <div class="phase-who">Sub-skill <strong>/budget-to-procurement</strong> &bull; ~30 sec</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Cost codes read from SBI Cost Budget tab
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Each cost-code category and its budget amount is extracted from the Summary table. Zero-budget categories are skipped. Labour codes (300-304) are excluded &mdash; no external procurement.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">One task per cost code in the <strong>original</strong> List 08
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Writes target the List 08 whose name does <strong>NOT</strong> contain "copy" &mdash; template duplicates are left alone.<br><br>
+                  <strong>Task name:</strong> <code>&#123;code&#125; &#123;Job Name&#125; &#123;CATEGORY&#125;</code><br>
+                  Example: <code>310 Sunshine Kebabs BUILD Materials</code><br><br>
+                  On re-runs: existing tasks are matched by cost-code number and updated in place &mdash; no duplicates.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Budget Allowance SBI set on each task
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  The <strong>Budget Allowance SBI</strong> custom field (<code>ec6378ba</code>) is set to the budget amount ex-GST from the cost sheet. This is the figure the PM tracks against when placing orders, and the dashboard uses it for Budget vs Actual bar charts.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Procurement category + workflow assigned
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Each task is categorised for filtering and reporting:<br>
+                  <table class="flyout-table">
+                    <tr><th>Code</th><th>Category</th></tr>
+                    <tr><td>310</td><td>Build Works Supplier</td></tr>
+                    <tr><td>315, 317</td><td>Joinery Procurement</td></tr>
+                    <tr><td>320-330</td><td>Contractors</td></tr>
+                  </table>
+                  Workflow set to <strong>Not Started</strong>. PM moves through: Quoting &rarr; Quoted &rarr; Approved &rarr; Ordered &rarr; Received &rarr; Paid.
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PHASE 4 — DASHBOARD -->
+      <div class="phase" data-phase="4">
+        <div class="phase-dot">4</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 4</span> &mdash; Dashboard</h3>
+            <span class="phase-tag tag-auto">AUTOMATED</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </div>
+          <div class="phase-who">Sub-skill <strong>/project-dashboard</strong> &bull; ~2 min</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Fresh ClickUp data fetched (REST API for custom fields)
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Every generation pulls <strong>live</strong> data &mdash; no caching. The ClickUp MCP strips custom field values, so budget/claims/invoice amounts are fetched via the REST API with <code>$CLICKUP_API_TOKEN</code>.<br><br>
+                  Pulled: sales info, claims &amp; variations (List 04), schedule (List 06), budget vs actual (List 08), procurement status, compliance (List 03), site works (subtasks of 10.1).
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">HTML dashboard generated from template
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Self-contained HTML with inline CSS/JS and these tabs:<br>
+                  &bull; <strong>Overview</strong> &mdash; health badge, phase indicator, key metrics<br>
+                  &bull; <strong>Sales</strong> &mdash; client info, claims table, variations<br>
+                  &bull; <strong>Financials</strong> &mdash; budget vs actual per cost code<br>
+                  &bull; <strong>Procurement</strong> &mdash; workflow summary + task table<br>
+                  &bull; <strong>Schedule</strong> &mdash; Gantt of phases and milestones<br>
+                  &bull; <strong>Compliance</strong> &mdash; admin checklist<br>
+                  &bull; <strong>Actions</strong> &mdash; next actions and blockers for Tuesday meeting
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Saved to shared drive + deployed to GitHub Pages
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Three destinations:<br>
+                  1. Local working copy<br>
+                  2. Shared drive &mdash; <code>@Claude Dashboards/&#123;jobNumber&#125;-&#123;slug&#125;.html</code><br>
+                  3. GitHub Pages &mdash; <code>michael-sbi.github.io/sbi-dashboards/&#123;slug&#125;/</code><br><br>
+                  Live within 1-2 minutes of git push.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Attached to the current Projects Meeting task
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  The dashboard URL is posted as a comment on the current <strong>Projects Meeting task</strong> (list <code>901612976091</code>) so it surfaces in Tuesday's team review automatically.
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- COMPLETION SUMMARY -->
+      <div class="phase" data-phase="done">
+        <div class="phase-dot">&#10003;</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3 style="color: var(--orange-light);">Completion Summary Comment</h3>
+            <span class="phase-tag tag-summary">NOTIFY</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </div>
+          <div class="phase-who">Posted on the sales task &bull; tags <strong>Michael, Gail, Leah + trigger user</strong></div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" onclick="toggleFlyout(this)">ONE summary comment &mdash; posted after all phases run
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Posted exactly once after Phases 1-4 have all been attempted (including any that were skipped or failed). Never partial updates &mdash; only the single completion notification.<br><br>
+                  <strong>Tagged users:</strong><br>
+                  &bull; Michael Cook (<code>48602901</code>)<br>
+                  &bull; Gail Cook (<code>48603029</code>)<br>
+                  &bull; Leah Procter (<code>100992399</code>)<br>
+                  &bull; <strong>Plus</strong> the person who moved the task to Won (<code>--triggered-by</code>)<br><br>
+                  Everyone gets an in-app + email notification.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Per-phase status &mdash; completed / skipped / failed
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Each phase shows its outcome clearly:<br><br>
+                  &bull; <strong>&#x2713; PHASE n</strong> &mdash; ran successfully (with key stats: claim amounts, date range, budget total, etc.)<br>
+                  &bull; <strong>&#x23ed; PHASE n</strong> &mdash; skipped, with reason (e.g. "Buildsoft not linked")<br>
+                  &bull; <strong>&#x274c; PHASE n</strong> &mdash; failed, with error reason<br><br>
+                  Plus a <strong>Needs Attention</strong> section listing anything flagged, missing, or deferred for follow-up.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Manual steps list for Leah, Gail, PM team
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  The comment also embeds the manual checklist &mdash; so no one has to hunt for what they need to do. Example:<br><br>
+                  <code>&#64;Leah &mdash; Job folder in Shared Drive, Client Info Form, MB Contract</code><br>
+                  <code>&#64;Gail &mdash; Xero project, deposit invoice, cost codes in Xero</code><br>
+                  <code>PM Team &mdash; Handover meeting within 2 days</code>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- MANUAL STEPS -->
+      <div class="phase" data-phase="manual">
+        <div class="phase-dot">!</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3 style="color: var(--red);">Manual Steps Checklist</h3>
+            <span class="phase-tag tag-manual">MANUAL</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </div>
+          <div class="phase-who">Flagged in the completion comment &bull; <strong>Leah, Gail, PM Team</strong></div>
+        </div>
+        <div class="phase-body">
+          <div class="manual-person">
+            <h4>Leah</h4>
+            <ul>
+              <li>Job folder set up in Shared Drive</li>
+              <li>Client Information Form sent</li>
+              <li>Master Builders Contract sent</li>
+            </ul>
+          </div>
+          <div class="manual-person">
+            <h4>Gail</h4>
+            <ul>
+              <li>Xero project created</li>
+              <li>Deposit invoice sent</li>
+              <li>Cost codes set up in Xero</li>
+            </ul>
+          </div>
+          <div class="manual-person">
+            <h4>PM Team</h4>
+            <ul>
+              <li>Handover meeting within 2 days (BUILD)</li>
+              <li>Joinery project set up (if applicable)</li>
+              <li>Confirm no materials ordered before deposit paid</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /timeline -->
+
+    <!-- RE-RUN SAFETY -->
+    <div class="rerun-safety">
+      <h2>&#9888; Re-run Safety &mdash; What the Orchestrator Never Touches</h2>
+      <p>The orchestrator is safe to re-run on an existing project. It reads PM-owned state and writes only in narrow, well-defined places.</p>
+      <ul>
+        <li class="dont"><strong>Never recreates</strong> tasks in List 04 (claims), List 05 (PM), List 10, or site-works subtasks of 10.1 in List 06 &mdash; these are PM-owned after initial setup</li>
+        <li class="dont"><strong>Never overwrites</strong> PM-entered dates, statuses, assignees, or custom fields</li>
+        <li class="dont"><strong>Never updates</strong> task descriptions via API &mdash; strips formatting; always uses comments instead</li>
+        <li><strong>Auto-fixes</strong> stale Procurement / Pre-Manufacture / Manufacturing dates in List 06 if they're before dateSold &mdash; but leaves JOB SOLD and 10 SITE WORKS alone always</li>
+        <li><strong>Always uses</strong> the original List 08 (not "copy" duplicates) for procurement writes</li>
+        <li><strong>Always refreshes</strong> the dashboard with live data every run</li>
+      </ul>
+    </div>
+
+    <!-- SWIMLANE LEGEND -->
+    <div class="swimlane">
+      <h2>Who Does What</h2>
+      <div class="swimlane-grid">
+        <div class="swim-item">
+          <div class="swim-icon salesperson">S</div>
+          <div>
+            <div class="swim-label">Salesperson</div>
+            <div class="swim-desc">Fills fields, moves task to Won</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon make">M</div>
+          <div>
+            <div class="swim-label">Make.com</div>
+            <div class="swim-desc">Webhook &rarr; creates folder &rarr; triggers Claude</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon claude">AI</div>
+          <div>
+            <div class="swim-label">Claude Orchestrator</div>
+            <div class="swim-desc">Pre-flight, Phases 1-4, completion comment</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon leah">L</div>
+          <div>
+            <div class="swim-label">Leah</div>
+            <div class="swim-desc">Drive folders, contracts, client forms</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon gail">G</div>
+          <div>
+            <div class="swim-label">Gail</div>
+            <div class="swim-desc">Xero setup, invoicing, cost codes</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon pm">PM</div>
+          <div>
+            <div class="swim-label">PM Team</div>
+            <div class="swim-desc">Handover, joinery, materials hold</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /container -->
+
+  <div class="footer">
+    <strong>Spoke Building &amp; Interiors</strong> &mdash; Project Setup Orchestrator v2.0<br>
+    Last updated April 2026
+  </div>
+
+  <script>
+    function togglePhase(header) {
+      header.closest('.phase').classList.toggle('open');
+    }
+
+    function toggleFlyout(li) {
+      if (event && event.target.closest('.step-flyout-inner')) return;
+      li.classList.toggle('flyout-open');
+    }
+
+    function setMode(mode) {
+      document.body.className = mode === 'design' ? 'mode-design' : 'mode-build';
+      document.querySelectorAll('.mode-btn').forEach(function (btn) {
+        btn.classList.toggle('active', btn.dataset.target === mode);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var first = document.querySelector('.phase[data-phase="0"]');
+      if (first) first.classList.add('open');
+    });
+  </script>
+</body>
+
+</html>
