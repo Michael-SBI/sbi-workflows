@@ -149,6 +149,23 @@
     .tag-auto { background: var(--green-dark); color: var(--white); }
     .tag-manual { background: var(--red); color: var(--white); }
     .tag-conditional { background: var(--yellow); color: var(--navy-deep); }
+
+    /* "Showing: {type}" indicator inside every phase header — mirrors the active type selection */
+    .phase-current-type {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 3px 10px; border-radius: 4px;
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.5px;
+      text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+      background: rgba(255, 107, 0, 0.12);
+      color: var(--orange-light);
+      border: 2px solid var(--orange);
+    }
+    .phase-current-type::before { content: '▸'; font-size: 0.6rem; opacity: 0.7; }
+    .phase-current-type strong { color: var(--white); font-weight: 800; }
+    /* On narrow screens, hide the prefix label so just the type name shows */
+    @media (max-width: 520px) {
+      .phase-current-type .prefix { display: none; }
+    }
     .phase-chevron { width: 24px; height: 24px; flex-shrink: 0; transition: transform 0.25s; fill: var(--grey-light); }
     .phase.open .phase-chevron { transform: rotate(180deg); }
     .phase-who { font-size: 0.8rem; color: var(--grey-light); margin-top: 4px; }
@@ -410,6 +427,7 @@
           <div class="phase-header-top">
             <h3><span>Phase 1</span> — Engagement</h3>
             <span class="phase-tag tag-auto">ALL TYPES</span>
+            <span class="phase-current-type"><span class="prefix">Showing&nbsp;</span><strong></strong></span>
             <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
           </div>
           <div class="phase-who">From enquiry to booked meeting · ~1.5 hr work · 1–2 weeks elapsed</div>
@@ -495,6 +513,7 @@
           <div class="phase-header-top">
             <h3><span>Phase 2</span> — Discovery &amp; Scoping</h3>
             <span class="phase-tag tag-conditional">TYPE-SPECIFIC</span>
+            <span class="phase-current-type"><span class="prefix">Showing&nbsp;</span><strong></strong></span>
             <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
           </div>
           <div class="phase-who">Site visit + scope-of-work definition · 2–6 hr work · 5 days elapsed</div>
@@ -551,6 +570,7 @@
           <div class="phase-header-top">
             <h3><span>Phase 3</span> — Pricing</h3>
             <span class="phase-tag tag-conditional">TYPE-SPECIFIC</span>
+            <span class="phase-current-type"><span class="prefix">Showing&nbsp;</span><strong></strong></span>
             <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
           </div>
           <div class="phase-who">Plans, models, and dollar figures · 3–14 hr work · 5 days elapsed</div>
@@ -620,6 +640,7 @@
           <div class="phase-header-top">
             <h3><span>Phase 4</span> — Presentation</h3>
             <span class="phase-tag tag-auto">ALL TYPES</span>
+            <span class="phase-current-type"><span class="prefix">Showing&nbsp;</span><strong></strong></span>
             <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
           </div>
           <div class="phase-who">Qwilr proposal + the live presentation · 3 hr work · 1 week elapsed</div>
@@ -663,6 +684,7 @@
           <div class="phase-header-top">
             <h3><span>Phase 5</span> — Closing Follow-ups</h3>
             <span class="phase-tag tag-auto">ALL TYPES</span>
+            <span class="phase-current-type"><span class="prefix">Showing&nbsp;</span><strong></strong></span>
             <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
           </div>
           <div class="phase-who">Five-step nudge sequence · ~1 hr work · 5 weeks elapsed</div>
@@ -827,6 +849,12 @@
         document.getElementById('stat-time').textContent = data.time;
         document.getElementById('stat-elapsed').textContent = data.elapsed;
       }
+
+      // 4. Populate the "Showing: {type}" indicator inside every phase header
+      const shortLabel = data ? data.label.replace(/\s*\(.*\)\s*/, '').replace(' Only', '') : type;
+      document.querySelectorAll('.phase-current-type strong').forEach(function(el) {
+        el.textContent = shortLabel;
+      });
 
       // 4. Quick visual flash so the user can see the change happen
       const container = document.querySelector('.container');
