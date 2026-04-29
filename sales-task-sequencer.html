@@ -506,9 +506,8 @@
         First-cut assumptions — needs your review
       </h3>
       <p>
-        Time estimates, due windows, and which stages apply to which deal type are <strong>my first guesses</strong> based on the existing playbook + general sales workflows.
-        Stages like <strong>Site measure</strong>, <strong>Design fee scope</strong>, and <strong>Cert scope</strong> aren't in the live sequencer playbook yet — they're proposals.
-        Use this to react: tell me what's wrong, what's missing, who really owns each stage, and the real durations. Then I'll lock the per-type playbooks into the sequencer.
+        <strong>What's now LIVE in the sequencer (J+B / full-stack default):</strong> 6-step P1 chain with 2-day follow-up cadence + "Put on hold" branch · split Send-link/Booking-confirmed stages · P2 Site measure (skip-closeable) · <strong>P3 fan-out</strong> when P2 closes · sequential P4 + P5.<br><br>
+        <strong>Still aspirational:</strong> per-type variations (Design-only, Cert-only, etc.) — the J+B/full-stack playbook applies for now. Click ✏ Edit Mode below to tweak time estimates and assignees, then export the JSON for me to lock into the per-type playbook.
       </p>
     </div>
 
@@ -557,43 +556,72 @@
               </div>
             </li>
             <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
-              <span class="step-name">Follow up #1- Project information <em>(spawned only if no reply within 3d)</em></span>
+              <span class="step-name">3. Follow up #1- Project information <em>(spawned only if no reply within 2d)</em></span>
               <div class="step-meta">
                 <span class="badge time">⏱ 15 min</span>
                 <span class="badge due">📅 Due in 1d</span>
                 <span class="badge owner">👤 SBI Workflow Assignee</span>
-                <span class="badge delay">🔄 +3d after request</span>
+                <span class="badge delay">🔄 +2d after request</span>
               </div>
               <div class="step-flyout">
                 <div class="step-flyout-inner">
-                  Auto-cancels if a sibling subtask <code>Project information supplied</code> is closed in the meantime (sequencer rule #5). Otherwise, polite chase email — keep it short, restate what's missing, suggest a 15-min discovery call as an alternative.
+                  Auto-cancels if a sibling subtask <code>Project information supplied</code> is closed in the meantime. Otherwise, polite chase email — keep it short, restate what's missing, suggest a 15-min discovery call as an alternative.
                 </div>
               </div>
             </li>
             <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
-              <span class="step-name">Follow up #2- Project information <em>(spawned only if still no reply)</em></span>
+              <span class="step-name">4. Follow up #2- Project information <em>(spawned only if still no reply)</em></span>
               <div class="step-meta">
                 <span class="badge time">⏱ 15 min</span>
                 <span class="badge due">📅 Due in 1d</span>
                 <span class="badge owner">👤 SBI Workflow Assignee</span>
-                <span class="badge delay">🔄 +3d after #1</span>
+                <span class="badge delay">🔄 +2d after #1</span>
               </div>
               <div class="step-flyout">
                 <div class="step-flyout-inner">
-                  Final chase. Closing this advances to <em>Make Online Meeting Booking</em> regardless of whether the client supplied info — at this point we book a meeting to extract it verbally rather than chase forever via email.
+                  Final chase. <strong>Two-way branch:</strong><br>
+                  • If <code>Project information supplied</code> is closed by then → advance to <em>#5 Send online meeting booking link</em>.<br>
+                  • If still no reply → 3 days later, sequencer creates the <em>Put on hold</em> task instead. Deal pauses until client re-engages.
                 </div>
               </div>
             </li>
             <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
-              <span class="step-name">Make Online Meeting Booking</span>
+              <span class="step-name">↳ Send "Put on hold" email — better time for client <em>(branch: only if no reply 3d after Follow up #2)</em></span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 1d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+                <span class="badge delay">🔄 +3d after #4 (no reply)</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Polite "we'll catch up when timing works for you" email. Closing this <strong>pauses the chain</strong> — no further automatic stages spawn. Salesperson manually re-engages weeks/months later when client signals readiness.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">5. Send online meeting booking link</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 1d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Send Calendly/booking link to the client so they can pick a meeting time. Owned by SBI — close this subtask <strong>when the link is sent</strong>. The next stage (#6) is then created in a "waiting for client" state.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">6. Online meeting booked</span>
               <div class="step-meta">
                 <span class="badge time">⏱ 30 min</span>
-                <span class="badge due">📅 Due in 2d</span>
+                <span class="badge due">📅 Due in 5d</span>
                 <span class="badge owner">👤 SBI Workflow Assignee</span>
               </div>
               <div class="step-flyout">
                 <div class="step-flyout-inner">
-                  Send Calendly / direct booking link to the client. Includes the meeting itself (~30 min discovery) and any pre-meeting prep. Closing this subtask fires the type-specific scoping & pricing chain (Phase 2 + Phase 3).
+                  Waiting-for-client state. Close this subtask <strong>when the client actually books a slot</strong> (you see the booking confirmation come through). The 30 min time estimate covers the meeting itself plus any pre-meeting prep. Closing fires Phase 2 (Site measure).
                 </div>
               </div>
             </li>
@@ -607,28 +635,29 @@
         <div class="phase-header" onclick="togglePhase(this)">
           <div class="phase-header-top">
             <h3><span>Phase 2</span> — Discovery &amp; Scoping</h3>
-            <span class="phase-tag tag-conditional">TYPE-SPECIFIC</span>
+            <span class="phase-tag tag-conditional">CONDITIONAL</span>
             <span class="phase-current-type"><span class="prefix">Showing&nbsp;</span><strong></strong></span>
             <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
           </div>
-          <div class="phase-who">Site visit + scope-of-work definition · 2–6 hr work · 5 days elapsed</div>
+          <div class="phase-who">Site visit only if needed · 2 hr work · up to 4 days elapsed</div>
         </div>
         <div class="phase-body">
           <ol>
-            <li class="has-flyout" data-types="design design-cert design-cert-joinery design-cert-build full-stack joinery build joinery-build" onclick="toggleFlyout(this)">
-              <span class="step-name">Site measure</span>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">Site measure <em>(skip-close if not needed)</em></span>
               <div class="step-meta">
                 <span class="badge time">⏱ 2 hr</span>
-                <span class="badge due">📅 Due in 5d</span>
-                <span class="badge specialist">👷 Field team / parent owner</span>
+                <span class="badge due">📅 Due in 4d</span>
+                <span class="badge specialist">👷 Field team / SBI Workflow Assignee</span>
               </div>
               <div class="step-flyout">
                 <div class="step-flyout-inner">
-                  Physical site visit to measure, photograph, and assess. Output is a measure file uploaded to the deal. Skipped for pure Cert deals where the certifier can work off existing plans — confirm with you.
+                  <strong>Conditional stage</strong> — site measure is needed only when project information from #2 didn't have enough detail. <strong>Site visits are deliberately delayed until after the online meeting</strong> (where client gives preliminary approval) — going onsite before the client has signaled commitment risks wasted time + cost if the deal doesn't proceed.<br><br>
+                  If you don't need a site visit for this deal (info was sufficient from the meeting), <strong>close this subtask immediately</strong> — the chain advances to Phase 3 fan-out either way. The 4-day due date is a soft deadline for when the visit should happen if you do need one.
                 </div>
               </div>
             </li>
-            <li class="has-flyout" data-types="design design-cert design-cert-joinery design-cert-build full-stack" onclick="toggleFlyout(this)">
+            <li class="has-flyout" data-types="never-show" onclick="toggleFlyout(this)" style="display:none">
               <span class="step-name">Design fee scope</span>
               <div class="step-meta">
                 <span class="badge time">⏱ 1 hr</span>
@@ -641,7 +670,7 @@
                 </div>
               </div>
             </li>
-            <li class="has-flyout" data-types="cert design-cert design-cert-joinery design-cert-build full-stack" onclick="toggleFlyout(this)">
+            <li class="has-flyout" data-types="never-show" onclick="toggleFlyout(this)" style="display:none">
               <span class="step-name">Cert scope (identify required certs + quote)</span>
               <div class="step-meta">
                 <span class="badge time">⏱ 2 hr</span>
@@ -664,11 +693,11 @@
         <div class="phase-header" onclick="togglePhase(this)">
           <div class="phase-header-top">
             <h3><span>Phase 3</span> — Pricing</h3>
-            <span class="phase-tag tag-conditional">TYPE-SPECIFIC</span>
+            <span class="phase-tag tag-conditional">FAN-OUT</span>
             <span class="phase-current-type"><span class="prefix">Showing&nbsp;</span><strong></strong></span>
             <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
           </div>
-          <div class="phase-who">Plans, models, and dollar figures · 3–14 hr work · 5 days elapsed</div>
+          <div class="phase-who">All 4 stages spawn at once when P2 closes · 3–14 hr work · 5 days elapsed</div>
         </div>
         <div class="phase-body">
           <ol>
