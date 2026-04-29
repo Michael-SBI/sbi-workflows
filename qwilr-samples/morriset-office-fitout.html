@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morriset Office Fitout — Proposal for Precision IT</title>
+<style>
+:root {
+  --primary:#1a2a3a;
+  --primary-deep:#0f1c2c;
+  --accent:#b89c7d;
+  --accent-light:#d4bfa3;
+  --bg:#f4f7f9;
+  --white:#fff;
+  --gold:#d4af37;
+  --gold-bg:#fff9e6;
+  --ink:#2c3744;
+  --muted:#6b7785;
+  --rule:#e6ecf0;
+}
+* { box-sizing:border-box; }
+body { font-family:'Segoe UI', Arial, sans-serif; line-height:1.65; color:var(--ink); margin:0; background:var(--bg); }
+a { color:inherit; }
+
+/* ─── Hero ─── */
+.hero {
+  background:linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 100%);
+  color:var(--white);
+  padding:90px 20px 110px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero::after {
+  content:"";
+  position:absolute; left:50%; bottom:30px; transform:translateX(-50%);
+  width:60px; height:2px; background:var(--accent);
+}
+.hero .kicker { font-size:0.78em; letter-spacing:4px; opacity:0.7; text-transform:uppercase; margin:0; }
+.hero h1 { margin:18px 0 8px; font-size:2.9em; text-transform:uppercase; letter-spacing:3px; font-weight:700; }
+.hero .sub { font-size:1.15em; opacity:0.85; margin:0; font-weight:300; }
+.hero .for-line { margin-top:22px; font-size:0.95em; opacity:0.75; }
+.hero .for-line strong { color:var(--accent-light); font-weight:600; }
+
+/* ─── Stat ribbon ─── */
+.stat-ribbon {
+  max-width:1000px; margin:-50px auto 0; position:relative;
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:0;
+  background:var(--white); border-radius:8px; box-shadow:0 12px 40px rgba(0,0,0,0.12);
+  overflow:hidden;
+}
+.stat {
+  padding:30px 20px; text-align:center; border-right:1px solid var(--rule);
+}
+.stat:last-child { border-right:none; }
+.stat .num { font-size:2.4em; font-weight:700; color:var(--primary); letter-spacing:-0.5px; line-height:1; }
+.stat .num small { font-size:0.5em; font-weight:600; color:var(--accent); margin-left:4px; }
+.stat .label { font-size:0.78em; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-top:8px; font-weight:600; }
+
+/* ─── Container ─── */
+.container { max-width:1000px; margin:40px auto; background:var(--white); padding:50px; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.08); }
+
+/* ─── Loom intro placeholder ─── */
+.loom-block {
+  background:linear-gradient(135deg, #f4f7f9 0%, #e9eff3 100%);
+  border:2px dashed var(--accent);
+  border-radius:8px;
+  padding:24px 20px;
+  text-align:center;
+  margin-bottom:35px;
+}
+.loom-block strong { color:var(--primary); display:block; font-size:1.05em; }
+.loom-block p { margin:8px 0 0; font-size:0.92em; color:var(--muted); }
+
+/* ─── Hero render ─── */
+.render-frame {
+  width:100%;
+  border-radius:8px;
+  margin-bottom:50px;
+  overflow:hidden;
+  background:linear-gradient(180deg, #fafcfd 0%, #eef3f7 100%);
+  box-shadow:0 8px 28px rgba(26,42,58,0.10);
+  border:1px solid var(--rule);
+}
+.render-frame img { display:block; width:100%; height:auto; }
+.render-caption {
+  padding:14px 22px;
+  background:var(--primary);
+  color:var(--white);
+  font-size:0.85em;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.render-caption .right { color:var(--accent-light); font-weight:600; }
+
+/* ─── Section headings ─── */
+h2 { color:var(--primary); border-bottom:2px solid var(--accent); display:inline-block; padding-bottom:6px; margin:0 0 18px; font-size:1.45em; }
+h2.section-top { margin-top:50px; }
+
+/* ─── Grid (vision + specs) ─── */
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:50px; margin-bottom:30px; }
+.grid p { margin-top:0; }
+.grid ul { padding-left:18px; margin-top:0; }
+.grid li { margin-bottom:8px; }
+.grid li strong { color:var(--primary); }
+
+/* ─── Knowledge box ─── */
+.knowledge-box {
+  background:var(--gold-bg);
+  border-left:5px solid var(--gold);
+  padding:28px 30px;
+  margin:40px 0;
+  border-radius:0 6px 6px 0;
+  position:relative;
+}
+.knowledge-box::before {
+  content:"EXPERT KNOWLEDGE";
+  position:absolute; top:-10px; left:25px;
+  background:var(--gold); color:#fff; font-size:0.7em; font-weight:700;
+  padding:3px 10px; letter-spacing:2px; border-radius:3px;
+}
+.knowledge-box h3 { margin:6px 0 10px; color:#856404; font-size:1.15em; }
+.knowledge-box p { margin:0; }
+
+/* ─── Comparison tables ─── */
+.diff-table, .price-table { width:100%; border-collapse:collapse; margin-top:16px; }
+.diff-table th, .price-table th { background:var(--primary); color:var(--white); text-align:left; padding:14px 16px; font-size:0.95em; }
+.diff-table td, .price-table td { padding:14px 16px; border-bottom:1px solid var(--rule); vertical-align:top; }
+.diff-table tr td:first-child { font-weight:600; width:25%; color:var(--primary); }
+.diff-table .sbi { background:#f9fafb; }
+.diff-table .sbi td:nth-child(2) { color:var(--primary); font-weight:600; }
+
+/* ─── Process Timeline ─── */
+.process-grid {
+  display:grid; grid-template-columns:repeat(5, 1fr); gap:14px; margin-top:20px;
+}
+.process-step {
+  background:#f7f9fb;
+  border-top:4px solid var(--accent);
+  padding:18px 14px;
+  border-radius:0 0 4px 4px;
+}
+.process-step .num {
+  font-size:0.7em; font-weight:700; color:var(--accent); letter-spacing:2px;
+}
+.process-step strong { display:block; margin:4px 0 6px; color:var(--primary); font-size:0.98em; }
+.process-step small { color:var(--muted); font-size:0.85em; line-height:1.5; }
+
+/* ─── Investment ─── */
+.price-table tr.optional td { color:#2980b9; font-weight:600; font-style:italic; }
+.price-table tr.total-row td { font-size:1.15em; font-weight:700; background:#f7f9fb; color:var(--primary); padding-top:18px; padding-bottom:18px; }
+.price-table tr.gst-row td { font-size:0.85em; color:var(--muted); padding-top:6px; padding-bottom:6px; }
+
+/* ─── Flooring picker ─── */
+.floor-picker {
+  background:#f7f9fb; border:1px solid var(--rule); border-radius:8px;
+  padding:24px; margin-top:24px;
+}
+.floor-picker .picker-title { font-size:0.78em; letter-spacing:2px; text-transform:uppercase; color:var(--muted); font-weight:700; }
+.floor-picker .picker-help { font-size:0.92em; color:var(--muted); margin:6px 0 18px; }
+.floor-tiles { display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; }
+.floor-tile {
+  background:var(--white); border:2px solid var(--rule); border-radius:8px;
+  padding:18px 16px; cursor:pointer; transition:all 0.18s ease;
+  display:flex; flex-direction:column; gap:6px;
+}
+.floor-tile:hover { border-color:var(--accent-light); transform:translateY(-2px); }
+.floor-tile.selected { border-color:var(--accent); background:linear-gradient(180deg, #fff 0%, #faf6f0 100%); box-shadow:0 4px 14px rgba(184,156,125,0.25); }
+.floor-tile .tier { font-size:0.7em; letter-spacing:2px; text-transform:uppercase; color:var(--muted); font-weight:700; }
+.floor-tile.selected .tier { color:var(--accent); }
+.floor-tile .name { font-size:1.05em; color:var(--primary); font-weight:700; }
+.floor-tile .desc { font-size:0.86em; color:var(--muted); flex-grow:1; }
+.floor-tile .price { font-size:1.15em; color:var(--primary); font-weight:700; margin-top:4px; }
+.floor-tile.selected .price { color:var(--accent); }
+
+/* ─── Footer CTA ─── */
+.footer-action {
+  text-align:center; margin-top:55px; padding-top:35px; border-top:1px solid var(--rule);
+}
+.footer-action .valid { font-size:0.92em; color:var(--muted); margin-bottom:18px; }
+.btn {
+  background:var(--accent); color:#fff; padding:18px 44px; text-decoration:none;
+  font-weight:700; border-radius:50px; display:inline-block; transition:all 0.2s;
+  letter-spacing:2px; text-transform:uppercase; font-size:0.92em;
+  box-shadow:0 4px 14px rgba(184,156,125,0.35);
+}
+.btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(184,156,125,0.45); }
+
+.signature {
+  margin-top:30px; padding-top:24px; border-top:1px solid var(--rule);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
+  font-size:0.88em; color:var(--muted);
+}
+.signature .left { font-weight:600; color:var(--primary); }
+.signature .right { font-style:italic; }
+
+/* ─── Mobile ─── */
+@media (max-width:768px) {
+  .hero { padding:60px 18px 80px; }
+  .hero h1 { font-size:1.9em; letter-spacing:2px; }
+  .stat-ribbon { grid-template-columns:1fr; margin:-30px 18px 0; }
+  .stat { border-right:none; border-bottom:1px solid var(--rule); padding:22px 16px; }
+  .stat:last-child { border-bottom:none; }
+  .stat .num { font-size:2em; }
+  .container { margin:30px 18px; padding:30px 22px; }
+  .grid { grid-template-columns:1fr; gap:30px; }
+  .process-grid { grid-template-columns:1fr 1fr; }
+  .floor-tiles { grid-template-columns:1fr; }
+  .render-caption { flex-direction:column; gap:6px; align-items:flex-start; font-size:0.78em; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+    <p class="kicker">Commercial Office Fitout · Sydney</p>
+    <h1>Morriset Office Fitout</h1>
+    <p class="sub">A proposal for Precision IT</p>
+    <p class="for-line">Prepared for <strong>Gerard Buscombe</strong> · Unit 2, 41 Accolade Ave, Morisset NSW</p>
+</div>
+
+<!-- ═══ STAT RIBBON ═══ -->
+<div class="stat-ribbon">
+    <div class="stat">
+        <div class="num">71<small>m²</small></div>
+        <div class="label">Floor Area</div>
+    </div>
+    <div class="stat">
+        <div class="num">25<small>Lm</small></div>
+        <div class="label">Clear Anodised Glazing</div>
+    </div>
+    <div class="stat">
+        <div class="num">11.2<small>kW</small></div>
+        <div class="label">Independent HVAC Zoning</div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- ═══ LOOM INTRO PLACEHOLDER ═══ -->
+    <div class="loom-block">
+        <strong>[ 45-second personal intro from Michael ]</strong>
+        <p>Walks Gerard through the proposal, names the two mezzanines, and points to the Confirm Site Measure button.</p>
+    </div>
+
+    <!-- ═══ HERO RENDER ═══ -->
+    <div class="render-frame">
+        <img src="assets/morriset-render.jpg" alt="3D render of the Morriset office fitout — upstairs office mezzanine and downstairs boardroom mezzanine, both glass-walled with anodised framing">
+        <div class="render-caption">
+            <span>3D PERSPECTIVE · TWO GLASS-WALLED MEZZANINES</span>
+            <span class="right">SBI · DESIGN · BUILD · CONSTRUCT</span>
+        </div>
+    </div>
+
+    <!-- ═══ VISION + SPECS ═══ -->
+    <div class="grid">
+        <div>
+            <h2>The Project Vision</h2>
+            <p>Two distinct mezzanines, one coordinated build. <strong>Upstairs</strong> becomes a focused office volume — clear-glazed perimeter, full-light feel, acoustic separation from the operations floor. <strong>Downstairs</strong> becomes a credibility piece for Precision IT: a glass-walled boardroom that reads as serious from the moment a client walks in.</p>
+            <p>Delivered as a single program by an SBI Project Manager — partitioning, glazing, ceiling, electrical, HVAC, flooring and painting all sequenced under one schedule. You see one face, sign one variation register, and take one handover.</p>
+        </div>
+        <div>
+            <h2>Technical Specs</h2>
+            <ul>
+                <li><strong>Glazing:</strong> 25 Lm clear anodised aluminium framing, 3 swing doors with closers</li>
+                <li><strong>Partitions:</strong> 92mm steel stud, gyprock to slab, Rw45 acoustic rating</li>
+                <li><strong>Ceiling:</strong> Suspended Rondo grid + Armstrong 1200×600 acoustic tiles, 69 m²</li>
+                <li><strong>HVAC:</strong> Two ducted units — 3.2-11.2 kW cooling, independent thermostats per mezzanine</li>
+                <li><strong>Electrical:</strong> 18 LED panels, RCBO circuits, 8 GPOs, exit signage</li>
+                <li><strong>Floor finish:</strong> 71 m², three tier options (selectable below)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ═══ KNOWLEDGE BOX ═══ -->
+    <div class="knowledge-box">
+        <h3>Where Glass-Walled Boardrooms Fail</h3>
+        <p>Glass partitions are the #1 acoustic failure point in mezzanine offices. Most builders spec 10mm float glass with brush-strip seals — looks identical to a premium spec, but every conversation in the boardroom carries to the workstations downstairs. SBI specs <strong>acoustic-rated laminated glazing with full-perimeter intumescent seals</strong> (head, jamb, threshold) — delivering Rw35-38 in glass and Rw45 in the solid framed walls behind it. The difference between a boardroom that feels confidential and one that doesn't is roughly $40 a linear metre, made invisible at handover.</p>
+    </div>
+
+    <!-- ═══ DIFFERENCE TABLE ═══ -->
+    <h2 class="section-top">The SBI Difference</h2>
+    <table class="diff-table">
+        <thead>
+            <tr><th style="width:25%;">&nbsp;</th><th>SBI Commercial Fitout</th><th>Generic Builder</th></tr>
+        </thead>
+        <tbody>
+            <tr class="sbi"><td>Glazing acoustics</td><td>Acoustic-laminated glass + intumescent seals</td><td>10mm float, brush seals, Rw18 in practice</td></tr>
+            <tr><td>Trade coordination</td><td>One SBI PM across all 7 trades</td><td>You coordinate sub-trades</td></tr>
+            <tr class="sbi"><td>HVAC zoning</td><td>Independent ducted unit per mezzanine</td><td>Single unit, thermostat fights</td></tr>
+            <tr><td>Variations</td><td>Written and signed before works</td><td>Verbal, billed at end</td></tr>
+            <tr class="sbi"><td>Handover</td><td>Defect walk + certs + O&amp;M manuals</td><td>Defects emerge over the first month</td></tr>
+        </tbody>
+    </table>
+
+    <!-- ═══ PROCESS TIMELINE ═══ -->
+    <h2 class="section-top">Our Process &amp; Quality Checkpoints</h2>
+    <div class="process-grid">
+        <div class="process-step">
+            <span class="num">01</span>
+            <strong>3D Sign-off</strong>
+            <small>Both mezzanines coordinated in 3D before fabrication.</small>
+        </div>
+        <div class="process-step">
+            <span class="num">02</span>
+            <strong>Site Measure</strong>
+            <small>On-site verification, services located, services pre-modelled.</small>
+        </div>
+        <div class="process-step">
+            <span class="num">03</span>
+            <strong>Build</strong>
+            <small>Single SBI PM across all trades, weekly client report.</small>
+        </div>
+        <div class="process-step">
+            <span class="num">04</span>
+            <strong>Glazing &amp; Commission</strong>
+            <small>Glass installed last, HVAC commissioned, electrical certified.</small>
+        </div>
+        <div class="process-step">
+            <span class="num">05</span>
+            <strong>Handover</strong>
+            <small>Defect walk, O&amp;M manuals, written workmanship warranty.</small>
+        </div>
+    </div>
+
+    <!-- ═══ HIDDEN COSTS ═══ -->
+    <h2 class="section-top">What "Cheap" Quotes Charge Extra For Later</h2>
+    <table class="diff-table">
+        <thead><tr><th>Item</th><th>Included with SBI</th><th>Typical Budget Quote</th></tr></thead>
+        <tbody>
+            <tr class="sbi"><td>Site measure &amp; 3D model</td><td>Included, fixed-price</td><td>Billed after acceptance</td></tr>
+            <tr><td>Floor protection &amp; rubbish removal</td><td>Bundled in PM</td><td>"Site clean" line at end</td></tr>
+            <tr class="sbi"><td>HVAC commissioning certs</td><td>Included</td><td>Separate sub-trade invoice</td></tr>
+            <tr><td>Electrical compliance (RCBO + signage)</td><td>To AS/NZS 3000, certified</td><td>"Like-for-like" replacement only</td></tr>
+        </tbody>
+    </table>
+
+    <!-- ═══ INVESTMENT SUMMARY ═══ -->
+    <h2 class="section-top">Investment Summary</h2>
+    <table class="price-table">
+        <thead><tr><th>Package</th><th style="text-align:right; width:30%;">Amount (ex-GST)</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><strong>Workspace Construction</strong><br><small style="color:var(--muted);">Glazing, partitioning, ceiling, painting</small></td>
+                <td style="text-align:right;">$51,140</td>
+            </tr>
+            <tr>
+                <td><strong>Building Services</strong><br><small style="color:var(--muted);">Two ducted HVAC units, electrical, lighting</small></td>
+                <td style="text-align:right;">$38,418</td>
+            </tr>
+            <tr>
+                <td><strong>Finishes — Floor 71m²</strong><br><small style="color:var(--muted);">Tier selected: <span id="floor-name">Carpet Aura</span> · subfloor prep + install + product</small></td>
+                <td style="text-align:right;"><span id="floor-price">$17,470</span></td>
+            </tr>
+            <tr>
+                <td><strong>Project Delivery &amp; WHS</strong><br><small style="color:var(--muted);">PM, site safety, floor protection, rubbish removal</small></td>
+                <td style="text-align:right;">$8,350</td>
+            </tr>
+            <tr class="total-row">
+                <td>Subtotal (ex-GST)</td>
+                <td style="text-align:right;"><span id="subtotal">$115,377</span></td>
+            </tr>
+            <tr class="gst-row">
+                <td>GST (10%)</td>
+                <td style="text-align:right;"><span id="gst">$11,538</span></td>
+            </tr>
+            <tr class="total-row">
+                <td>Total (inc-GST)</td>
+                <td style="text-align:right;"><span id="total">$126,915</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ═══ FLOORING PICKER ═══ -->
+    <div class="floor-picker">
+        <div class="picker-title">Floor Finish — Tier Selection</div>
+        <p class="picker-help">Three options across 71m². Pick the tier that suits the budget — total recalculates above.</p>
+        <div class="floor-tiles" id="floor-tiles">
+            <div class="floor-tile" data-tier="economy" data-name="Carpet Ultimate" data-price="16470">
+                <span class="tier">Economy</span>
+                <span class="name">Carpet Ultimate</span>
+                <span class="desc">Hard-wearing commercial loop pile. Smart-Strand fibre, 7-year warranty.</span>
+                <span class="price">$16,470</span>
+            </div>
+            <div class="floor-tile selected" data-tier="standard" data-name="Carpet Aura" data-price="17470">
+                <span class="tier">Standard · Recommended</span>
+                <span class="name">Carpet Aura</span>
+                <span class="desc">Premium commercial loop, fuller hand, broader colour range, 10-year warranty.</span>
+                <span class="price">$17,470</span>
+            </div>
+            <div class="floor-tile" data-tier="premium" data-name="Vinyl Plank" data-price="19470">
+                <span class="tier">Premium</span>
+                <span class="name">Vinyl Plank</span>
+                <span class="desc">Glue-down luxury vinyl plank, 0.55mm wear layer, water-resistant, 15-year warranty.</span>
+                <span class="price">$19,470</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ FOOTER CTA ═══ -->
+    <div class="footer-action">
+        <p class="valid">This proposal is valid for 30 days. Approve below and we'll book the on-site measure within 5 working days.</p>
+        <a href="mailto:michael@spokebi.com.au?subject=Morriset%20Office%20Fitout%20-%20Site%20Measure%20Confirmed&amp;body=Hi%20Michael%2C%0A%0AHappy%20to%20proceed%20with%20the%20Morriset%20fitout%20proposal.%20Please%20book%20the%20on-site%20measure.%0A%0AGerard" class="btn">Confirm Site Measure</a>
+    </div>
+
+    <div class="signature">
+        <span class="left">Spoke Building &amp; Interiors · Sydney</span>
+        <span class="right">Prepared 29 April 2026 by Michael Cook</span>
+    </div>
+
+</div>
+
+<script>
+(function() {
+    const tiles = document.querySelectorAll('.floor-tile');
+    const nameEl = document.getElementById('floor-name');
+    const priceEl = document.getElementById('floor-price');
+    const subtotalEl = document.getElementById('subtotal');
+    const gstEl = document.getElementById('gst');
+    const totalEl = document.getElementById('total');
+    const fixedSubtotal = 51140 + 38418 + 8350;
+
+    const fmt = n => '$' + n.toLocaleString('en-AU');
+
+    tiles.forEach(tile => {
+        tile.addEventListener('click', () => {
+            tiles.forEach(t => t.classList.remove('selected'));
+            tile.classList.add('selected');
+            const price = parseInt(tile.dataset.price, 10);
+            const name = tile.dataset.name;
+            nameEl.textContent = name;
+            priceEl.textContent = fmt(price);
+            const subtotal = fixedSubtotal + price;
+            const gst = Math.round(subtotal * 0.1);
+            subtotalEl.textContent = fmt(subtotal);
+            gstEl.textContent = fmt(gst);
+            totalEl.textContent = fmt(subtotal + gst);
+        });
+    });
+})();
+</script>
+
+</body>
+</html>
