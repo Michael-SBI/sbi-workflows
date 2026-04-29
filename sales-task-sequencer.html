@@ -506,7 +506,7 @@
         First-cut assumptions — needs your review
       </h3>
       <p>
-        <strong>What's now LIVE in the sequencer (J+B / full-stack default):</strong> 6-step P1 chain with 2-day follow-up cadence + "Put on hold" branch · split Send-link/Booking-confirmed stages · P2 Site measure (skip-closeable) · <strong>P3 fan-out</strong> when P2 closes · sequential P4 + P5.<br><br>
+        <strong>What's now LIVE in the sequencer (J+B / full-stack default):</strong> 6-step P1 chain with 2-day follow-up cadence + "Put on hold" branch · split Send-link/Booking-confirmed stages · P2 Site measure (skip-closeable) · <strong>P3 fan-out</strong> when P2 closes · <strong>P3 → P4 advances when ALL 4 P3 stages are DONE or WIP</strong> (no need to fully complete) · <strong>P4 split into 3 stages</strong>: Send invite → Booked → Done. Proposal presented LIVE at the meeting (not sent in advance).<br><br>
         <strong>Still aspirational:</strong> per-type variations (Design-only, Cert-only, etc.) — the J+B/full-stack playbook applies for now. Click ✏ Edit Mode below to tweak time estimates and assignees, then export the JSON for me to lock into the per-type playbook.
       </p>
     </div>
@@ -767,25 +767,38 @@
             <span class="phase-current-type"><span class="prefix">Showing&nbsp;</span><strong></strong></span>
             <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
           </div>
-          <div class="phase-who">Qwilr proposal + the live presentation · 3 hr work · 1 week elapsed</div>
+          <div class="phase-who">Send invite → client books → meeting happens (proposal presented LIVE) · 3 stages · ~1–2 weeks elapsed</div>
         </div>
         <div class="phase-body">
           <ol>
             <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
-              <span class="step-name">Online Presentation Ready (Qwilr / Plans / Skp)</span>
+              <span class="step-name">1. Send invite for online meeting</span>
               <div class="step-meta">
-                <span class="badge time">⏱ 2 hr</span>
-                <span class="badge due">📅 Due in 3d</span>
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 2d</span>
                 <span class="badge owner">👤 SBI Workflow Assignee</span>
               </div>
               <div class="step-flyout">
                 <div class="step-flyout-inner">
-                  Assemble the Qwilr proposal page — headline, value props, plans/Skp embeds, fixed price, terms. Triggered via the <code>qwilr-proposals</code> skill which generates the HTML structure. Closing this signals "ready to present" — typically followed by booking the presentation slot.
+                  Send the client a calendar invite for the proposal-presentation meeting. <strong>Just the meeting invite — the Qwilr proposal + plans + skp are presented LIVE at the meeting itself, not sent to the client in advance.</strong> Close this subtask when the calendar invite has been sent.
                 </div>
               </div>
             </li>
             <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
-              <span class="step-name">Online Presentation- Done</span>
+              <span class="step-name">2. Online Presentation booked</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 5 min</span>
+                <span class="badge due">📅 Due in 5d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Waiting-for-client-to-accept-invite state. Close this subtask when the client confirms/books the meeting time. If the client doesn't accept within a few days, you may want to manually nudge them — the sequencer doesn't auto-chase at this point.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">3. Online Presentation- Done</span>
               <div class="step-meta">
                 <span class="badge time">⏱ 1 hr</span>
                 <span class="badge due">📅 Due in 7d</span>
@@ -793,7 +806,7 @@
               </div>
               <div class="step-flyout">
                 <div class="step-flyout-inner">
-                  The actual Qwilr walkthrough call — present, answer questions, take feedback. Closing this kicks the deal into the closing-follow-ups stream. Update the parent deal status to <code>PRESENTATION SENT</code> at this point.
+                  The actual presentation meeting. <strong>Walk the client live through Qwilr + plans + skp + pricing</strong> — answer questions, take feedback, gauge buy-in. Close this when the meeting has happened. Update the parent deal status to <code>PRESENTATION SENT</code> at this point. Closing this kicks the deal into the closing-follow-ups stream (P5).
                 </div>
               </div>
             </li>
