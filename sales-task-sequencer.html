@@ -282,6 +282,101 @@
       100% { background: transparent; }
     }
 
+    /* ===== EDIT MODE ===== */
+    body.edit-mode .editable {
+      cursor: text;
+      outline: 1px dashed rgba(255, 107, 0, 0.5);
+      outline-offset: 2px;
+      border-radius: 3px;
+    }
+    body.edit-mode .editable:hover {
+      outline-color: var(--orange);
+      background: rgba(255, 107, 0, 0.1);
+    }
+    .editable[contenteditable="true"] {
+      outline: 2px solid var(--orange) !important;
+      background: rgba(255, 107, 0, 0.18) !important;
+      cursor: text;
+    }
+    .phase-body li.has-edits {
+      box-shadow: inset 4px 0 0 var(--orange);
+      padding-left: 42px;
+    }
+
+    /* Floating panel */
+    .edit-panel {
+      position: fixed; bottom: 16px; right: 16px; z-index: 100;
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .edit-panel button {
+      background: var(--card-bg); color: var(--orange);
+      border: 3px solid var(--orange); border-radius: 24px;
+      padding: 10px 16px;
+      font-size: 0.85rem; font-weight: 800; letter-spacing: 0.5px;
+      text-transform: uppercase; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .edit-panel button:hover { background: rgba(255, 107, 0, 0.15); }
+    .edit-panel button.active {
+      background: var(--orange); color: var(--white);
+    }
+    .edit-panel button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Export modal */
+    .export-modal {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0, 0, 0, 0.75); padding: 20px;
+      align-items: center; justify-content: center;
+    }
+    .export-modal.active { display: flex; }
+    .export-modal-content {
+      background: var(--card-bg); border: 3px solid var(--orange);
+      border-radius: 12px; padding: 22px;
+      max-width: 720px; width: 100%; max-height: 90vh;
+      display: flex; flex-direction: column;
+    }
+    .export-modal-content h2 {
+      font-size: 1.2rem; font-weight: 900; margin-bottom: 8px; color: var(--white);
+    }
+    .export-modal-content p {
+      font-size: 0.88rem; color: var(--grey-light); margin-bottom: 14px;
+    }
+    .export-modal-content p strong { color: var(--orange-light); }
+    .export-modal-content pre {
+      background: rgba(0,0,0,0.4); border: 2px solid var(--grey-dark);
+      border-radius: 8px; padding: 14px;
+      overflow: auto; max-height: 50vh;
+      font-size: 0.82rem; color: var(--orange-light);
+      font-family: ui-monospace, 'SF Mono', Consolas, Menlo, monospace;
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .export-modal-actions {
+      display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap;
+    }
+    .export-modal-actions button {
+      flex: 1; min-width: 110px; padding: 10px 14px;
+      border: 2px solid var(--orange); border-radius: 8px;
+      background: transparent; color: var(--orange);
+      font-size: 0.85rem; font-weight: 800; letter-spacing: 0.5px;
+      text-transform: uppercase; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .export-modal-actions button.primary {
+      background: var(--orange); color: var(--white);
+    }
+    .export-modal-actions button:hover:not(:disabled) { transform: translateY(-1px); }
+    .export-modal-actions button.danger {
+      border-color: var(--red); color: var(--red);
+    }
+    .export-modal-actions button.danger:hover {
+      background: var(--red); color: var(--white);
+    }
+    @media print {
+      .edit-panel, .export-modal { display: none !important; }
+    }
+
     /* ===== TYPE SUMMARY CARD ===== */
     .type-summary {
       background: linear-gradient(135deg, var(--navy) 0%, var(--card-bg) 100%);
@@ -795,6 +890,27 @@
     </div>
 
     <!-- ===== FOOTER ===== -->
+
+    <!-- ===== EDIT PANEL (floating) ===== -->
+    <div class="edit-panel">
+      <button id="edit-toggle" onclick="toggleEditMode()">✏ Edit Mode</button>
+      <button id="export-btn" onclick="openExportModal()" disabled>💾 Export (0)</button>
+    </div>
+
+    <!-- ===== EXPORT MODAL ===== -->
+    <div class="export-modal" id="export-modal" onclick="if(event.target===this)closeExportModal()">
+      <div class="export-modal-content">
+        <h2>Export your edits</h2>
+        <p>Copy this JSON and paste it back to me. <strong>Each entry has the original stage name as <code>_originalName</code></strong> so I can map your changes back to the Make playbook, the ClickUp template, and the skill docs.</p>
+        <pre id="export-json">{}</pre>
+        <div class="export-modal-actions">
+          <button id="copy-btn" class="primary" onclick="copyExportJson()">📋 Copy JSON</button>
+          <button onclick="closeExportModal()">Close</button>
+          <button class="danger" onclick="resetEdits()">🗑 Reset all edits</button>
+        </div>
+      </div>
+    </div>
+
     <div class="footer">
       <strong>SBI Sales Task Sequencer</strong> — workflow visualization v1.0<br>
       Driven by Make scenario <code>5490913</code> · ClickUp automation <code>#36</code><br>
@@ -818,7 +934,11 @@
     };
 
     function setType(type) {
-      document.body.className = 'type-' + type;
+      // Remove any prior type-* class, keep other body classes (edit-mode, etc.)
+      Array.from(document.body.classList).forEach(function(c) {
+        if (c.indexOf('type-') === 0) document.body.classList.remove(c);
+      });
+      document.body.classList.add('type-' + type);
       document.querySelectorAll('.type-btn').forEach(function(btn) {
         btn.classList.toggle('active', btn.dataset.target === type);
       });
@@ -866,17 +986,226 @@
 
     // Run once on initial load — body.type-full-stack is set inline so we mirror that
     document.addEventListener('DOMContentLoaded', function() {
+      // Editable scaffolding first (assigns stage IDs, captures originals, applies saved edits)
+      setupEditableFields();
+      applyEditsToDom();
+      // Then trigger initial type filter
       const initialType = (document.body.className.match(/type-(\S+)/) || [])[1] || 'full-stack';
       setType(initialType);
+      // setType strips edit-mode class via setting body.className — restore if it was on
+      // (also re-add type class because className was overwritten)
     });
 
     function togglePhase(header) {
+      // Don't toggle phase if we're editing in this header
+      if (event && event.target.closest('.editable[contenteditable="true"]')) return;
       header.closest('.phase').classList.toggle('open');
     }
 
     function toggleFlyout(li) {
-      if (event && event.target.closest('.step-flyout-inner')) return;
+      if (!event) return;
+      // Don't toggle if click was inside flyout body, on an editable, or while in edit mode and clicking an editable
+      if (event.target.closest('.step-flyout-inner')) return;
+      if (event.target.closest('.editable')) return;
       li.classList.toggle('flyout-open');
+    }
+
+    /* ===== EDIT MODE + PERSISTENCE ===== */
+    const STORAGE_KEY = 'sbi-sequencer-edits-v1';
+
+    function loadEdits() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+      catch (e) { return {}; }
+    }
+
+    function saveEditsObj(obj) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+    }
+
+    function slugify(s) {
+      return s.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '')
+        .slice(0, 60);
+    }
+
+    function getStageId(li) {
+      if (li.dataset.stageId) return li.dataset.stageId;
+      const nameEl = li.querySelector('.step-name');
+      const name = nameEl ? nameEl.textContent.replace(/\s+\(.*\)\s*$/, '').trim() : 'unknown';
+      const id = slugify(name);
+      li.dataset.stageId = id;
+      // Stash the original name on first encounter so edits can keep a reference
+      if (!li.dataset.originalName) li.dataset.originalName = name;
+      return id;
+    }
+
+    function markEditable(el, fieldName) {
+      if (!el) return;
+      el.classList.add('editable');
+      el.dataset.editField = fieldName;
+      // Click in edit mode → make contenteditable
+      el.addEventListener('click', function(e) {
+        if (!document.body.classList.contains('edit-mode')) return;
+        if (el.contentEditable === 'true') return;
+        e.stopPropagation();
+        e.preventDefault();
+        el.dataset.editPrev = el.textContent;
+        el.contentEditable = 'true';
+        el.focus();
+        // Select all
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      });
+      el.addEventListener('blur', function() {
+        if (el.contentEditable !== 'true') return;
+        el.contentEditable = 'false';
+        commitEdit(el);
+      });
+      el.addEventListener('keydown', function(e) {
+        if (el.contentEditable !== 'true') return;
+        if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+        if (e.key === 'Escape') {
+          el.textContent = el.dataset.editPrev || el.textContent;
+          el.blur();
+        }
+      });
+    }
+
+    function commitEdit(el) {
+      const li = el.closest('li');
+      if (!li) return;
+      const stageId = getStageId(li);
+      const field = el.dataset.editField;
+      const newValue = el.textContent.trim();
+      const original = (el.dataset.original !== undefined) ? el.dataset.original : null;
+      const edits = loadEdits();
+      if (!edits[stageId]) {
+        edits[stageId] = { _originalName: li.dataset.originalName || '' };
+      }
+      // If user reverted to the original value, drop the override for that field
+      if (original !== null && newValue === original) {
+        delete edits[stageId][field];
+        // If no fields left other than _originalName, drop the whole entry
+        const remaining = Object.keys(edits[stageId]).filter(function(k) { return k !== '_originalName'; });
+        if (remaining.length === 0) delete edits[stageId];
+      } else {
+        edits[stageId][field] = newValue;
+      }
+      saveEditsObj(edits);
+      refreshEditMarkers();
+      updateExportBtn();
+    }
+
+    function applyEditsToDom() {
+      const edits = loadEdits();
+      Object.keys(edits).forEach(function(stageId) {
+        const li = document.querySelector('li[data-stage-id="' + stageId + '"]');
+        if (!li) return;
+        const fields = edits[stageId];
+        Object.keys(fields).forEach(function(field) {
+          if (field === '_originalName') return;
+          const el = li.querySelector('[data-edit-field="' + field + '"]');
+          if (el && el.textContent.trim() !== fields[field]) {
+            el.textContent = fields[field];
+          }
+        });
+      });
+      refreshEditMarkers();
+      updateExportBtn();
+    }
+
+    function refreshEditMarkers() {
+      const edits = loadEdits();
+      document.querySelectorAll('li[data-stage-id]').forEach(function(li) {
+        const e = edits[li.dataset.stageId];
+        const hasReal = e && Object.keys(e).some(function(k) { return k !== '_originalName'; });
+        li.classList.toggle('has-edits', !!hasReal);
+      });
+    }
+
+    function updateExportBtn() {
+      const edits = loadEdits();
+      const count = Object.keys(edits).filter(function(k) {
+        return Object.keys(edits[k]).some(function(f) { return f !== '_originalName'; });
+      }).length;
+      const btn = document.getElementById('export-btn');
+      btn.textContent = '💾 Export (' + count + ')';
+      btn.disabled = count === 0;
+    }
+
+    function toggleEditMode() {
+      const isOn = document.body.classList.toggle('edit-mode');
+      const btn = document.getElementById('edit-toggle');
+      btn.classList.toggle('active', isOn);
+      btn.textContent = isOn ? '✓ Editing' : '✏ Edit Mode';
+    }
+
+    function openExportModal() {
+      const edits = loadEdits();
+      // Strip empty entries
+      const out = {};
+      Object.keys(edits).forEach(function(k) {
+        const fields = Object.keys(edits[k]).filter(function(f) { return f !== '_originalName'; });
+        if (fields.length > 0) out[k] = edits[k];
+      });
+      document.getElementById('export-json').textContent = JSON.stringify(out, null, 2);
+      document.getElementById('export-modal').classList.add('active');
+    }
+
+    function closeExportModal() {
+      document.getElementById('export-modal').classList.remove('active');
+    }
+
+    function copyExportJson() {
+      const text = document.getElementById('export-json').textContent;
+      const btn = document.getElementById('copy-btn');
+      navigator.clipboard.writeText(text).then(function() {
+        btn.textContent = '✓ Copied!';
+        setTimeout(function() { btn.textContent = '📋 Copy JSON'; }, 1500);
+      }).catch(function() {
+        btn.textContent = 'Copy failed — select manually';
+      });
+    }
+
+    function resetEdits() {
+      if (!confirm('Reset all edits? This cannot be undone.')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+
+    function setupEditableFields() {
+      document.querySelectorAll('.phase-body ol > li').forEach(function(li) {
+        getStageId(li); // assigns id + originalName
+        const nameEl = li.querySelector('.step-name');
+        if (nameEl) {
+          if (!nameEl.dataset.original) nameEl.dataset.original = nameEl.textContent.trim();
+          markEditable(nameEl, 'name');
+        }
+        const timeEl = li.querySelector('.badge.time');
+        if (timeEl) {
+          if (!timeEl.dataset.original) timeEl.dataset.original = timeEl.textContent.trim();
+          markEditable(timeEl, 'time');
+        }
+        const dueEl = li.querySelector('.badge.due');
+        if (dueEl) {
+          if (!dueEl.dataset.original) dueEl.dataset.original = dueEl.textContent.trim();
+          markEditable(dueEl, 'due');
+        }
+        const ownerEl = li.querySelector('.badge.owner') || li.querySelector('.badge.specialist');
+        if (ownerEl) {
+          if (!ownerEl.dataset.original) ownerEl.dataset.original = ownerEl.textContent.trim();
+          markEditable(ownerEl, 'assignee');
+        }
+        const flyoutEl = li.querySelector('.step-flyout-inner');
+        if (flyoutEl) {
+          if (!flyoutEl.dataset.original) flyoutEl.dataset.original = flyoutEl.textContent.trim();
+          markEditable(flyoutEl, 'description');
+        }
+      });
     }
   </script>
 </body>
