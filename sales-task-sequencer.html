@@ -248,36 +248,22 @@
       border-radius: 3px; font-size: 0.8rem; color: var(--orange-light);
     }
 
-    /* ===== TYPE-CONDITIONAL VISIBILITY ===== */
-    li[data-types]:not([data-types*="all"]) { display: none; }
-    body.type-design li[data-types*="design "] { display: block; }
-    body.type-design li[data-types$="design"] { display: block; }
-    body.type-cert li[data-types*=" cert "] { display: block; }
-    body.type-cert li[data-types^="cert "] { display: block; }
-    body.type-cert li[data-types$=" cert"] { display: block; }
-    body.type-cert li[data-types="cert"] { display: block; }
-    body.type-design-cert li[data-types*="design-cert "] { display: block; }
-    body.type-design-cert li[data-types$="design-cert"] { display: block; }
-    body.type-design-cert-joinery li[data-types*="design-cert-joinery "] { display: block; }
-    body.type-design-cert-joinery li[data-types$="design-cert-joinery"] { display: block; }
-    body.type-design-cert-build li[data-types*="design-cert-build "] { display: block; }
-    body.type-design-cert-build li[data-types$="design-cert-build"] { display: block; }
-    body.type-full-stack li[data-types*="full-stack "] { display: block; }
-    body.type-full-stack li[data-types$="full-stack"] { display: block; }
-    body.type-joinery li[data-types*="joinery "] { display: block; }
-    body.type-joinery li[data-types$=" joinery"] { display: block; }
-    body.type-joinery li[data-types="joinery"] { display: block; }
-    body.type-build li[data-types*=" build "] { display: block; }
-    body.type-build li[data-types^="build "] { display: block; }
-    body.type-build li[data-types$=" build"] { display: block; }
-    body.type-build li[data-types="build"] { display: block; }
-    body.type-joinery-build li[data-types*="joinery-build "] { display: block; }
-    body.type-joinery-build li[data-types$="joinery-build"] { display: block; }
-    /* always-shown */
-    li[data-types*="all"] { display: block !important; }
+    /* ===== TYPE-CONDITIONAL VISIBILITY (driven by JS .hidden-by-type class) ===== */
+    li.hidden-by-type { display: none !important; }
+    .phase.hidden-by-type { display: none !important; }
 
     /* Reset counters per phase to handle hidden items gracefully */
     .phase-body ol { counter-reset: step; }
+
+    /* ===== ANIMATION ON TYPE CHANGE ===== */
+    .phase, .phase-body li { transition: opacity 0.2s ease; }
+    .container.flashing .phase-body li:not(.hidden-by-type) {
+      animation: highlightFade 0.6s ease;
+    }
+    @keyframes highlightFade {
+      0% { background: rgba(255, 107, 0, 0.18); }
+      100% { background: transparent; }
+    }
 
     /* ===== TYPE SUMMARY CARD ===== */
     .type-summary {
@@ -814,6 +800,25 @@
       document.querySelectorAll('.type-btn').forEach(function(btn) {
         btn.classList.toggle('active', btn.dataset.target === type);
       });
+
+      // 1. Show/hide each <li> based on whether its data-types list includes the selected type or "all"
+      document.querySelectorAll('li[data-types]').forEach(function(li) {
+        const types = li.dataset.types.split(/\s+/).filter(Boolean);
+        const shouldShow = types.indexOf('all') !== -1 || types.indexOf(type) !== -1;
+        li.classList.toggle('hidden-by-type', !shouldShow);
+      });
+
+      // 2. Hide any phase whose ALL items are now hidden
+      document.querySelectorAll('.phase').forEach(function(phase) {
+        const items = phase.querySelectorAll('.phase-body ol > li');
+        if (items.length === 0) return;
+        const visibleCount = Array.prototype.filter.call(items, function(li) {
+          return !li.classList.contains('hidden-by-type');
+        }).length;
+        phase.classList.toggle('hidden-by-type', visibleCount === 0);
+      });
+
+      // 3. Update the summary card
       const data = TYPE_DATA[type];
       if (data) {
         document.getElementById('summary-title').innerHTML =
@@ -822,28 +827,20 @@
         document.getElementById('stat-time').textContent = data.time;
         document.getElementById('stat-elapsed').textContent = data.elapsed;
       }
-      // After the type changes, hide any phase that has no visible steps for the selected type.
-      requestAnimationFrame(hideEmptyPhases);
+
+      // 4. Quick visual flash so the user can see the change happen
+      const container = document.querySelector('.container');
+      container.classList.remove('flashing');
+      void container.offsetWidth; // restart animation
+      container.classList.add('flashing');
+      setTimeout(function() { container.classList.remove('flashing'); }, 700);
     }
 
-    function hideEmptyPhases() {
-      document.querySelectorAll('.phase').forEach(function(phase) {
-        const items = phase.querySelectorAll('.phase-body ol > li');
-        let visibleCount = 0;
-        items.forEach(function(li) {
-          // an li is visible if computed style says so
-          if (window.getComputedStyle(li).display !== 'none') visibleCount++;
-        });
-        if (items.length > 0 && visibleCount === 0) {
-          phase.style.display = 'none';
-        } else {
-          phase.style.display = '';
-        }
-      });
-    }
-
-    // Run once on initial load
-    document.addEventListener('DOMContentLoaded', hideEmptyPhases);
+    // Run once on initial load — body.type-full-stack is set inline so we mirror that
+    document.addEventListener('DOMContentLoaded', function() {
+      const initialType = (document.body.className.match(/type-(\S+)/) || [])[1] || 'full-stack';
+      setType(initialType);
+    });
 
     function togglePhase(header) {
       header.closest('.phase').classList.toggle('open');
