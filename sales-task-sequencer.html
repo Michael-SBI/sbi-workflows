@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SBI Sales Task Sequencer — Workflow by Deal Type</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0D1B2A; color: #FFFFFF; line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :root {
+      --navy: #1F3864;
+      --navy-deep: #0D1B2A;
+      --navy-light: #2A4A7F;
+      --orange: #FF6B00;
+      --orange-light: #FF8C33;
+      --orange-glow: rgba(255, 107, 0, 0.15);
+      --green: #00C853;
+      --green-dark: #009624;
+      --blue: #2196F3;
+      --purple: #9C27B0;
+      --red: #FF1744;
+      --yellow: #FFD600;
+      --pink: #E91E63;
+      --teal: #00BCD4;
+      --white: #FFFFFF;
+      --grey-light: #B0BEC5;
+      --grey-dark: #37474F;
+      --card-bg: #1A2F4A;
+    }
+
+    /* ===== BANNER ===== */
+    .banner {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+      border-bottom: 4px solid var(--orange);
+      padding: 24px 20px 20px; text-align: center; position: relative; overflow: hidden;
+    }
+    .banner::before {
+      content: ''; position: absolute; top: -50%; right: -10%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, var(--orange-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .banner-badge {
+      display: inline-block; background: var(--orange); color: var(--white);
+      font-weight: 800; font-size: 1rem; letter-spacing: 2px;
+      padding: 4px 16px; border-radius: 4px; margin-bottom: 10px; text-transform: uppercase;
+    }
+    .banner h1 {
+      font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 900;
+      letter-spacing: -0.5px; margin-bottom: 6px;
+    }
+    .banner h1 span { color: var(--orange); }
+    .banner p { font-size: 1rem; color: var(--grey-light); max-width: 700px; margin: 0 auto; }
+
+    .container { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+
+    /* ===== TYPE SELECTOR ===== */
+    .type-selector {
+      padding: 24px 0 8px;
+    }
+    .type-selector h2 {
+      font-size: 0.85rem; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--grey-light);
+      text-align: center; margin-bottom: 14px;
+    }
+    .type-grid {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+    }
+    .type-btn {
+      padding: 8px 16px; border: 3px solid var(--orange);
+      border-radius: 8px; background: transparent; color: var(--orange);
+      font-size: 0.85rem; font-weight: 800; cursor: pointer;
+      transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .type-btn.active {
+      background: var(--orange); color: var(--white);
+      box-shadow: 0 4px 16px rgba(255, 107, 0, 0.4);
+    }
+    .type-btn:hover:not(.active) { background: rgba(255, 107, 0, 0.15); }
+    .type-hint { text-align: center; font-size: 0.85rem; color: var(--grey-light); padding: 12px 0 4px; }
+
+    /* ===== CAVEAT BANNER ===== */
+    .caveat {
+      background: linear-gradient(135deg, #2A1F0A 0%, #1A1505 100%);
+      border: 3px solid var(--yellow); border-radius: 12px;
+      padding: 16px 20px; margin: 16px 0 20px;
+    }
+    .caveat h3 {
+      font-size: 0.95rem; font-weight: 800; color: var(--yellow);
+      margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+    }
+    .caveat p { font-size: 0.88rem; color: var(--grey-light); }
+    .caveat strong { color: var(--white); }
+
+    /* ===== TIMELINE SPINE ===== */
+    .timeline { position: relative; padding: 10px 0 30px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 28px; top: 0; bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, var(--orange), var(--green));
+      border-radius: 2px;
+    }
+
+    /* ===== PHASE CARD ===== */
+    .phase { position: relative; margin-bottom: 20px; padding-left: 60px; }
+    .phase-dot {
+      position: absolute; left: 16px; top: 18px;
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 3px solid var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 0.75rem; z-index: 2;
+    }
+    .phase[data-phase="1"] .phase-dot { background: var(--orange); }
+    .phase[data-phase="2"] .phase-dot { background: var(--blue); }
+    .phase[data-phase="3"] .phase-dot { background: var(--purple); }
+    .phase[data-phase="4"] .phase-dot { background: var(--teal); }
+    .phase[data-phase="5"] .phase-dot { background: var(--green); }
+
+    .phase-header {
+      background: var(--card-bg); border: 3px solid var(--grey-dark);
+      border-radius: 12px; padding: 16px 18px; cursor: pointer;
+      transition: all 0.2s; user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .phase-header:hover, .phase-header:active { border-color: var(--orange); }
+    .phase.open .phase-header {
+      border-color: var(--orange);
+      border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+      border-bottom: none;
+    }
+    .phase-header-top {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .phase-header h3 { font-size: 1.1rem; font-weight: 800; flex: 1; }
+    .phase-header h3 span { color: var(--orange); }
+    .phase-tag {
+      display: inline-block; padding: 2px 10px; border-radius: 4px;
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 1px;
+      text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+    }
+    .tag-auto { background: var(--green-dark); color: var(--white); }
+    .tag-manual { background: var(--red); color: var(--white); }
+    .tag-conditional { background: var(--yellow); color: var(--navy-deep); }
+    .phase-chevron { width: 24px; height: 24px; flex-shrink: 0; transition: transform 0.25s; fill: var(--grey-light); }
+    .phase.open .phase-chevron { transform: rotate(180deg); }
+    .phase-who { font-size: 0.8rem; color: var(--grey-light); margin-top: 4px; }
+    .phase-who strong { color: var(--orange-light); }
+
+    /* ===== PHASE BODY ===== */
+    .phase-body {
+      background: var(--card-bg); border: 3px solid var(--orange); border-top: none;
+      border-radius: 0 0 12px 12px; padding: 0 18px;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .phase.open .phase-body { max-height: 4000px; padding: 14px 18px 18px; }
+
+    .phase-body ol { padding-left: 0; list-style: none; counter-reset: step; }
+    .phase-body li {
+      position: relative; padding: 12px 38px 12px 38px; font-size: 0.95rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .phase-body li:last-child { border-bottom: none; }
+    .phase-body ol > li::before {
+      counter-increment: step; content: counter(step);
+      position: absolute; left: 0; top: 12px;
+      width: 26px; height: 26px;
+      background: var(--navy-light); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.75rem; color: var(--orange);
+      border: 2px solid var(--orange);
+    }
+
+    /* ===== STEP META BADGES ===== */
+    .step-meta {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; margin-bottom: 4px;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px;
+      padding: 3px 8px; border-radius: 4px; white-space: nowrap;
+      text-transform: uppercase;
+    }
+    .badge.time {
+      background: rgba(33, 150, 243, 0.15);
+      color: var(--blue);
+      border: 1px solid var(--blue);
+    }
+    .badge.due {
+      background: rgba(255, 214, 0, 0.15);
+      color: var(--yellow);
+      border: 1px solid var(--yellow);
+    }
+    .badge.owner {
+      background: rgba(156, 39, 176, 0.15);
+      color: #CE93D8;
+      border: 1px solid var(--purple);
+    }
+    .badge.specialist {
+      background: rgba(0, 188, 212, 0.15);
+      color: var(--teal);
+      border: 1px solid var(--teal);
+    }
+    .badge.delay {
+      background: rgba(255, 23, 68, 0.15);
+      color: var(--red);
+      border: 1px solid var(--red);
+    }
+    .step-name { font-weight: 700; color: var(--white); }
+
+    /* ===== STEP FLYOUT ===== */
+    .phase-body li.has-flyout { cursor: pointer; }
+    .phase-body li.has-flyout:hover { background: rgba(255, 107, 0, 0.06); border-radius: 6px; }
+    .phase-body li.has-flyout::after {
+      content: '+'; position: absolute; right: 8px; top: 14px;
+      width: 20px; height: 20px;
+      font-size: 0.75rem; font-weight: 900; color: var(--orange);
+      border: 2px solid var(--orange); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0.5; transition: all 0.2s;
+    }
+    .phase-body li.has-flyout:hover::after { opacity: 1; }
+    .phase-body li.has-flyout.flyout-open::after {
+      content: '\2212'; opacity: 1;
+      background: var(--orange); color: var(--white);
+    }
+    .step-flyout {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.3s ease, margin 0.3s ease; margin: 0;
+    }
+    .flyout-open .step-flyout { max-height: 600px; margin: 8px 0 4px; }
+    .step-flyout-inner {
+      background: rgba(255, 107, 0, 0.08); border-left: 3px solid var(--orange);
+      border-radius: 0 8px 8px 0; padding: 12px 14px;
+      font-size: 0.85rem; line-height: 1.6; color: var(--grey-light);
+    }
+    .step-flyout-inner strong { color: var(--white); font-weight: 700; }
+    .step-flyout-inner code {
+      background: rgba(255, 255, 255, 0.06); padding: 1px 6px;
+      border-radius: 3px; font-size: 0.8rem; color: var(--orange-light);
+    }
+
+    /* ===== TYPE-CONDITIONAL VISIBILITY ===== */
+    li[data-types]:not([data-types*="all"]) { display: none; }
+    body.type-design li[data-types*="design "] { display: block; }
+    body.type-design li[data-types$="design"] { display: block; }
+    body.type-cert li[data-types*=" cert "] { display: block; }
+    body.type-cert li[data-types^="cert "] { display: block; }
+    body.type-cert li[data-types$=" cert"] { display: block; }
+    body.type-cert li[data-types="cert"] { display: block; }
+    body.type-design-cert li[data-types*="design-cert "] { display: block; }
+    body.type-design-cert li[data-types$="design-cert"] { display: block; }
+    body.type-design-cert-joinery li[data-types*="design-cert-joinery "] { display: block; }
+    body.type-design-cert-joinery li[data-types$="design-cert-joinery"] { display: block; }
+    body.type-design-cert-build li[data-types*="design-cert-build "] { display: block; }
+    body.type-design-cert-build li[data-types$="design-cert-build"] { display: block; }
+    body.type-full-stack li[data-types*="full-stack "] { display: block; }
+    body.type-full-stack li[data-types$="full-stack"] { display: block; }
+    body.type-joinery li[data-types*="joinery "] { display: block; }
+    body.type-joinery li[data-types$=" joinery"] { display: block; }
+    body.type-joinery li[data-types="joinery"] { display: block; }
+    body.type-build li[data-types*=" build "] { display: block; }
+    body.type-build li[data-types^="build "] { display: block; }
+    body.type-build li[data-types$=" build"] { display: block; }
+    body.type-build li[data-types="build"] { display: block; }
+    body.type-joinery-build li[data-types*="joinery-build "] { display: block; }
+    body.type-joinery-build li[data-types$="joinery-build"] { display: block; }
+    /* always-shown */
+    li[data-types*="all"] { display: block !important; }
+
+    /* Reset counters per phase to handle hidden items gracefully */
+    .phase-body ol { counter-reset: step; }
+
+    /* ===== TYPE SUMMARY CARD ===== */
+    .type-summary {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--card-bg) 100%);
+      border: 3px solid var(--orange);
+      border-radius: 12px;
+      padding: 18px 22px; margin: 16px 0 24px;
+    }
+    .type-summary-header {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .type-summary-title {
+      font-size: 1.2rem; font-weight: 900; color: var(--white);
+    }
+    .type-summary-title span { color: var(--orange); }
+    .type-summary-stats {
+      display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px;
+      font-size: 0.85rem; color: var(--grey-light);
+    }
+    .type-summary-stats div strong { color: var(--orange-light); font-size: 1rem; }
+
+    /* ===== LEGEND ===== */
+    .legend {
+      margin: 24px 0; padding: 16px 20px;
+      background: var(--card-bg); border: 3px solid var(--navy-light);
+      border-radius: 12px;
+    }
+    .legend h2 { font-size: 1rem; font-weight: 800; margin-bottom: 12px; color: var(--white); }
+    .legend-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 10px; padding: 8px 10px;
+      border-radius: 8px; background: rgba(255, 255, 255, 0.04);
+      font-size: 0.85rem;
+    }
+    .legend-item .swatch {
+      width: 18px; height: 18px; border-radius: 4px; flex-shrink: 0; border: 2px solid;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      text-align: center; padding: 24px 20px 40px;
+      color: var(--grey-light); font-size: 0.8rem;
+      border-top: 2px solid var(--grey-dark); margin-top: 30px;
+    }
+    .footer strong { color: var(--orange); }
+    .footer code {
+      background: rgba(255, 255, 255, 0.06); padding: 1px 6px;
+      border-radius: 3px; color: var(--orange-light);
+    }
+
+    /* ===== PRINT ===== */
+    @media print {
+      body { background: #fff; color: #000; font-size: 10pt; }
+      .banner { background: #1F3864 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .banner h1, .banner p, .banner-badge { color: #fff !important; }
+      .type-selector, .type-hint { display: none; }
+      .phase-body { max-height: none !important; padding: 14px 18px 18px !important; overflow: visible !important; }
+      .phase-header { border-bottom: 3px solid var(--orange) !important; border-radius: 12px 12px 0 0 !important; }
+      .phase-chevron { display: none; }
+      .step-flyout { max-height: none !important; margin: 8px 0 4px !important; }
+      .phase-body li.has-flyout::after { display: none; }
+      .phase { break-inside: avoid; }
+      .timeline::before { display: none; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      .legend-grid { grid-template-columns: 1fr; }
+      .phase { padding-left: 50px; }
+      .timeline::before { left: 22px; }
+      .phase-dot { left: 10px; width: 24px; height: 24px; font-size: 0.65rem; }
+      .type-btn { font-size: 0.78rem; padding: 7px 12px; }
+    }
+  </style>
+</head>
+
+<body class="type-full-stack">
+
+  <!-- ===== BANNER ===== -->
+  <div class="banner">
+    <div class="banner-badge">SBI Sales Process</div>
+    <h1>Sales Task <span>Sequencer</span> — by Deal Type</h1>
+    <p>Pick a deal type below to see its workflow with time estimates, due windows, and assignees. Tap any phase to expand it.</p>
+  </div>
+
+  <div class="container">
+
+    <!-- ===== TYPE SELECTOR ===== -->
+    <div class="type-selector">
+      <h2>Deal Type</h2>
+      <div class="type-grid">
+        <button class="type-btn" data-target="design" onclick="setType('design')">Design</button>
+        <button class="type-btn" data-target="cert" onclick="setType('cert')">Certification</button>
+        <button class="type-btn" data-target="design-cert" onclick="setType('design-cert')">Design + Cert</button>
+        <button class="type-btn" data-target="design-cert-joinery" onclick="setType('design-cert-joinery')">D+C+Joinery</button>
+        <button class="type-btn" data-target="design-cert-build" onclick="setType('design-cert-build')">D+C+Build</button>
+        <button class="type-btn active" data-target="full-stack" onclick="setType('full-stack')">D+C+J+B (Full Stack)</button>
+        <button class="type-btn" data-target="joinery" onclick="setType('joinery')">Joinery</button>
+        <button class="type-btn" data-target="build" onclick="setType('build')">Build</button>
+        <button class="type-btn" data-target="joinery-build" onclick="setType('joinery-build')">Joinery + Build</button>
+      </div>
+      <div class="type-hint">Selected workflow updates instantly — toggle between types to compare.</div>
+    </div>
+
+    <!-- ===== TYPE SUMMARY ===== -->
+    <div class="type-summary" id="type-summary">
+      <div class="type-summary-header">
+        <div class="type-summary-title" id="summary-title">Full Stack <span>(D+C+J+B)</span></div>
+        <span class="phase-tag tag-auto">DRIVEN BY MAKE 5490913</span>
+      </div>
+      <div class="type-summary-stats" id="summary-stats">
+        <div><strong id="stat-stages">17</strong> stages</div>
+        <div><strong id="stat-time">~25 hr</strong> total work</div>
+        <div><strong id="stat-elapsed">~6 weeks</strong> typical elapsed (incl. follow-ups)</div>
+      </div>
+    </div>
+
+    <!-- ===== CAVEAT ===== -->
+    <div class="caveat">
+      <h3>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFD600" stroke-width="2.5" stroke-linecap="round">
+          <path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+        </svg>
+        First-cut assumptions — needs your review
+      </h3>
+      <p>
+        Time estimates, due windows, and which stages apply to which deal type are <strong>my first guesses</strong> based on the existing playbook + general sales workflows.
+        Stages like <strong>Site measure</strong>, <strong>Design fee scope</strong>, and <strong>Cert scope</strong> aren't in the live sequencer playbook yet — they're proposals.
+        Use this to react: tell me what's wrong, what's missing, who really owns each stage, and the real durations. Then I'll lock the per-type playbooks into the sequencer.
+      </p>
+    </div>
+
+    <!-- ===== TIMELINE ===== -->
+    <div class="timeline">
+
+      <!-- PHASE 1 — ENGAGEMENT (always shown for all types) -->
+      <div class="phase open" data-phase="1">
+        <div class="phase-dot">1</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 1</span> — Engagement</h3>
+            <span class="phase-tag tag-auto">ALL TYPES</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+          </div>
+          <div class="phase-who">From enquiry to booked meeting · ~1.5 hr work · 1–2 weeks elapsed</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">SETUP- Acknowledge enquiry, email, name sales task</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 1d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>Sequencer entry point.</strong> Salesperson replies to the inbound enquiry within ~1 business hour, confirms receipt, and renames the parent deal task with the convention <code>TS{YYMMDD} {Surname} — {Project type}</code>. Closing this subtask fires Make scenario <code>5490913</code>, which auto-creates <em>Project information requested</em>. The first response sets the responsiveness clock for the whole deal.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">Project information requested</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 1d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+                <span class="badge delay">🔄 Auto-spawned</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Email the client requesting whatever scope detail is missing — plans, photos, brief, site address, intended use, budget range. The salesperson sends and waits. Closing this subtask without the client replying triggers <em>Follow up #1</em>; closing it after the client supplies the info triggers <em>Make Online Meeting Booking</em>.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">Follow up #1- Project information <em>(spawned only if no reply within 3d)</em></span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 1d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+                <span class="badge delay">🔄 +3d after request</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Auto-cancels if a sibling subtask <code>Project information supplied</code> is closed in the meantime (sequencer rule #5). Otherwise, polite chase email — keep it short, restate what's missing, suggest a 15-min discovery call as an alternative.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">Follow up #2- Project information <em>(spawned only if still no reply)</em></span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 1d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+                <span class="badge delay">🔄 +3d after #1</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Final chase. Closing this advances to <em>Make Online Meeting Booking</em> regardless of whether the client supplied info — at this point we book a meeting to extract it verbally rather than chase forever via email.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">Make Online Meeting Booking</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 30 min</span>
+                <span class="badge due">📅 Due in 2d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Send Calendly / direct booking link to the client. Includes the meeting itself (~30 min discovery) and any pre-meeting prep. Closing this subtask fires the type-specific scoping & pricing chain (Phase 2 + Phase 3).
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PHASE 2 — DISCOVERY & SCOPING -->
+      <div class="phase open" data-phase="2">
+        <div class="phase-dot">2</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 2</span> — Discovery &amp; Scoping</h3>
+            <span class="phase-tag tag-conditional">TYPE-SPECIFIC</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+          </div>
+          <div class="phase-who">Site visit + scope-of-work definition · 2–6 hr work · 5 days elapsed</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" data-types="design design-cert design-cert-joinery design-cert-build full-stack joinery build joinery-build" onclick="toggleFlyout(this)">
+              <span class="step-name">Site measure</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 2 hr</span>
+                <span class="badge due">📅 Due in 5d</span>
+                <span class="badge specialist">👷 Field team / parent owner</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Physical site visit to measure, photograph, and assess. Output is a measure file uploaded to the deal. Skipped for pure Cert deals where the certifier can work off existing plans — confirm with you.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="design design-cert design-cert-joinery design-cert-build full-stack" onclick="toggleFlyout(this)">
+              <span class="step-name">Design fee scope</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 1 hr</span>
+                <span class="badge due">📅 Due in 3d</span>
+                <span class="badge specialist">🎨 Design team</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Define the design deliverable: revisions included, drawing types, certifier coordination, council liaison, etc. Translate into a fixed design fee or hourly estimate.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="cert design-cert design-cert-joinery design-cert-build full-stack" onclick="toggleFlyout(this)">
+              <span class="step-name">Cert scope (identify required certs + quote)</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 2 hr</span>
+                <span class="badge due">📅 Due in 3d</span>
+                <span class="badge specialist">📋 Cert specialist</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Identify which certifications apply (BCA report, fire safety, structural sign-off, acoustic, accessibility) and gather quotes from external consultants. Output: a line-item cert quote that rolls into the consolidated proposal.
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PHASE 3 — PRICING -->
+      <div class="phase open" data-phase="3">
+        <div class="phase-dot">3</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 3</span> — Pricing</h3>
+            <span class="phase-tag tag-conditional">TYPE-SPECIFIC</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+          </div>
+          <div class="phase-who">Plans, models, and dollar figures · 3–14 hr work · 5 days elapsed</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" data-types="design-cert-build full-stack build joinery-build" onclick="toggleFlyout(this)">
+              <span class="step-name">Plans for Quoting <em>(Rayon)</em></span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 4 hr</span>
+                <span class="badge due">📅 Due in 5d</span>
+                <span class="badge specialist">📐 CAD team</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>Rayon</strong> is SBI's 2D drawing program. <strong>Always required for Build deals</strong> — every build needs a Rayon plan before Buildsoft can estimate. Architectural plans (whether SBI-produced via the design team or client-supplied) feed in here as inputs; Rayon translates them into the build drawing set used for pricing and site. Closing this stage is one of the two gates that fire <em>Buildsoft Pricing</em>.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="design-cert-joinery full-stack joinery joinery-build" onclick="toggleFlyout(this)">
+              <span class="step-name">Skp for Quoting</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 3 hr</span>
+                <span class="badge due">📅 Due in 5d</span>
+                <span class="badge specialist">🪚 Joinery team</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  SketchUp model of the joinery — cabinet boxes, doors, hardware, finishes. Drives Mozaik pricing and becomes part of the client presentation. Sibling gate with <em>Plans for Quoting</em> — both must close before the consolidated pricing step fires.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="design-cert-joinery full-stack joinery joinery-build" onclick="toggleFlyout(this)">
+              <span class="step-name">Mozaik — Joinery Plans + Pricing</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 3 hr</span>
+                <span class="badge due">📅 Due in 3d</span>
+                <span class="badge specialist">🪚 Factory / CAD</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>Mozaik does the joinery plans</strong> (shop drawings — sections, elevations, hardware schedules) <strong>and the CNC file processing</strong> for manufacturing. SketchUp output from the previous stage feeds in for the visual model; Mozaik produces the production-grade joinery plans, the cut list/materials/hardware, the price, and the CNC files. <em>Note for sequencer rev:</em> the current playbook stage name "Price up Build, Joinery in Mozaik" understates the scope — Mozaik is a plans tool too, not just pricing.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="design-cert-build full-stack build joinery-build" onclick="toggleFlyout(this)">
+              <span class="step-name">Buildsoft Pricing</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 4 hr</span>
+                <span class="badge due">📅 Due in 5d</span>
+                <span class="badge specialist">💰 Estimator</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Buildsoft estimate from approved plans — labour, materials, subbie quotes, contingency. Output exported to Excel into <code>1.2 COST SHEETS/</code> for the proposal. Sub-quotes from the Contractors &amp; Suppliers list are gathered here via the SBI-RFQ-Contractors-Suppliers skill.
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PHASE 4 — PRESENTATION -->
+      <div class="phase open" data-phase="4">
+        <div class="phase-dot">4</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 4</span> — Presentation</h3>
+            <span class="phase-tag tag-auto">ALL TYPES</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+          </div>
+          <div class="phase-who">Qwilr proposal + the live presentation · 3 hr work · 1 week elapsed</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">Online Presentation Ready (Qwilr / Plans / Skp)</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 2 hr</span>
+                <span class="badge due">📅 Due in 3d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Assemble the Qwilr proposal page — headline, value props, plans/Skp embeds, fixed price, terms. Triggered via the <code>qwilr-proposals</code> skill which generates the HTML structure. Closing this signals "ready to present" — typically followed by booking the presentation slot.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">Online Presentation- Done</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 1 hr</span>
+                <span class="badge due">📅 Due in 7d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  The actual Qwilr walkthrough call — present, answer questions, take feedback. Closing this kicks the deal into the closing-follow-ups stream. Update the parent deal status to <code>PRESENTATION SENT</code> at this point.
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PHASE 5 — CLOSING FOLLOW-UPS -->
+      <div class="phase" data-phase="5">
+        <div class="phase-dot">5</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 5</span> — Closing Follow-ups</h3>
+            <span class="phase-tag tag-auto">ALL TYPES</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+          </div>
+          <div class="phase-who">Five-step nudge sequence · ~1 hr work · 5 weeks elapsed</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">Follow-up #1</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 1d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+                <span class="badge delay">🔄 +2d after presentation</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Permissive stream — sequencer can skip ahead or hold off if it sees recent client activity. The aim is steady contact without pestering.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">Follow-up #2</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 1d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+                <span class="badge delay">🔄 +4d after #1</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Different angle from #1 — lead with new info or social proof (recent similar project, photo).
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">Follow-up #3</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 1d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+                <span class="badge delay">🔄 +7d after #2</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Mid-cycle — try to surface objections directly. "What's holding you back from saying yes?" type message.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">Follow-up #4</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 1d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+                <span class="badge delay">🔄 +10d after #3</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Last serious nudge before the closing email. Often the most effective — clients have had time to compare, may now be ready to commit.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">Follow-up #5 Send Closing email</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 1d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+                <span class="badge delay">🔄 +14d after #4</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  "Closing the loop — let me know if circumstances change" — politely puts the deal to bed without burning the relationship. Closing this subtask ends the chain (sequencer rule: <code>Follow-up #5 → do_nothing</code>).
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== LEGEND ===== -->
+    <div class="legend">
+      <h2>Badge Legend</h2>
+      <div class="legend-grid">
+        <div class="legend-item">
+          <div class="swatch" style="background: rgba(33,150,243,0.15); border-color: #2196F3;"></div>
+          <div><strong>⏱ Time</strong> — work hours typically required to complete</div>
+        </div>
+        <div class="legend-item">
+          <div class="swatch" style="background: rgba(255,214,0,0.15); border-color: #FFD600;"></div>
+          <div><strong>📅 Due</strong> — days after subtask creation when it's due</div>
+        </div>
+        <div class="legend-item">
+          <div class="swatch" style="background: rgba(156,39,176,0.15); border-color: #9C27B0;"></div>
+          <div><strong>👤 SBI Workflow Assignee</strong> — read from the parent deal's <code>🤝 SBI Workflow Assignee</code> custom field (default for all subtasks unless overridden)</div>
+        </div>
+        <div class="legend-item">
+          <div class="swatch" style="background: rgba(0,188,212,0.15); border-color: #00BCD4;"></div>
+          <div><strong>👷/🎨/🪚 Specialist</strong> — overrides the default for stages that route to a specific team (CAD, Factory, Estimator, Cert specialist)</div>
+        </div>
+        <div class="legend-item">
+          <div class="swatch" style="background: rgba(255,23,68,0.15); border-color: #FF1744;"></div>
+          <div><strong>🔄 Delay</strong> — sequencer waits this long before spawning</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer">
+      <strong>SBI Sales Task Sequencer</strong> — workflow visualization v1.0<br>
+      Driven by Make scenario <code>5490913</code> · ClickUp automation <code>#36</code><br>
+      First-cut assumptions awaiting Michael's review · 2026-04-29
+    </div>
+  </div>
+
+  <script>
+    // Type stats per deal type — used to populate the summary card.
+    // Stage counts assume happy-path (no follow-ups #1/#2 spawned in Phase 1).
+    const TYPE_DATA = {
+      'design':                { label: 'Design Only',                stages: 12, time: '~8 hr',   elapsed: '~5 weeks' },
+      'cert':                  { label: 'Certification Only',         stages: 11, time: '~7 hr',   elapsed: '~5 weeks' },
+      'design-cert':           { label: 'Design + Certification',     stages: 13, time: '~10 hr',  elapsed: '~5 weeks' },
+      'design-cert-joinery':   { label: 'Design + Cert + Joinery',    stages: 15, time: '~16 hr',  elapsed: '~6 weeks' },
+      'design-cert-build':     { label: 'Design + Cert + Build',      stages: 15, time: '~18 hr',  elapsed: '~6 weeks' },
+      'full-stack':            { label: 'Full Stack (D+C+J+B)',       stages: 17, time: '~24 hr',  elapsed: '~6 weeks' },
+      'joinery':               { label: 'Joinery Only',               stages: 13, time: '~13 hr',  elapsed: '~5 weeks' },
+      'build':                 { label: 'Build Only',                 stages: 13, time: '~15 hr',  elapsed: '~5 weeks' },
+      'joinery-build':         { label: 'Joinery + Build',            stages: 15, time: '~21 hr',  elapsed: '~6 weeks' }
+    };
+
+    function setType(type) {
+      document.body.className = 'type-' + type;
+      document.querySelectorAll('.type-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.target === type);
+      });
+      const data = TYPE_DATA[type];
+      if (data) {
+        document.getElementById('summary-title').innerHTML =
+          data.label.replace(/\(([^)]+)\)/, '<span>($1)</span>');
+        document.getElementById('stat-stages').textContent = data.stages;
+        document.getElementById('stat-time').textContent = data.time;
+        document.getElementById('stat-elapsed').textContent = data.elapsed;
+      }
+      // After the type changes, hide any phase that has no visible steps for the selected type.
+      requestAnimationFrame(hideEmptyPhases);
+    }
+
+    function hideEmptyPhases() {
+      document.querySelectorAll('.phase').forEach(function(phase) {
+        const items = phase.querySelectorAll('.phase-body ol > li');
+        let visibleCount = 0;
+        items.forEach(function(li) {
+          // an li is visible if computed style says so
+          if (window.getComputedStyle(li).display !== 'none') visibleCount++;
+        });
+        if (items.length > 0 && visibleCount === 0) {
+          phase.style.display = 'none';
+        } else {
+          phase.style.display = '';
+        }
+      });
+    }
+
+    // Run once on initial load
+    document.addEventListener('DOMContentLoaded', hideEmptyPhases);
+
+    function togglePhase(header) {
+      header.closest('.phase').classList.toggle('open');
+    }
+
+    function toggleFlyout(li) {
+      if (event && event.target.closest('.step-flyout-inner')) return;
+      li.classList.toggle('flyout-open');
+    }
+  </script>
+</body>
+</html>
