@@ -608,7 +608,21 @@
               </div>
               <div class="step-flyout">
                 <div class="step-flyout-inner">
-                  Send Calendly/booking link to the client so they can pick a meeting time. Owned by SBI — close this subtask <strong>when the link is sent</strong>. The next stage (#6) is then created in a "waiting for client" state.
+                  Send Calendly/booking link to the client so they can pick a meeting time. Owned by SBI — close this subtask <strong>when the link is sent</strong>. Closing fan-outs to BOTH #6 (waiting state) AND a chase task (3d due, side-task safety net).
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">↳ Follow up — chase client for meeting booking <em>(side-task)</em></span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 3d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+                <span class="badge delay">🔄 +3d after #5</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>Side-task safety net.</strong> Spawned alongside #6 when #5 closes — keeps a visible "next action" in the queue if the client doesn't book within a few days. If the client books in time → close manually (closing it does NOT advance the chain). If client goes quiet → action when due, chase them for the booking.
                 </div>
               </div>
             </li>
@@ -780,7 +794,21 @@
               </div>
               <div class="step-flyout">
                 <div class="step-flyout-inner">
-                  Send the client a calendar invite for the proposal-presentation meeting. <strong>Just the meeting invite — the Qwilr proposal + plans + skp are presented LIVE at the meeting itself, not sent to the client in advance.</strong> Close this subtask when the calendar invite has been sent.
+                  Send the client a calendar invite for the proposal-presentation meeting. <strong>Just the meeting invite — the Qwilr proposal + plans + skp are presented LIVE at the meeting itself, not sent to the client in advance.</strong> Close this subtask when the calendar invite has been sent. Closing fan-outs to BOTH #2 (waiting state) AND a chase task (3d due).
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">↳ Follow up — chase client for presentation booking <em>(side-task)</em></span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 3d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+                <span class="badge delay">🔄 +3d after #1</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>Side-task safety net.</strong> Spawned alongside #2 when #1 closes — keeps a visible "next action" in the queue if the client doesn't accept the invite within a few days. If the client books in time → close manually (closing it does NOT advance the chain). If client goes quiet → action when due, chase them for booking confirmation.
                 </div>
               </div>
             </li>
