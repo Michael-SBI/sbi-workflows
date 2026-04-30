@@ -781,7 +781,7 @@
             <span class="phase-current-type"><span class="prefix">Showing&nbsp;</span><strong></strong></span>
             <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
           </div>
-          <div class="phase-who">Send invite → client books → meeting happens (proposal presented LIVE) · 3 stages · ~1–2 weeks elapsed</div>
+          <div class="phase-who">Send invite → wait for client (3-tier chase chain) → meeting happens (proposal presented LIVE) · 3 main stages + 3 chase tiers · ~1–2 weeks elapsed</div>
         </div>
         <div class="phase-body">
           <ol>
@@ -794,39 +794,67 @@
               </div>
               <div class="step-flyout">
                 <div class="step-flyout-inner">
-                  Send the client a calendar invite for the proposal-presentation meeting. <strong>Just the meeting invite — the Qwilr proposal + plans + skp are presented LIVE at the meeting itself, not sent to the client in advance.</strong> Close this subtask when the calendar invite has been sent. Closing fan-outs to BOTH #2 (waiting state) AND a chase task (3d due).
+                  Send the client a calendar invite for the proposal-presentation meeting. <strong>Just the meeting invite — the Qwilr proposal + plans + skp are presented LIVE at the meeting itself, not sent to the client in advance.</strong> Close this subtask when the calendar invite has been sent. Closing fan-outs to BOTH #2 (P4.2 waiting state, 3d due) AND chase #1 (3d due).
                 </div>
               </div>
             </li>
             <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
-              <span class="step-name">↳ Follow up — chase client for presentation booking <em>(side-task)</em></span>
+              <span class="step-name">2. Online Presentation booked by client <em>(waiting on client)</em></span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 5 min</span>
+                <span class="badge due">📅 Due in 3d</span>
+                <span class="badge owner">👤 Client</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  Waiting-on-client task. Set status to <code>(SUBTASK) WIP</code> to signal "waiting on client" — <strong>WIP does NOT advance the chain</strong> on this task; only <code>DONE COMPLETE</code> does. Assignee is the client, not SBI. Close this subtask when the client confirms/books the meeting time → advances to #6 <em>Online Presentation- Done</em>. If client doesn't book within 3d the task surfaces as overdue, and the parallel chase chain (#3 → #4 → #5) keeps SBI actively pursuing.
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">↳ 3. Follow up #1 — chase client for presentation booking</span>
               <div class="step-meta">
                 <span class="badge time">⏱ 15 min</span>
                 <span class="badge due">📅 Due in 3d</span>
                 <span class="badge owner">👤 SBI Workflow Assignee</span>
-                <span class="badge delay">🔄 +3d after #1</span>
+                <span class="badge delay">🔄 fan-out with #2</span>
               </div>
               <div class="step-flyout">
                 <div class="step-flyout-inner">
-                  <strong>Side-task safety net.</strong> Spawned alongside #2 when #1 closes — keeps a visible "next action" in the queue if the client doesn't accept the invite within a few days. If the client books in time → close manually (closing it does NOT advance the chain). If client goes quiet → action when due, chase them for booking confirmation.
+                  <strong>Chase chain tier 1.</strong> Spawned alongside #2 when #1 closes. Action when due (call/email client to nudge them to book). Close this when you've made the chase attempt. Closing → if #2 still open, sequencer spawns chase #2 (tier 2). If client has booked by then (#2 is <code>done complete</code>), the chain stops — no further chase needed.
                 </div>
               </div>
             </li>
             <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
-              <span class="step-name">2. Online Presentation booked</span>
+              <span class="step-name">↳ 4. Follow up #2 — chase client for presentation booking</span>
               <div class="step-meta">
-                <span class="badge time">⏱ 5 min</span>
-                <span class="badge due">📅 Due in 5d</span>
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 3d</span>
                 <span class="badge owner">👤 SBI Workflow Assignee</span>
+                <span class="badge delay">🔄 +3d after chase #1 closes (only if #2 still open)</span>
               </div>
               <div class="step-flyout">
                 <div class="step-flyout-inner">
-                  Waiting-for-client-to-accept-invite state. Close this subtask when the client confirms/books the meeting time. If the client doesn't accept within a few days, you may want to manually nudge them — the sequencer doesn't auto-chase at this point.
+                  <strong>Chase chain tier 2.</strong> Spawned only when chase #1 closes AND #2 (Online Presentation booked by client) is still open. Stronger nudge — phone if you've been emailing. Closing → if #2 still open, sequencer spawns chase #3.
                 </div>
               </div>
             </li>
             <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
-              <span class="step-name">3. Online Presentation- Done</span>
+              <span class="step-name">↳ 5. Follow up #3 — chase client for presentation booking</span>
+              <div class="step-meta">
+                <span class="badge time">⏱ 15 min</span>
+                <span class="badge due">📅 Due in 3d</span>
+                <span class="badge owner">👤 SBI Workflow Assignee</span>
+                <span class="badge delay">🔄 +3d after chase #2 closes (only if #2 still open)</span>
+              </div>
+              <div class="step-flyout">
+                <div class="step-flyout-inner">
+                  <strong>Chase chain tier 3 — final automated chase.</strong> Spawned only when chase #2 closes AND #2 (Online Presentation booked by client) is still open. Last attempt — be direct, ask if the client wants to pause/withdraw. Closing → <code>do_nothing</code> (chain ends; manual escalation needed if still no booking).
+                </div>
+              </div>
+            </li>
+            <li class="has-flyout" data-types="all" onclick="toggleFlyout(this)">
+              <span class="step-name">6. Online Presentation- Done</span>
               <div class="step-meta">
                 <span class="badge time">⏱ 1 hr</span>
                 <span class="badge due">📅 Due in 7d</span>
@@ -834,7 +862,7 @@
               </div>
               <div class="step-flyout">
                 <div class="step-flyout-inner">
-                  The actual presentation meeting. <strong>Walk the client live through Qwilr + plans + skp + pricing</strong> — answer questions, take feedback, gauge buy-in. Close this when the meeting has happened. Update the parent deal status to <code>PRESENTATION SENT</code> at this point. Closing this kicks the deal into the closing-follow-ups stream (P5).
+                  The actual presentation meeting. <strong>Walk the client live through Qwilr + plans + skp + pricing</strong> — answer questions, take feedback, gauge buy-in. Close this when the meeting has happened. Update the parent deal status to <code>PRESENTATION SENT</code> at this point. Closing this kicks the deal into the closing-follow-ups stream (P5). Any chase tasks still open at this point are noise — close them manually.
                 </div>
               </div>
             </li>
