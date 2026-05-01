@@ -206,6 +206,60 @@ h2.section-top { margin-top:50px; }
 .signature .left { font-weight:600; color:var(--primary); }
 .signature .right { font-style:italic; }
 
+/* PDF + sign-off */
+.footer-buttons { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.btn.btn-secondary { background:#fff; color:var(--primary); border:2px solid var(--primary); box-shadow:none; }
+.btn.btn-secondary:hover { background:var(--primary); color:#fff; transform:translateY(-2px); }
+.btn[disabled] { opacity:0.5; cursor:not-allowed; pointer-events:none; }
+
+.signoff-panel { display:none; margin-top:30px; padding:32px; background:#f7f9fb; border:1px solid var(--rule); border-radius:10px; text-align:left; }
+.signoff-panel.open { display:block; animation:slideDown 0.3s ease; }
+@keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+.signoff-panel h3 { color:var(--primary); margin:0 0 8px; font-size:1.2em; border:none; padding:0; }
+.signoff-panel .helper { color:var(--muted); margin:0 0 22px; font-size:0.92em; }
+
+.sig-pad-wrap { background:#fff; border:1px solid var(--rule); border-radius:6px; padding:0; position:relative; }
+.sig-pad-wrap canvas { display:block; width:100%; height:180px; cursor:crosshair; touch-action:none; border-radius:6px; }
+.sig-pad-wrap .sig-clear {
+  position:absolute; top:10px; right:10px; background:#fff; border:1px solid var(--rule);
+  color:var(--muted); font-size:0.72em; letter-spacing:1px; cursor:pointer; padding:5px 12px;
+  border-radius:4px; text-transform:uppercase; font-weight:700;
+}
+.sig-pad-wrap .sig-clear:hover { background:#f0f3f5; color:var(--primary); }
+.sig-pad-wrap .sig-baseline { position:absolute; left:30px; right:30px; bottom:36px; border-top:1px dashed #c8d0d8; pointer-events:none; }
+.sig-pad-wrap .sig-x { position:absolute; left:24px; bottom:18px; font-family:Georgia, serif; font-size:1.4em; color:#c8d0d8; pointer-events:none; }
+
+.sig-fields { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:18px; }
+.sig-fields label { display:flex; flex-direction:column; gap:6px; font-size:0.72em; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; font-weight:700; }
+.sig-fields input { padding:12px 14px; border:1px solid var(--rule); border-radius:6px; font-size:1em; font-family:inherit; background:#fff; color:var(--ink); }
+.sig-fields input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(184,156,125,0.15); }
+
+.signoff-actions { margin-top:22px; display:flex; gap:14px; justify-content:flex-end; flex-wrap:wrap; }
+.sig-error { color:#b03a2e; font-size:0.88em; margin-top:10px; min-height:1.2em; text-align:right; }
+
+.signed-confirmation { display:none; margin-top:30px; padding:32px 28px; background:#f0f7f3; border:1px solid #c8e0d0; border-radius:10px; text-align:center; }
+.signed-confirmation.shown { display:block; animation:slideDown 0.4s ease; }
+.signed-confirmation .badge {
+  display:inline-flex; align-items:center; gap:8px; background:#1b8754; color:#fff;
+  padding:8px 18px; border-radius:50px; font-size:0.72em; letter-spacing:2px; text-transform:uppercase; font-weight:700;
+}
+.signed-confirmation h3 { color:var(--primary); margin:18px 0 6px; font-size:1.35em; border:none; padding:0; }
+.signed-confirmation .signed-sub { color:var(--muted); margin:0 0 8px; font-size:0.95em; }
+.signed-confirmation .sig-display { background:#fff; border:1px solid #c8e0d0; border-radius:6px; padding:18px; margin:22px auto 16px; max-width:480px; }
+.signed-confirmation .sig-display img { max-width:100%; height:auto; display:block; margin:0 auto 8px; max-height:120px; }
+.signed-confirmation .sig-meta { font-size:0.88em; color:var(--muted); border-top:1px solid var(--rule); padding-top:12px; margin-top:8px; }
+.signed-confirmation .sig-meta strong { color:var(--primary); display:block; font-size:1.05em; margin-bottom:2px; }
+
+/* Hide buttons + form when capturing for PDF */
+body.pdf-mode .no-print { display:none !important; }
+body.pdf-mode { background:#fff; }
+body.pdf-mode .container { box-shadow:none; margin-top:30px; }
+@media print {
+  .no-print { display:none !important; }
+  body { background:#fff; }
+  .container { box-shadow:none; }
+}
+
 /* Mobile */
 @media (max-width:900px) {
   .scope-tiles { grid-template-columns:repeat(4, 1fr); }
@@ -449,10 +503,63 @@ h2.section-top { margin-top:50px; }
         Pricing is based on full acceptance of the outlined scope and is subject to site measure and supplier availability. Works scheduled for standard business hours (Mon–Fri, 7:00 AM – 3:00 PM). <strong>Excluded:</strong> equipment hire, statutory fees, plumbing, flooring, electrical switchboard upgrades, extensive wall patching or plasterwork, painting to existing walls, ceiling alterations, ceiling lighting, furniture, shopfront hoarding, new splashback to kitchen, fridge GPO. Proposal valid for 30 days.
     </p>
 
-    <!-- FOOTER CTA -->
+    <!-- FOOTER CTA + SIGN-OFF -->
     <div class="footer-action">
-        <p class="valid">This proposal is valid for 30 days. Approve below and we'll book the on-site measure within 5 working days.</p>
-        <a href="mailto:michael@spokebi.com.au?subject=Taylors%20Conveyancing%20-%20Proposal%20Approved&amp;body=Hi%20Michael%2C%0A%0AHappy%20to%20proceed%20with%20the%20Taylors%20Conveyancing%20Gosford%20proposal.%20Please%20book%20the%20on-site%20measure.%0A%0ANatalie" class="btn">Approve Proposal</a>
+        <p class="valid no-print">This proposal is valid for 30 days. Sign below to approve and we'll book the on-site measure within 5 working days.</p>
+        <div class="footer-buttons no-print">
+            <button type="button" class="btn btn-secondary" id="btn-pdf">Download PDF</button>
+            <button type="button" class="btn" id="btn-open-signoff">Sign &amp; Approve</button>
+        </div>
+    </div>
+
+    <!-- SIGN-OFF PANEL -->
+    <div class="signoff-panel no-print" id="signoff-panel" aria-hidden="true">
+        <h3>Sign &amp; Approve</h3>
+        <p class="helper">Please draw your signature below, type your name, and submit. A signed PDF copy will be available to download immediately.</p>
+
+        <div class="sig-pad-wrap">
+            <canvas id="sig-canvas" aria-label="Signature drawing area"></canvas>
+            <span class="sig-baseline"></span>
+            <span class="sig-x">×</span>
+            <button type="button" class="sig-clear" id="sig-clear">Clear</button>
+        </div>
+
+        <div class="sig-fields">
+            <label>Full name
+                <input type="text" id="sig-name" placeholder="e.g. Natalie Taylor" autocomplete="name">
+            </label>
+            <label>Position / Company
+                <input type="text" id="sig-title" placeholder="e.g. Director, Taylor &amp; Associates" autocomplete="organization-title">
+            </label>
+        </div>
+
+        <div class="sig-error" id="sig-error" role="alert"></div>
+
+        <div class="signoff-actions">
+            <button type="button" class="btn btn-secondary" id="btn-cancel-signoff">Cancel</button>
+            <button type="button" class="btn" id="btn-submit-signoff">Submit Signature</button>
+        </div>
+    </div>
+
+    <!-- SIGNED STATE -->
+    <div class="signed-confirmation" id="signed-confirmation" aria-live="polite">
+        <span class="badge">
+            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7l3 3 7-7" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Proposal Approved
+        </span>
+        <h3>Thank you — proposal signed.</h3>
+        <p class="signed-sub">A signed copy is ready to download. We'll be in touch within 1 business day to book the on-site measure.</p>
+        <div class="sig-display">
+            <img id="signed-image" alt="Client signature">
+            <div class="sig-meta">
+                <strong id="signed-name">—</strong>
+                <span id="signed-title">—</span><br>
+                Signed <span id="signed-date">—</span>
+            </div>
+        </div>
+        <div class="footer-buttons no-print">
+            <button type="button" class="btn" id="btn-pdf-signed">Download Signed PDF</button>
+        </div>
     </div>
 
     <div class="signature">
@@ -498,6 +605,115 @@ h2.section-top { margin-top:50px; }
     card.setAttribute('role', 'checkbox');
     card.setAttribute('aria-checked', 'false');
     recalc(false);
+})();
+</script>
+
+<!-- html2pdf for client-side PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+/* ─── Signature pad ─── */
+(function() {
+    const canvas = document.getElementById('sig-canvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false, hasInk = false;
+
+    function resize() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        const data = hasInk ? canvas.toDataURL('image/png') : null;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.strokeStyle = '#1a2a3a';
+        ctx.lineWidth = 2.2;
+        if (data) {
+            const img = new Image();
+            img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
+            img.src = data;
+        }
+    }
+    function pos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const t = e.touches ? e.touches[0] : e;
+        return { x: t.clientX - rect.left, y: t.clientY - rect.top };
+    }
+    function start(e) { e.preventDefault(); drawing = true; hasInk = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }
+    function move(e)  { if (!drawing) return; e.preventDefault(); const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); }
+    function end()    { drawing = false; }
+
+    window.addEventListener('resize', resize);
+    canvas.addEventListener('mousedown', start);
+    canvas.addEventListener('mousemove', move);
+    canvas.addEventListener('mouseup', end);
+    canvas.addEventListener('mouseleave', end);
+    canvas.addEventListener('touchstart', start, { passive:false });
+    canvas.addEventListener('touchmove', move, { passive:false });
+    canvas.addEventListener('touchend', end);
+
+    document.getElementById('sig-clear').addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        hasInk = false;
+    });
+
+    /* ─── Panel open/close + submit ─── */
+    const panel = document.getElementById('signoff-panel');
+    const confirmation = document.getElementById('signed-confirmation');
+    const errorEl = document.getElementById('sig-error');
+
+    document.getElementById('btn-open-signoff').addEventListener('click', () => {
+        panel.classList.add('open');
+        panel.setAttribute('aria-hidden', 'false');
+        setTimeout(() => { resize(); panel.scrollIntoView({ behavior:'smooth', block:'start' }); }, 50);
+    });
+    document.getElementById('btn-cancel-signoff').addEventListener('click', () => {
+        panel.classList.remove('open');
+        panel.setAttribute('aria-hidden', 'true');
+        errorEl.textContent = '';
+    });
+
+    document.getElementById('btn-submit-signoff').addEventListener('click', () => {
+        const name = document.getElementById('sig-name').value.trim();
+        const title = document.getElementById('sig-title').value.trim();
+        if (!hasInk) { errorEl.textContent = 'Please draw your signature.'; return; }
+        if (!name)   { errorEl.textContent = 'Please type your full name.'; return; }
+        errorEl.textContent = '';
+
+        const dataURL = canvas.toDataURL('image/png');
+        document.getElementById('signed-image').src = dataURL;
+        document.getElementById('signed-name').textContent = name;
+        document.getElementById('signed-title').textContent = title || '';
+        const now = new Date();
+        const dateStr = now.toLocaleString('en-AU', { day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' });
+        document.getElementById('signed-date').textContent = dateStr;
+
+        panel.classList.remove('open');
+        panel.setAttribute('aria-hidden', 'true');
+        confirmation.classList.add('shown');
+        setTimeout(() => confirmation.scrollIntoView({ behavior:'smooth', block:'center' }), 60);
+    });
+
+    /* ─── PDF export (works for both unsigned + signed states) ─── */
+    function downloadPDF(filename) {
+        const opt = {
+            margin: [8, 8, 8, 8],
+            filename: filename || 'Taylors-Conveyancing-Proposal.pdf',
+            image: { type:'jpeg', quality:0.95 },
+            html2canvas: { scale:2, useCORS:true, scrollY:0, windowWidth: document.documentElement.scrollWidth },
+            jsPDF: { unit:'mm', format:'a4', orientation:'portrait' },
+            pagebreak: { mode:['avoid-all', 'css', 'legacy'] }
+        };
+        document.body.classList.add('pdf-mode');
+        return html2pdf().set(opt).from(document.body).save().finally(() => {
+            document.body.classList.remove('pdf-mode');
+        });
+    }
+    document.getElementById('btn-pdf').addEventListener('click', () => downloadPDF('Taylors-Conveyancing-Proposal.pdf'));
+    document.getElementById('btn-pdf-signed').addEventListener('click', () => downloadPDF('Taylors-Conveyancing-Proposal-SIGNED.pdf'));
+
+    resize();
 })();
 </script>
 
