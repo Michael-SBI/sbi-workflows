@@ -923,20 +923,28 @@ var PROPOSAL = {
 function notifyClickUp(payload) {
   if (!PROPOSAL.webhookUrl) return;
   try {
-    /* Make's webhook responds with Access-Control-Allow-Origin: *, which
-       browsers reject for "credentialed" requests OR when Content-Type
-       triggers a preflight (e.g. application/json). To avoid both, we
-       send as text/plain — Make parses the JSON body regardless. */
-    var body = JSON.stringify(payload);
+    /* Make webhooks parse application/x-www-form-urlencoded into named
+       fields. text/plain and JSON-without-Content-Type do NOT parse and
+       leave the router with empty {{1.event_type}}, so we serialise to
+       form params here. URLSearchParams is also CORS-simple — no
+       preflight, no credentials, no failure. */
+    var params = new URLSearchParams();
+    Object.keys(payload).forEach(function (k) {
+      var v = payload[k];
+      if (v == null) return;
+      params.append(k, typeof v === 'object' ? JSON.stringify(v) : String(v));
+    });
+    var body = params.toString();
     if (navigator.sendBeacon) {
-      var blob = new Blob([body], { type: 'text/plain;charset=UTF-8' });
+      var blob = new Blob([body], { type: 'application/x-www-form-urlencoded;charset=UTF-8' });
       navigator.sendBeacon(PROPOSAL.webhookUrl, blob);
     } else {
       fetch(PROPOSAL.webhookUrl, {
         method: 'POST',
         mode: 'no-cors',
         keepalive: true,
-        body: body /* no Content-Type header → simple request, no preflight */
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: body
       }).catch(function () {});
     }
   } catch (e) { /* swallow — never block the UX on telemetry */ }
