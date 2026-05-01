@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taylors Conveyancing — Gosford Office Refresh Proposal</title>
+<style>
+:root {
+  --primary:#1a2a3a;
+  --primary-deep:#0f1c2c;
+  --accent:#b89c7d;
+  --accent-light:#d4bfa3;
+  --bg:#f4f7f9;
+  --white:#fff;
+  --gold:#d4af37;
+  --gold-bg:#fff9e6;
+  --ink:#2c3744;
+  --muted:#6b7785;
+  --rule:#e6ecf0;
+}
+* { box-sizing:border-box; }
+body { font-family:'Segoe UI', Arial, sans-serif; line-height:1.65; color:var(--ink); margin:0; background:var(--bg); }
+a { color:inherit; }
+
+/* Hero */
+.hero {
+  background:linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 100%);
+  color:var(--white);
+  padding:90px 20px 180px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero::after {
+  content:""; position:absolute; left:50%; bottom:140px; transform:translateX(-50%);
+  width:60px; height:2px; background:var(--accent);
+}
+.hero .kicker { font-size:0.78em; letter-spacing:4px; opacity:0.7; text-transform:uppercase; margin:0; }
+.hero h1 { margin:18px 0 8px; font-size:2.9em; text-transform:uppercase; letter-spacing:3px; font-weight:700; }
+.hero .sub { font-size:1.15em; opacity:0.85; margin:0; font-weight:300; }
+.hero .for-line { margin-top:22px; font-size:0.95em; opacity:0.75; }
+.hero .for-line strong { color:var(--accent-light); font-weight:600; }
+
+/* Hero render */
+.render-hero { max-width:1100px; margin:-130px auto 0; padding:0 20px; position:relative; z-index:2; }
+.render-frame {
+  width:100%; border-radius:10px; overflow:hidden; background:#fff;
+  box-shadow:0 24px 60px rgba(0,0,0,0.28), 0 4px 16px rgba(0,0,0,0.18);
+  border:1px solid rgba(0,0,0,0.05);
+}
+.render-frame img { display:block; width:100%; height:auto; }
+.render-caption {
+  padding:14px 22px; background:var(--primary); color:var(--white);
+  font-size:0.85em; letter-spacing:2px; text-transform:uppercase;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.render-caption .right { color:var(--accent-light); font-weight:600; }
+
+/* Container */
+.container { max-width:1000px; margin:50px auto 40px; background:var(--white); padding:50px; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.08); }
+
+/* Stat ribbon */
+.stat-ribbon {
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:0;
+  background:#f7f9fb; border:1px solid var(--rule);
+  border-radius:8px; overflow:hidden; margin-bottom:40px;
+}
+.stat { padding:30px 20px; text-align:center; border-right:1px solid var(--rule); }
+.stat:last-child { border-right:none; }
+.stat .num { font-size:2.4em; font-weight:700; color:var(--primary); letter-spacing:-0.5px; line-height:1; }
+.stat .num small { font-size:0.5em; font-weight:600; color:var(--accent); margin-left:4px; }
+.stat .label { font-size:0.78em; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-top:8px; font-weight:600; }
+
+/* Scope tiles */
+.scope-section { margin-bottom:42px; }
+.scope-eyebrow { font-size:0.78em; letter-spacing:3px; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:14px; }
+.scope-tiles { display:grid; grid-template-columns:repeat(7, 1fr); gap:10px; }
+.scope-tile {
+  background:#f7f9fb; border:1px solid var(--rule); border-radius:6px;
+  padding:16px 8px 14px; text-align:center;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  transition:all 0.2s;
+}
+.scope-tile:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:0 6px 18px rgba(26,42,58,0.10); }
+.scope-tile .pip {
+  width:38px; height:38px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--primary); color:var(--accent-light);
+  border-radius:50%; font-size:0.78em; font-weight:700; letter-spacing:0.5px;
+}
+.scope-tile .label {
+  font-size:0.72em; color:var(--primary); font-weight:600;
+  letter-spacing:0.5px; line-height:1.3;
+}
+
+/* Total card */
+.total-card {
+  background:linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 100%);
+  color:#fff; padding:32px 38px; border-radius:10px; margin-top:30px;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px;
+  box-shadow:0 12px 32px rgba(26,42,58,0.30);
+  border-top:4px solid var(--accent);
+}
+.total-card .left { display:flex; flex-direction:column; gap:6px; min-width:0; }
+.total-card .label { font-size:0.75em; letter-spacing:3px; text-transform:uppercase; color:var(--accent-light); font-weight:700; }
+.total-card .figure { font-size:2.5em; font-weight:700; letter-spacing:-1px; line-height:1; }
+.total-card .gst-note { font-size:0.85em; color:rgba(255,255,255,0.7); }
+.total-card .right { text-align:right; font-size:0.88em; color:rgba(255,255,255,0.85); max-width:320px; line-height:1.5; }
+.total-card .right strong { color:var(--accent-light); display:block; font-size:0.78em; letter-spacing:2px; text-transform:uppercase; margin-bottom:4px; font-weight:700; }
+
+/* Headings */
+h2 { color:var(--primary); border-bottom:2px solid var(--accent); display:inline-block; padding-bottom:6px; margin:0 0 18px; font-size:1.45em; }
+h2.section-top { margin-top:50px; }
+
+/* Grid (vision + specs) */
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:50px; margin-bottom:30px; }
+.grid p { margin-top:0; }
+.grid ul { padding-left:18px; margin-top:0; }
+.grid li { margin-bottom:8px; }
+.grid li strong { color:var(--primary); }
+
+/* Knowledge box (multi-insight) */
+.knowledge-box {
+  background:var(--gold-bg);
+  border-left:5px solid var(--gold);
+  padding:30px 32px 28px;
+  margin:40px 0;
+  border-radius:0 6px 6px 0;
+  position:relative;
+}
+.knowledge-box::before {
+  content:"EXPERT KNOWLEDGE";
+  position:absolute; top:-10px; left:25px;
+  background:var(--gold); color:#fff; font-size:0.7em; font-weight:700;
+  padding:3px 10px; letter-spacing:2px; border-radius:3px;
+}
+.knowledge-box h3 { margin:6px 0 18px; color:#856404; font-size:1.18em; }
+.insight-list { display:grid; gap:18px; }
+.insight { display:grid; grid-template-columns:32px 1fr; gap:14px; align-items:start; }
+.insight .num {
+  width:30px; height:30px; border-radius:50%;
+  background:var(--gold); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:0.95em;
+}
+.insight strong { color:#856404; display:block; margin-bottom:4px; }
+.insight p { margin:0; font-size:0.96em; }
+
+/* Difference table */
+.diff-table, .price-table { width:100%; border-collapse:collapse; margin-top:16px; }
+.diff-table th, .price-table th { background:var(--primary); color:var(--white); text-align:left; padding:14px 16px; font-size:0.95em; }
+.diff-table td, .price-table td { padding:14px 16px; border-bottom:1px solid var(--rule); vertical-align:top; }
+.diff-table tr td:first-child { font-weight:600; width:25%; color:var(--primary); }
+.diff-table .sbi { background:#f9fafb; }
+.diff-table .sbi td:nth-child(2) { color:var(--primary); font-weight:600; }
+
+/* Process Timeline */
+.process-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:14px; margin-top:20px; }
+.process-step { background:#f7f9fb; border-top:4px solid var(--accent); padding:18px 14px; border-radius:0 0 4px 4px; }
+.process-step .num { font-size:0.7em; font-weight:700; color:var(--accent); letter-spacing:2px; }
+.process-step strong { display:block; margin:4px 0 6px; color:var(--primary); font-size:0.98em; }
+.process-step small { color:var(--muted); font-size:0.85em; line-height:1.5; }
+
+/* Investment table */
+.price-table tr.optional td { color:#2980b9; font-weight:600; }
+.price-table tr.total-row td { font-size:1.15em; font-weight:700; background:#f7f9fb; color:var(--primary); padding-top:18px; padding-bottom:18px; }
+.price-table tr.gst-row td { font-size:0.85em; color:var(--muted); padding-top:6px; padding-bottom:6px; }
+
+/* Add-on toggle */
+.addon-card {
+  background:#f7f9fb; border:1px solid var(--rule); border-radius:8px;
+  padding:24px; margin-top:24px; display:flex; gap:20px; align-items:center; flex-wrap:wrap;
+  transition:all 0.2s;
+}
+.addon-card.active { border-color:var(--accent); background:linear-gradient(180deg, #fff 0%, #faf6f0 100%); box-shadow:0 4px 14px rgba(184,156,125,0.20); }
+.addon-card .check {
+  width:30px; height:30px; min-width:30px; border:2px solid var(--rule); border-radius:50%;
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  transition:all 0.2s; background:#fff;
+}
+.addon-card.active .check { border-color:var(--accent); background:var(--accent); }
+.addon-card .check svg { opacity:0; transition:opacity 0.2s; }
+.addon-card.active .check svg { opacity:1; }
+.addon-card .body { flex:1; min-width:200px; cursor:pointer; }
+.addon-card .body strong { display:block; color:var(--primary); margin-bottom:4px; font-size:1.02em; }
+.addon-card .body small { color:var(--muted); font-size:0.88em; }
+.addon-card .price { font-size:1.05em; font-weight:700; color:var(--primary); }
+.addon-card.active .price { color:var(--accent); }
+
+/* Footer CTA */
+.footer-action { text-align:center; margin-top:55px; padding-top:35px; border-top:1px solid var(--rule); }
+.footer-action .valid { font-size:0.92em; color:var(--muted); margin-bottom:18px; }
+.btn {
+  background:var(--accent); color:#fff; padding:18px 44px; text-decoration:none;
+  font-weight:700; border-radius:50px; display:inline-block; transition:all 0.2s;
+  letter-spacing:2px; text-transform:uppercase; font-size:0.92em;
+  box-shadow:0 4px 14px rgba(184,156,125,0.35);
+}
+.btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(184,156,125,0.45); }
+
+.signature {
+  margin-top:30px; padding-top:24px; border-top:1px solid var(--rule);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
+  font-size:0.88em; color:var(--muted);
+}
+.signature .left { font-weight:600; color:var(--primary); }
+.signature .right { font-style:italic; }
+
+/* Mobile */
+@media (max-width:900px) {
+  .scope-tiles { grid-template-columns:repeat(4, 1fr); }
+}
+@media (max-width:768px) {
+  .hero { padding:60px 18px 140px; }
+  .hero h1 { font-size:1.9em; letter-spacing:2px; }
+  .hero::after { bottom:110px; }
+  .render-hero { margin-top:-100px; padding:0 14px; }
+  .stat-ribbon { grid-template-columns:1fr; }
+  .stat { border-right:none; border-bottom:1px solid var(--rule); padding:22px 16px; }
+  .stat:last-child { border-bottom:none; }
+  .stat .num { font-size:2em; }
+  .container { margin:34px 18px; padding:30px 22px; }
+  .grid { grid-template-columns:1fr; gap:30px; }
+  .process-grid { grid-template-columns:1fr 1fr; }
+  .render-caption { flex-direction:column; gap:6px; align-items:flex-start; font-size:0.78em; }
+  .total-card { padding:26px 24px; }
+  .total-card .figure { font-size:2em; }
+  .total-card .right { text-align:left; max-width:none; }
+}
+@media (max-width:480px) {
+  .scope-tiles { grid-template-columns:repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <p class="kicker">Office Refresh &amp; Storeroom · Gosford</p>
+    <h1>Taylors Conveyancing</h1>
+    <p class="sub">Office Refresh &amp; New Secure Storeroom</p>
+    <p class="for-line">Prepared for <strong>Natalie Taylor</strong> · Mann Street, Gosford NSW</p>
+</div>
+
+<!-- HERO RENDER -->
+<div class="render-hero">
+    <div class="render-frame">
+        <img src="assets/taylors-plan.png" alt="Preliminary fitout plan showing the proposed storeroom, kitchen joinery and tall cabinet, and wall infill with new doors">
+        <div class="render-caption">
+            <span>PRELIMINARY FITOUT PLAN · STOREROOM · KITCHEN · WALL INFILL</span>
+            <span class="right">SBI · DESIGN · BUILD · CONSTRUCT</span>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- STAT RIBBON -->
+    <div class="stat-ribbon">
+        <div class="stat">
+            <div class="num">3</div>
+            <div class="label">Distinct Works Areas</div>
+        </div>
+        <div class="stat">
+            <div class="num">5<small>Lm</small></div>
+            <div class="label">Acoustic Partition Wall</div>
+        </div>
+        <div class="stat">
+            <div class="num">7</div>
+            <div class="label">Trades, One Program</div>
+        </div>
+    </div>
+
+    <!-- SCOPE AT A GLANCE -->
+    <div class="scope-section">
+        <div class="scope-eyebrow">Scope at a glance — 7 trades, one program</div>
+        <div class="scope-tiles">
+            <div class="scope-tile"><div class="pip">PM</div><span class="label">Project Mgmt</span></div>
+            <div class="scope-tile"><div class="pip">DM</div><span class="label">Demolition</span></div>
+            <div class="scope-tile"><div class="pip">WL</div><span class="label">Walls</span></div>
+            <div class="scope-tile"><div class="pip">DR</div><span class="label">Doors</span></div>
+            <div class="scope-tile"><div class="pip">PT</div><span class="label">Painting</span></div>
+            <div class="scope-tile"><div class="pip">JN</div><span class="label">Joinery</span></div>
+            <div class="scope-tile"><div class="pip">EL</div><span class="label">Electrical</span></div>
+        </div>
+    </div>
+
+    <!-- VISION + SPECS -->
+    <div class="grid">
+        <div>
+            <h2>The Project Vision</h2>
+            <p>Three small but defining changes to the Mann Street office. A <strong>refreshed kitchen</strong> with proper overhead, table and tall storage joinery; a new <strong>secure storeroom</strong> built into the existing layout with full-height acoustic partitioning and two fire-rated doors; and the <strong>finishing detail</strong> — paint, hardware and trims — that lifts the whole space from "office" to "client-ready".</p>
+            <p>Delivered as a single coordinated program by an SBI Project Manager. One face, one schedule, one handover — minimal disruption to client meetings during the works.</p>
+        </div>
+        <div>
+            <h2>Technical Specs</h2>
+            <ul>
+                <li><strong>New partition:</strong> 5 Lm × 2700H, 64mm steel stud, 13mm plasterboard both sides, 50mm polyester acoustic batts, 25mm clear anodised flat bar at top</li>
+                <li><strong>Doors:</strong> 2 × solid MDF 2700×900×35mm with fire-rated lever entrance sets, door stops, timber jambs</li>
+                <li><strong>Joinery (Mozaik):</strong> J01 overhead with microwave cabinet · J02 kitchen table · J03 tall kitchen cabinet</li>
+                <li><strong>Painting:</strong> New walls, new doors and trims — colour TBC at pre-start</li>
+                <li><strong>Demolition:</strong> Existing overhead cupboards removed and disposed</li>
+                <li><strong>Hardware:</strong> Padlock and hasp added to existing sliding door</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- KNOWLEDGE BOX -->
+    <div class="knowledge-box">
+        <h3>Three details that quietly separate commercial-grade from off-the-shelf</h3>
+        <div class="insight-list">
+            <div class="insight">
+                <div class="num">1</div>
+                <div>
+                    <strong>50mm acoustic batts in the new partition wall</strong>
+                    <p>The polyester insulation in the storeroom partition isn't there for thermal — it's there for <em>client confidentiality</em>. In a conveyancing fitout, conversations carry. We spec the batts so a client meeting on one side of the wall doesn't reach the storeroom or kitchen on the other. A budget builder would leave the cavity empty and tell you it "meets code".</p>
+                </div>
+            </div>
+            <div class="insight">
+                <div class="num">2</div>
+                <div>
+                    <strong>25mm clear anodised flat bar at the top of the wall</strong>
+                    <p>Where the new gyprock meets the existing ceiling, most builders leave a raw plaster line. We finish it with a 25mm clear anodised aluminium flat bar — a $40-a-metre detail that turns a builder's wall into an architectural one. Clients won't tell you why it looks better, but they'll feel it the moment they walk in.</p>
+                </div>
+            </div>
+            <div class="insight">
+                <div class="num">3</div>
+                <div>
+                    <strong>Fire-rated lever entrance sets on commercial doors</strong>
+                    <p>Solid MDF doors with fire-rated lever sets are commercial-grade hardware — engineered for daily commercial use over 10+ years. Most off-the-shelf joinery suppliers would substitute a residential lever set to keep the price down, and you'd be replacing handles in 18 months. We use the commercial spec from day one.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIFFERENCE TABLE -->
+    <h2 class="section-top">The SBI Difference</h2>
+    <table class="diff-table">
+        <thead>
+            <tr><th style="width:25%;">&nbsp;</th><th>SBI Commercial Build</th><th>Generic Builder</th></tr>
+        </thead>
+        <tbody>
+            <tr class="sbi"><td>Partition spec</td><td>64mm stud + 50mm acoustic batts + anodised top</td><td>64mm stud, empty cavity, raw plaster line</td></tr>
+            <tr><td>Door hardware</td><td>Fire-rated commercial lever sets</td><td>Residential-grade levers, 18-month life</td></tr>
+            <tr class="sbi"><td>Trade coordination</td><td>Single SBI PM across all 7 trades</td><td>You coordinate the sub-trades</td></tr>
+            <tr><td>Variations</td><td>Written and signed before works begin</td><td>Verbal, billed at the end</td></tr>
+            <tr class="sbi"><td>Handover</td><td>Defect walk + workmanship warranty in writing</td><td>Defects emerge over the first month</td></tr>
+        </tbody>
+    </table>
+
+    <!-- PROCESS TIMELINE -->
+    <h2 class="section-top">Our Process &amp; Quality Checkpoints</h2>
+    <div class="process-grid">
+        <div class="process-step">
+            <span class="num">01</span>
+            <strong>Site Measure</strong>
+            <small>On-site verification, services located, finished plans signed off.</small>
+        </div>
+        <div class="process-step">
+            <span class="num">02</span>
+            <strong>Joinery Manufacture</strong>
+            <small>J01–J03 fabricated in our Mozaik-programmed shop, off-site.</small>
+        </div>
+        <div class="process-step">
+            <span class="num">03</span>
+            <strong>Site Build</strong>
+            <small>Demolition, partition, doors and electrical — sequenced under one PM.</small>
+        </div>
+        <div class="process-step">
+            <span class="num">04</span>
+            <strong>Finish &amp; Install</strong>
+            <small>Paint, joinery install, hardware, anodised top trim, padlock fit.</small>
+        </div>
+        <div class="process-step">
+            <span class="num">05</span>
+            <strong>Handover</strong>
+            <small>Defect walk, warranty in writing, your office back in business.</small>
+        </div>
+    </div>
+
+    <!-- INVESTMENT SUMMARY -->
+    <h2 class="section-top">Investment Summary</h2>
+    <table class="price-table">
+        <thead><tr><th>Zone</th><th style="text-align:right; width:30%;">Amount (ex-GST)</th></tr></thead>
+        <tbody>
+            <tr>
+                <td><strong>Kitchen Joinery Suite</strong><br><small style="color:var(--muted);">J01 overhead + microwave cabinet · J02 kitchen table · J03 tall cabinet</small></td>
+                <td style="text-align:right;">$6,854</td>
+            </tr>
+            <tr>
+                <td><strong>New Storeroom Construction</strong><br><small style="color:var(--muted);">5 Lm acoustic partition · 2 × fire-rated doors · removal of existing overheads</small></td>
+                <td style="text-align:right;">$8,324</td>
+            </tr>
+            <tr>
+                <td><strong>Finishes &amp; Securing</strong><br><small style="color:var(--muted);">Paint to walls, doors and trims · padlock and hasp to existing sliding door</small></td>
+                <td style="text-align:right;">$1,947</td>
+            </tr>
+            <tr>
+                <td><strong>Project Delivery &amp; WHS</strong><br><small style="color:var(--muted);">SBI PM, site safety, floor protection, rubbish removal</small></td>
+                <td style="text-align:right;">$2,802</td>
+            </tr>
+            <tr id="addon-row" class="optional" style="display:none;">
+                <td><strong>Optional · Kitchen Power Upgrade</strong><br><small style="color:var(--muted);">4-gang GPO upgrade at the kitchen bench</small></td>
+                <td style="text-align:right;">+$239</td>
+            </tr>
+            <tr class="total-row">
+                <td>Subtotal (ex-GST)</td>
+                <td style="text-align:right;"><span id="subtotal">$19,927</span></td>
+            </tr>
+            <tr class="gst-row">
+                <td>GST (10%)</td>
+                <td style="text-align:right;"><span id="gst">$1,993</span></td>
+            </tr>
+            <tr class="total-row">
+                <td>Total (inc-GST)</td>
+                <td style="text-align:right;"><span id="total">$21,920</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ADD-ON TOGGLE -->
+    <div class="addon-card" id="addon-card">
+        <div class="check" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7l3 3 7-7" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="body">
+            <strong>Optional add-on — Kitchen 4-gang GPO upgrade</strong>
+            <small>Replace the existing kitchen GPO with a 4-gang outlet. Useful if you plan to add a kettle, toaster and microwave on the bench at the same time. Tick to add to the proposal — total recalculates above.</small>
+        </div>
+        <div class="price">+$263 inc-GST</div>
+    </div>
+
+    <!-- FEATURED TOTAL -->
+    <div class="total-card">
+        <div class="left">
+            <span class="label">Total Investment · Inc-GST</span>
+            <span class="figure" id="total-card-figure">$21,920</span>
+            <span class="gst-note">Subtotal <span id="total-card-sub">$19,927</span> ex-GST + 10% GST</span>
+        </div>
+        <div class="right">
+            <strong>What's Locked</strong>
+            All 7 trades, single SBI PM, written variations only, fire-rated commercial hardware throughout, defect walk and workmanship warranty in writing.
+        </div>
+    </div>
+
+    <!-- SCOPE NOTES -->
+    <h2 class="section-top">Scope Notes</h2>
+    <p style="font-size:0.92em; color:var(--muted); margin-top:0;">
+        Pricing is based on full acceptance of the outlined scope and is subject to site measure and supplier availability. Works scheduled for standard business hours (Mon–Fri, 7:00 AM – 3:00 PM). <strong>Excluded:</strong> equipment hire, statutory fees, plumbing, flooring, electrical switchboard upgrades, extensive wall patching or plasterwork, painting to existing walls, ceiling alterations, ceiling lighting, furniture, shopfront hoarding, new splashback to kitchen, fridge GPO. Proposal valid for 30 days.
+    </p>
+
+    <!-- FOOTER CTA -->
+    <div class="footer-action">
+        <p class="valid">This proposal is valid for 30 days. Approve below and we'll book the on-site measure within 5 working days.</p>
+        <a href="mailto:michael@spokebi.com.au?subject=Taylors%20Conveyancing%20-%20Proposal%20Approved&amp;body=Hi%20Michael%2C%0A%0AHappy%20to%20proceed%20with%20the%20Taylors%20Conveyancing%20Gosford%20proposal.%20Please%20book%20the%20on-site%20measure.%0A%0ANatalie" class="btn">Approve Proposal</a>
+    </div>
+
+    <div class="signature">
+        <span class="left">Spoke Building &amp; Interiors · Sydney</span>
+        <span class="right">Prepared 1 May 2026 by Michael Cook</span>
+    </div>
+
+</div>
+
+<script>
+(function() {
+    const ZONE_BASE = 6854 + 8324 + 1947 + 2802; // ex-GST
+    const ADDON = 239; // ex-GST
+    const card = document.getElementById('addon-card');
+    const addonRow = document.getElementById('addon-row');
+    const subtotalEl = document.getElementById('subtotal');
+    const gstEl = document.getElementById('gst');
+    const totalEl = document.getElementById('total');
+    const cardFigEl = document.getElementById('total-card-figure');
+    const cardSubEl = document.getElementById('total-card-sub');
+    const fmt = n => '$' + Math.round(n).toLocaleString('en-AU');
+
+    function recalc(includeAddon) {
+        const sub = ZONE_BASE + (includeAddon ? ADDON : 0);
+        const gst = sub * 0.1;
+        const total = sub + gst;
+        addonRow.style.display = includeAddon ? '' : 'none';
+        subtotalEl.textContent = fmt(sub);
+        gstEl.textContent = fmt(gst);
+        totalEl.textContent = fmt(total);
+        cardFigEl.textContent = fmt(total);
+        cardSubEl.textContent = fmt(sub);
+    }
+
+    function toggle() {
+        const active = card.classList.toggle('active');
+        recalc(active);
+    }
+
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    card.tabIndex = 0;
+    card.setAttribute('role', 'checkbox');
+    card.setAttribute('aria-checked', 'false');
+    recalc(false);
+})();
+</script>
+
+</body>
+</html>
