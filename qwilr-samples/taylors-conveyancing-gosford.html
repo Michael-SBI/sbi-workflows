@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Taylors Conveyancing — Gosford Office Refresh Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 <style>
 :root {
   --primary:#1a2a3a;
@@ -218,16 +221,43 @@ h2.section-top { margin-top:50px; }
 .signoff-panel h3 { color:var(--primary); margin:0 0 8px; font-size:1.2em; border:none; padding:0; }
 .signoff-panel .helper { color:var(--muted); margin:0 0 22px; font-size:0.92em; }
 
-.sig-pad-wrap { background:#fff; border:1px solid var(--rule); border-radius:6px; padding:0; position:relative; }
+/* Sig tabs (Draw / Type) */
+.sig-tabs { display:flex; gap:0; margin-bottom:12px; border-bottom:1px solid var(--rule); }
+.sig-tab {
+  background:none; border:none; padding:10px 22px;
+  font-family:inherit; font-size:0.78em; font-weight:700;
+  letter-spacing:2px; text-transform:uppercase; color:var(--muted);
+  cursor:pointer; border-bottom:3px solid transparent; margin-bottom:-1px;
+  transition:color 0.15s, border-color 0.15s;
+}
+.sig-tab:hover { color:var(--primary); }
+.sig-tab.active { color:var(--primary); border-bottom-color:var(--accent); }
+.sig-mode { display:none; }
+.sig-mode.active { display:block; }
+
+.sig-pad-wrap, .sig-type-wrap {
+  background:#fff; border:1px solid var(--rule); border-radius:6px; padding:0; position:relative;
+}
 .sig-pad-wrap canvas { display:block; width:100%; height:180px; cursor:crosshair; touch-action:none; border-radius:6px; }
-.sig-pad-wrap .sig-clear {
+.sig-pad-wrap .sig-clear, .sig-type-wrap .sig-clear {
   position:absolute; top:10px; right:10px; background:#fff; border:1px solid var(--rule);
   color:var(--muted); font-size:0.72em; letter-spacing:1px; cursor:pointer; padding:5px 12px;
   border-radius:4px; text-transform:uppercase; font-weight:700;
 }
-.sig-pad-wrap .sig-clear:hover { background:#f0f3f5; color:var(--primary); }
-.sig-pad-wrap .sig-baseline { position:absolute; left:30px; right:30px; bottom:36px; border-top:1px dashed #c8d0d8; pointer-events:none; }
-.sig-pad-wrap .sig-x { position:absolute; left:24px; bottom:18px; font-family:Georgia, serif; font-size:1.4em; color:#c8d0d8; pointer-events:none; }
+.sig-pad-wrap .sig-clear:hover, .sig-type-wrap .sig-clear:hover { background:#f0f3f5; color:var(--primary); }
+.sig-pad-wrap .sig-baseline, .sig-type-wrap .sig-baseline { position:absolute; left:30px; right:30px; bottom:36px; border-top:1px dashed #c8d0d8; pointer-events:none; }
+.sig-pad-wrap .sig-x, .sig-type-wrap .sig-x { position:absolute; left:24px; bottom:18px; font-family:Georgia, serif; font-size:1.4em; color:#c8d0d8; pointer-events:none; }
+
+/* Type mode */
+.sig-type-wrap { height:180px; display:flex; align-items:center; justify-content:center; padding:20px 80px; }
+.sig-type-wrap input#sig-typed {
+  border:none; outline:none; background:transparent;
+  font-family:'Dancing Script', 'Brush Script MT', cursive;
+  font-size:3em; font-weight:600; color:#1a2a3a;
+  text-align:center; width:100%; padding:0; margin-bottom:14px;
+}
+.sig-type-wrap input#sig-typed::placeholder { color:#c8d0d8; font-style:normal; }
+.sig-type-help { font-size:0.82em; color:var(--muted); margin:8px 0 0; font-style:italic; }
 
 .sig-fields { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:18px; }
 .sig-fields label { display:flex; flex-direction:column; gap:6px; font-size:0.72em; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; font-weight:700; }
@@ -530,13 +560,29 @@ body.pdf-mode .container { box-shadow:none; margin-top:30px; }
     <!-- SIGN-OFF PANEL -->
     <div class="signoff-panel no-print" id="signoff-panel" aria-hidden="true">
         <h3>Sign &amp; Approve</h3>
-        <p class="helper">Please draw your signature below, type your name, and submit. A signed PDF copy will be available to download immediately.</p>
+        <p class="helper">Sign by drawing or typing your signature, fill in your details, and submit. A signed PDF copy will be available to download immediately.</p>
 
-        <div class="sig-pad-wrap">
-            <canvas id="sig-canvas" aria-label="Signature drawing area"></canvas>
-            <span class="sig-baseline"></span>
-            <span class="sig-x">×</span>
-            <button type="button" class="sig-clear" id="sig-clear">Clear</button>
+        <div class="sig-tabs" role="tablist">
+            <button type="button" class="sig-tab active" data-mode="draw" role="tab" aria-selected="true">Draw</button>
+            <button type="button" class="sig-tab" data-mode="type" role="tab" aria-selected="false">Type</button>
+        </div>
+
+        <div class="sig-mode active" data-mode="draw">
+            <div class="sig-pad-wrap">
+                <canvas id="sig-canvas" aria-label="Signature drawing area"></canvas>
+                <span class="sig-baseline"></span>
+                <span class="sig-x">×</span>
+                <button type="button" class="sig-clear" id="sig-clear">Clear</button>
+            </div>
+        </div>
+
+        <div class="sig-mode" data-mode="type">
+            <div class="sig-type-wrap">
+                <input type="text" id="sig-typed" placeholder="Type your full name" autocomplete="off" maxlength="60">
+                <span class="sig-baseline"></span>
+                <span class="sig-x">×</span>
+            </div>
+            <p class="sig-type-help">By typing your name above, you provide your electronic signature.</p>
         </div>
 
         <div class="sig-fields">
@@ -673,6 +719,43 @@ body.pdf-mode .container { box-shadow:none; margin-top:30px; }
         hasInk = false;
     });
 
+    /* ─── Mode tabs (Draw / Type) ─── */
+    let mode = 'draw';
+    const tabs = document.querySelectorAll('.sig-tab');
+    const modes = document.querySelectorAll('.sig-mode');
+    const typedInput = document.getElementById('sig-typed');
+
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+        mode = tab.dataset.mode;
+        tabs.forEach(t => { t.classList.toggle('active', t === tab); t.setAttribute('aria-selected', t === tab); });
+        modes.forEach(m => m.classList.toggle('active', m.dataset.mode === mode));
+        if (mode === 'draw') setTimeout(resize, 30);
+        if (mode === 'type') setTimeout(() => typedInput.focus(), 30);
+    }));
+
+    /* ─── Render typed signature to a PNG ─── */
+    async function renderTypedSignature(text) {
+        if (document.fonts && document.fonts.load) {
+            try { await document.fonts.load('600 80px "Dancing Script"'); } catch (e) {}
+        }
+        const c = document.createElement('canvas');
+        const w = 800, h = 200;
+        c.width = w; c.height = h;
+        const cx = c.getContext('2d');
+        cx.fillStyle = '#1a2a3a';
+        // Fit font size to text width
+        let size = 90;
+        cx.font = `600 ${size}px "Dancing Script", "Brush Script MT", cursive`;
+        while (cx.measureText(text).width > w - 60 && size > 30) {
+            size -= 4;
+            cx.font = `600 ${size}px "Dancing Script", "Brush Script MT", cursive`;
+        }
+        cx.textAlign = 'center';
+        cx.textBaseline = 'middle';
+        cx.fillText(text, w / 2, h / 2);
+        return c.toDataURL('image/png');
+    }
+
     /* ─── Panel open/close + submit ─── */
     const panel = document.getElementById('signoff-panel');
     const confirmation = document.getElementById('signed-confirmation');
@@ -689,14 +772,19 @@ body.pdf-mode .container { box-shadow:none; margin-top:30px; }
         errorEl.textContent = '';
     });
 
-    document.getElementById('btn-submit-signoff').addEventListener('click', () => {
+    document.getElementById('btn-submit-signoff').addEventListener('click', async () => {
         const name = document.getElementById('sig-name').value.trim();
         const title = document.getElementById('sig-title').value.trim();
-        if (!hasInk) { errorEl.textContent = 'Please draw your signature.'; return; }
-        if (!name)   { errorEl.textContent = 'Please type your full name.'; return; }
+        const typedSig = typedInput.value.trim();
+
+        if (mode === 'draw' && !hasInk) { errorEl.textContent = 'Please draw your signature, or switch to Type.'; return; }
+        if (mode === 'type' && !typedSig) { errorEl.textContent = 'Please type your signature, or switch to Draw.'; return; }
+        if (!name) { errorEl.textContent = 'Please enter your full name.'; return; }
         errorEl.textContent = '';
 
-        const dataURL = canvas.toDataURL('image/png');
+        const dataURL = mode === 'draw'
+            ? canvas.toDataURL('image/png')
+            : await renderTypedSignature(typedSig);
         document.getElementById('signed-image').src = dataURL;
         document.getElementById('signed-name').textContent = name;
         document.getElementById('signed-title').textContent = title || '';
