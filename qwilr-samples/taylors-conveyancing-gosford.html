@@ -1,822 +1,972 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Taylors Conveyancing — Gosford Office Refresh Proposal</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Taylors Conveyancing — Gosford Office Refresh</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --primary:#1a2a3a;
-  --primary-deep:#0f1c2c;
-  --accent:#b89c7d;
-  --accent-light:#d4bfa3;
-  --bg:#f4f7f9;
-  --white:#fff;
-  --gold:#d4af37;
-  --gold-bg:#fff9e6;
-  --ink:#2c3744;
-  --muted:#6b7785;
-  --rule:#e6ecf0;
-}
-* { box-sizing:border-box; }
-body { font-family:'Segoe UI', Arial, sans-serif; line-height:1.65; color:var(--ink); margin:0; background:var(--bg); }
-a { color:inherit; }
+  /* Tokens */
+  :root {
+    --ink:        #14202E;
+    --navy:       #0E1B2C;
+    --navy-2:     #19283C;
+    --paper:      #F7F4EE;
+    --paper-2:    #EFEAE0;
+    --rule:       #DCD5C7;
+    --rule-2:     #E7E1D4;
+    --muted:      #6B7384;
+    --muted-2:    #8A8273;
+    --brass:      #B5894A;
+    --brass-deep: #9D7538;
+    --brass-soft: #E8D9B8;
+    --highlight:  #F4ECD8;
+    --success:    #1B7A4E;
+    --success-soft:#E0EFDD;
 
-/* Hero */
-.hero {
-  background:linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 100%);
-  color:var(--white);
-  padding:90px 20px 180px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-}
-.hero::after {
-  content:""; position:absolute; left:50%; bottom:140px; transform:translateX(-50%);
-  width:60px; height:2px; background:var(--accent);
-}
-.hero .kicker { font-size:0.78em; letter-spacing:4px; opacity:0.7; text-transform:uppercase; margin:0; }
-.hero h1 { margin:18px 0 8px; font-size:2.9em; text-transform:uppercase; letter-spacing:3px; font-weight:700; }
-.hero .sub { font-size:1.15em; opacity:0.85; margin:0; font-weight:300; }
-.hero .for-line { margin-top:22px; font-size:0.95em; opacity:0.75; }
-.hero .for-line strong { color:var(--accent-light); font-weight:600; }
+    --shadow-sm:  0 1px 2px rgba(20,32,46,.06);
+    --shadow-md:  0 12px 32px -16px rgba(20,32,46,.25);
 
-/* Hero render */
-.render-hero { max-width:1100px; margin:-130px auto 0; padding:0 20px; position:relative; z-index:2; }
-.render-frame {
-  width:100%; border-radius:10px; overflow:hidden; background:#fff;
-  box-shadow:0 24px 60px rgba(0,0,0,0.28), 0 4px 16px rgba(0,0,0,0.18);
-  border:1px solid rgba(0,0,0,0.05);
-}
-.render-frame img { display:block; width:100%; height:auto; }
-.render-caption {
-  padding:14px 22px; background:var(--primary); color:var(--white);
-  font-size:0.85em; letter-spacing:2px; text-transform:uppercase;
-  display:flex; justify-content:space-between; align-items:center;
-}
-.render-caption .right { color:var(--accent-light); font-weight:600; }
+    --radius-sm:  4px;
+    --radius:     8px;
+    --radius-lg:  14px;
 
-/* Container */
-.container { max-width:1000px; margin:50px auto 40px; background:var(--white); padding:50px; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.08); }
+    --font-sans:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-serif: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --font-mono:  'JetBrains Mono', ui-monospace, Menlo, monospace;
+    --font-script:'Dancing Script', 'Brush Script MT', cursive;
 
-/* Stat ribbon */
-.stat-ribbon {
-  display:grid; grid-template-columns:repeat(3, 1fr); gap:0;
-  background:#f7f9fb; border:1px solid var(--rule);
-  border-radius:8px; overflow:hidden; margin-bottom:40px;
-}
-.stat { padding:30px 20px; text-align:center; border-right:1px solid var(--rule); }
-.stat:last-child { border-right:none; }
-.stat .num { font-size:2.4em; font-weight:700; color:var(--primary); letter-spacing:-0.5px; line-height:1; }
-.stat .num small { font-size:0.5em; font-weight:600; color:var(--accent); margin-left:4px; }
-.stat .label { font-size:0.78em; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-top:8px; font-weight:600; }
+    --page:       880px;
+  }
 
-/* Scope tiles */
-.scope-section { margin-bottom:42px; }
-.scope-eyebrow { font-size:0.78em; letter-spacing:3px; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:14px; }
-.scope-tiles { display:grid; grid-template-columns:repeat(7, 1fr); gap:10px; }
-.scope-tile {
-  background:#f7f9fb; border:1px solid var(--rule); border-radius:6px;
-  padding:16px 8px 14px; text-align:center;
-  display:flex; flex-direction:column; align-items:center; gap:10px;
-  transition:all 0.2s;
-}
-.scope-tile:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:0 6px 18px rgba(26,42,58,0.10); }
-.scope-tile .pip {
-  width:38px; height:38px;
-  display:flex; align-items:center; justify-content:center;
-  background:var(--primary); color:var(--accent-light);
-  border-radius:50%; font-size:0.78em; font-weight:700; letter-spacing:0.5px;
-}
-.scope-tile .label {
-  font-size:0.72em; color:var(--primary); font-weight:600;
-  letter-spacing:0.5px; line-height:1.3;
-}
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 15.5px;
+    line-height: 1.6;
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
 
-/* Total card */
-.total-card {
-  background:linear-gradient(135deg, var(--primary) 0%, var(--primary-deep) 100%);
-  color:#fff; padding:32px 38px; border-radius:10px; margin-top:30px;
-  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px;
-  box-shadow:0 12px 32px rgba(26,42,58,0.30);
-  border-top:4px solid var(--accent);
-}
-.total-card .left { display:flex; flex-direction:column; gap:6px; min-width:0; }
-.total-card .label { font-size:0.75em; letter-spacing:3px; text-transform:uppercase; color:var(--accent-light); font-weight:700; }
-.total-card .figure { font-size:2.5em; font-weight:700; letter-spacing:-1px; line-height:1; }
-.total-card .gst-note { font-size:0.85em; color:rgba(255,255,255,0.7); }
-.total-card .right { text-align:right; font-size:0.88em; color:rgba(255,255,255,0.85); max-width:320px; line-height:1.5; }
-.total-card .right strong { color:var(--accent-light); display:block; font-size:0.78em; letter-spacing:2px; text-transform:uppercase; margin-bottom:4px; font-weight:700; }
+  /* Layout */
+  .page { max-width: var(--page); margin: 0 auto; padding: 0 28px; }
+  .section { padding: 72px 0; border-top: 1px solid var(--rule); }
+  .section:first-of-type { border-top: 0; }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 16px;
+    font-weight: 500;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 500; letter-spacing: -.01em; color: var(--ink); }
+  h2 { font-size: 32px; line-height: 1.15; margin: 0 0 22px; }
+  h3 { font-size: 20px; line-height: 1.25; margin: 0 0 14px; }
+  h4 { font-size: 16px; line-height: 1.3; margin: 0 0 8px; font-family: var(--font-sans); font-weight: 600; letter-spacing: 0; }
+  p  { margin: 0 0 14px; text-wrap: pretty; }
+  strong { font-weight: 600; color: var(--ink); }
+  a { color: var(--brass); text-decoration: none; border-bottom: 1px solid currentColor; }
 
-/* Headings */
-h2 { color:var(--primary); border-bottom:2px solid var(--accent); display:inline-block; padding-bottom:6px; margin:0 0 18px; font-size:1.45em; }
-h2.section-top { margin-top:50px; }
+  /* Hero */
+  .hero {
+    background: var(--navy);
+    color: var(--paper);
+    padding: 56px 0 48px;
+    border-top: 0;
+  }
+  .hero .eyebrow { color: var(--brass-soft); }
+  .hero h1 {
+    color: var(--paper);
+    font-size: 56px;
+    line-height: 1.02;
+    letter-spacing: -.025em;
+    margin: 0 0 14px;
+    font-weight: 400;
+  }
+  .hero .lede {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    color: rgba(247,244,238,.78);
+    margin: 0 0 8px;
+    font-style: italic;
+  }
+  .hero .meta {
+    font-size: 13.5px;
+    color: rgba(247,244,238,.62);
+    font-family: var(--font-mono);
+    letter-spacing: .02em;
+    margin: 0;
+  }
+  .hero .meta strong { color: var(--paper); font-weight: 500; }
 
-/* Grid (vision + specs) */
-.grid { display:grid; grid-template-columns:1fr 1fr; gap:50px; margin-bottom:30px; }
-.grid p { margin-top:0; }
-.grid ul { padding-left:18px; margin-top:0; }
-.grid li { margin-bottom:8px; }
-.grid li strong { color:var(--primary); }
+  .plan {
+    margin: 40px 0 0;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: rgba(255,255,255,.03);
+  }
+  .plan img { display: block; width: 100%; height: auto; }
+  .plan-cap {
+    display: flex; justify-content: space-between; gap: 16px;
+    padding: 14px 18px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(247,244,238,.55);
+  }
+  .plan-cap span:last-child { color: var(--brass-soft); }
 
-/* Knowledge box (multi-insight) */
-.knowledge-box {
-  background:var(--gold-bg);
-  border-left:5px solid var(--gold);
-  padding:30px 32px 28px;
-  margin:40px 0;
-  border-radius:0 6px 6px 0;
-  position:relative;
-}
-.knowledge-box::before {
-  content:"EXPERT KNOWLEDGE";
-  position:absolute; top:-10px; left:25px;
-  background:var(--gold); color:#fff; font-size:0.7em; font-weight:700;
-  padding:3px 10px; letter-spacing:2px; border-radius:3px;
-}
-.knowledge-box h3 { margin:6px 0 18px; color:#856404; font-size:1.18em; }
-.insight-list { display:grid; gap:18px; }
-.insight { display:grid; grid-template-columns:32px 1fr; gap:14px; align-items:start; }
-.insight .num {
-  width:30px; height:30px; border-radius:50%;
-  background:var(--gold); color:#fff;
-  display:flex; align-items:center; justify-content:center;
-  font-weight:700; font-size:0.95em;
-}
-.insight strong { color:#856404; display:block; margin-bottom:4px; }
-.insight p { margin:0; font-size:0.96em; }
+  /* Stats */
+  .stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 0;
+    border: 1px solid var(--rule); border-radius: var(--radius); background: #fff; overflow: hidden;
+  }
+  .stat { padding: 28px 24px; border-left: 1px solid var(--rule); }
+  .stat:first-child { border-left: 0; }
+  .stat .num { font-family: var(--font-serif); font-size: 44px; line-height: 1; letter-spacing: -.02em; margin: 0 0 6px; }
+  .stat .num small { font-size: 22px; color: var(--muted); margin-left: 2px; font-family: var(--font-serif); }
+  .stat .label { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.4; }
 
-/* Difference table */
-.diff-table, .price-table { width:100%; border-collapse:collapse; margin-top:16px; }
-.diff-table th, .price-table th { background:var(--primary); color:var(--white); text-align:left; padding:14px 16px; font-size:0.95em; }
-.diff-table td, .price-table td { padding:14px 16px; border-bottom:1px solid var(--rule); vertical-align:top; }
-.diff-table tr td:first-child { font-weight:600; width:25%; color:var(--primary); }
-.diff-table .sbi { background:#f9fafb; }
-.diff-table .sbi td:nth-child(2) { color:var(--primary); font-weight:600; }
+  /* Trades */
+  .trades-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0 0; }
+  .trade {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 12px 8px 8px;
+    border: 1px solid var(--rule); border-radius: 999px; background: #fff; font-size: 13px;
+  }
+  .trade .badge {
+    width: 22px; height: 22px; border-radius: 999px;
+    background: var(--navy); color: var(--paper);
+    font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+    display: grid; place-items: center; letter-spacing: 0;
+  }
+  .trade-caption { font-size: 13px; color: var(--muted); margin: 0; }
 
-/* Process Timeline */
-.process-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:14px; margin-top:20px; }
-.process-step { background:#f7f9fb; border-top:4px solid var(--accent); padding:18px 14px; border-radius:0 0 4px 4px; }
-.process-step .num { font-size:0.7em; font-weight:700; color:var(--accent); letter-spacing:2px; }
-.process-step strong { display:block; margin:4px 0 6px; color:var(--primary); font-size:0.98em; }
-.process-step small { color:var(--muted); font-size:0.85em; line-height:1.5; }
+  /* Two-col */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  .specs { list-style: none; padding: 0; margin: 0; }
+  .specs li { padding: 10px 0; border-top: 1px dashed var(--rule); font-size: 14.5px; line-height: 1.55; }
+  .specs li:first-child { border-top: 0; padding-top: 0; }
+  .specs li strong { display: block; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; font-weight: 600; }
 
-/* Investment table */
-.price-table tr.optional td { color:#2980b9; font-weight:600; }
-.price-table tr.total-row td { font-size:1.15em; font-weight:700; background:#f7f9fb; color:var(--primary); padding-top:18px; padding-bottom:18px; }
-.price-table tr.gst-row td { font-size:0.85em; color:var(--muted); padding-top:6px; padding-bottom:6px; }
+  /* Highlight details */
+  .details {
+    background: var(--highlight); border: 1px solid var(--brass-soft); border-radius: var(--radius);
+    padding: 36px 36px 12px; margin-top: 36px;
+  }
+  .details h3 { font-size: 18px; margin-bottom: 24px; color: var(--ink); }
+  .detail { display: grid; grid-template-columns: 36px 1fr; gap: 20px; padding: 20px 0; border-top: 1px solid var(--brass-soft); }
+  .detail:first-of-type { border-top: 0; }
+  .detail .n { font-family: var(--font-serif); font-size: 28px; line-height: 1; color: var(--brass); font-weight: 500; }
+  .detail h4 { margin-bottom: 6px; font-family: var(--font-serif); font-weight: 500; font-size: 17px; letter-spacing: -.005em; }
+  .detail p { font-size: 14.5px; margin-bottom: 0; color: #2C3441; }
+  .detail em { color: var(--brass); font-style: normal; font-weight: 500; background: rgba(181,137,74,.12); padding: 0 4px; border-radius: 3px; }
 
-/* Add-on toggle */
-.addon-card {
-  background:#f7f9fb; border:1px solid var(--rule); border-radius:8px;
-  padding:24px; margin-top:24px; display:flex; gap:20px; align-items:center; flex-wrap:wrap;
-  transition:all 0.2s;
-}
-.addon-card.active { border-color:var(--accent); background:linear-gradient(180deg, #fff 0%, #faf6f0 100%); box-shadow:0 4px 14px rgba(184,156,125,0.20); }
-.addon-card .check {
-  width:30px; height:30px; min-width:30px; border:2px solid var(--rule); border-radius:50%;
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-  transition:all 0.2s; background:#fff;
-}
-.addon-card.active .check { border-color:var(--accent); background:var(--accent); }
-.addon-card .check svg { opacity:0; transition:opacity 0.2s; }
-.addon-card.active .check svg { opacity:1; }
-.addon-card .body { flex:1; min-width:200px; cursor:pointer; }
-.addon-card .body strong { display:block; color:var(--primary); margin-bottom:4px; font-size:1.02em; }
-.addon-card .body small { color:var(--muted); font-size:0.88em; }
-.addon-card .price { font-size:1.05em; font-weight:700; color:var(--primary); }
-.addon-card.active .price { color:var(--accent); }
+  /* Compare table */
+  .compare { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 12px; }
+  .compare th, .compare td { text-align: left; padding: 14px 18px; vertical-align: top; border-bottom: 1px solid var(--rule); }
+  .compare thead th { font-weight: 600; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--ink); padding-bottom: 10px; }
+  .compare thead th:nth-child(2) { color: var(--ink); }
+  .compare tbody th { font-weight: 600; color: var(--ink); width: 28%; }
+  .compare td:nth-child(2) { color: var(--ink); }
+  .compare td:nth-child(3) { color: var(--muted); }
+  .compare tr:last-child th, .compare tr:last-child td { border-bottom: 0; }
 
-/* Footer CTA */
-.footer-action { text-align:center; margin-top:55px; padding-top:35px; border-top:1px solid var(--rule); }
-.footer-action .valid { font-size:0.92em; color:var(--muted); margin-bottom:18px; }
-.btn {
-  background:var(--accent); color:#fff; padding:18px 44px; text-decoration:none;
-  font-weight:700; border-radius:50px; display:inline-block; transition:all 0.2s;
-  letter-spacing:2px; text-transform:uppercase; font-size:0.92em;
-  box-shadow:0 4px 14px rgba(184,156,125,0.35);
-}
-.btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(184,156,125,0.45); }
+  /* Process */
+  .process { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: 16px; border: 1px solid var(--rule); border-radius: var(--radius); background: #fff; overflow: hidden; }
+  .step { padding: 24px 20px; border-left: 1px solid var(--rule); position: relative; }
+  .step:first-child { border-left: 0; }
+  .step .n { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: var(--brass); font-weight: 500; display: block; margin-bottom: 10px; }
+  .step h4 { font-family: var(--font-serif); font-weight: 500; font-size: 16px; margin-bottom: 6px; }
+  .step p { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.5; }
 
-.signature {
-  margin-top:30px; padding-top:24px; border-top:1px solid var(--rule);
-  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
-  font-size:0.88em; color:var(--muted);
-}
-.signature .left { font-weight:600; color:var(--primary); }
-.signature .right { font-style:italic; }
+  /* Investment table */
+  .invest-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .invest-table th, .invest-table td { padding: 18px 0; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+  .invest-table thead th { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--ink); padding-bottom: 12px; }
+  .invest-table thead th:last-child { text-align: right; }
+  .invest-table .line-title { font-weight: 600; font-size: 15.5px; color: var(--ink); margin-bottom: 4px; }
+  .invest-table .line-detail { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .invest-table .amt { text-align: right; font-variant-numeric: tabular-nums; font-size: 15.5px; color: var(--ink); white-space: nowrap; padding-left: 24px; }
+  .invest-table .optional td { background: rgba(181,137,74,.05); }
+  .invest-table .optional .line-title { color: var(--brass); font-weight: 500; }
+  .invest-table .subtotal td { padding: 16px 0; border-bottom: 1px solid var(--rule-2); }
+  .invest-table .subtotal .label { color: var(--muted); font-size: 13px; }
+  .invest-table .subtotal .amt { color: var(--ink); font-weight: 500; }
+  .invest-table .total td { border-bottom: 0; padding-top: 22px; font-weight: 600; font-size: 16px; }
 
-/* PDF + sign-off */
-.footer-buttons { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
-.btn.btn-secondary { background:#fff; color:var(--primary); border:2px solid var(--primary); box-shadow:none; }
-.btn.btn-secondary:hover { background:var(--primary); color:#fff; transform:translateY(-2px); }
-.btn[disabled] { opacity:0.5; cursor:not-allowed; pointer-events:none; }
+  /* Totals card */
+  .totals-card {
+    margin-top: 32px; background: var(--navy); color: var(--paper); border-radius: var(--radius-lg);
+    padding: 36px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end;
+    box-shadow: var(--shadow-md);
+  }
+  .totals-card .label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass-soft); margin: 0 0 10px; }
+  .totals-card .amount { font-family: var(--font-serif); font-size: 56px; line-height: 1; letter-spacing: -.025em; margin: 0; color: var(--paper); font-weight: 400; }
+  .totals-card .breakdown { font-size: 13px; color: rgba(247,244,238,.65); margin: 8px 0 0; font-family: var(--font-mono); }
+  .totals-card .locked h4 { color: var(--brass-soft); font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 12px; font-weight: 500; }
+  .totals-card .locked ul { margin: 0; padding: 0; list-style: none; font-size: 13px; color: rgba(247,244,238,.85); line-height: 1.65; }
+  .totals-card .locked li { padding-left: 18px; position: relative; }
+  .totals-card .locked li::before { content: ""; position: absolute; left: 0; top: 9px; width: 8px; height: 1px; background: var(--brass); }
 
-.signoff-panel { display:none; margin-top:30px; padding:32px; background:#f7f9fb; border:1px solid var(--rule); border-radius:10px; text-align:left; }
-.signoff-panel.open { display:block; animation:slideDown 0.3s ease; }
-@keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
-.signoff-panel h3 { color:var(--primary); margin:0 0 8px; font-size:1.2em; border:none; padding:0; }
-.signoff-panel .helper { color:var(--muted); margin:0 0 22px; font-size:0.92em; }
+  /* Add-on */
+  .addon {
+    margin-top: 28px; border: 1px solid var(--rule); border-radius: var(--radius);
+    padding: 18px 22px; background: #fff;
+    display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;
+  }
+  .addon h4 { font-family: var(--font-sans); font-size: 14px; margin: 0 0 4px; font-weight: 600; }
+  .addon p { margin: 0; font-size: 13px; color: var(--muted); }
+  .addon .amt { font-family: var(--font-serif); font-size: 20px; color: var(--brass); font-variant-numeric: tabular-nums; }
+  .addon .switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; font-size: 12px; font-family: var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .addon .switch input { display: none; }
+  .addon .switch .track { width: 36px; height: 20px; background: var(--rule); border-radius: 999px; position: relative; transition: background .18s; }
+  .addon .switch .track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: #fff; border-radius: 999px; box-shadow: var(--shadow-sm); transition: transform .18s; }
+  .addon .switch input:checked + .track { background: var(--brass); }
+  .addon .switch input:checked + .track::after { transform: translateX(16px); }
 
-/* Sig tabs (Draw / Type) */
-.sig-tabs { display:flex; gap:0; margin-bottom:12px; border-bottom:1px solid var(--rule); }
-.sig-tab {
-  background:none; border:none; padding:10px 22px;
-  font-family:inherit; font-size:0.78em; font-weight:700;
-  letter-spacing:2px; text-transform:uppercase; color:var(--muted);
-  cursor:pointer; border-bottom:3px solid transparent; margin-bottom:-1px;
-  transition:color 0.15s, border-color 0.15s;
-}
-.sig-tab:hover { color:var(--primary); }
-.sig-tab.active { color:var(--primary); border-bottom-color:var(--accent); }
-.sig-mode { display:none; }
-.sig-mode.active { display:block; }
+  /* Scope notes */
+  .scope { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--radius); padding: 28px 32px; font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+  .scope strong { color: var(--ink); }
 
-.sig-pad-wrap, .sig-type-wrap {
-  background:#fff; border:1px solid var(--rule); border-radius:6px; padding:0; position:relative;
-}
-.sig-pad-wrap canvas { display:block; width:100%; height:180px; cursor:crosshair; touch-action:none; border-radius:6px; }
-.sig-pad-wrap .sig-clear, .sig-type-wrap .sig-clear {
-  position:absolute; top:10px; right:10px; background:#fff; border:1px solid var(--rule);
-  color:var(--muted); font-size:0.72em; letter-spacing:1px; cursor:pointer; padding:5px 12px;
-  border-radius:4px; text-transform:uppercase; font-weight:700;
-}
-.sig-pad-wrap .sig-clear:hover, .sig-type-wrap .sig-clear:hover { background:#f0f3f5; color:var(--primary); }
-.sig-pad-wrap .sig-baseline, .sig-type-wrap .sig-baseline { position:absolute; left:30px; right:30px; bottom:36px; border-top:1px dashed #c8d0d8; pointer-events:none; }
-.sig-pad-wrap .sig-x, .sig-type-wrap .sig-x { position:absolute; left:24px; bottom:18px; font-family:Georgia, serif; font-size:1.4em; color:#c8d0d8; pointer-events:none; }
+  /* Approve */
+  .approve { text-align: center; padding: 64px 0 32px; }
+  .approve p { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+  .actions { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 22px; border-radius: 999px; font-size: 13px; font-weight: 500; letter-spacing: .02em;
+    border: 1px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer;
+    font-family: var(--font-sans); transition: background .15s, color .15s, border-color .15s;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn.primary { background: var(--brass); border-color: var(--brass); color: #fff; }
+  .btn.primary:hover { background: var(--brass-deep); border-color: var(--brass-deep); color:#fff; }
+  .btn[disabled] { opacity: .5; cursor: not-allowed; pointer-events: none; }
 
-/* Type mode */
-.sig-type-wrap { height:180px; display:flex; align-items:center; justify-content:center; padding:20px 80px; }
-.sig-type-wrap input#sig-typed {
-  border:none; outline:none; background:transparent;
-  font-family:'Dancing Script', 'Brush Script MT', cursive;
-  font-size:3em; font-weight:600; color:#1a2a3a;
-  text-align:center; width:100%; padding:0; margin-bottom:14px;
-}
-.sig-type-wrap input#sig-typed::placeholder { color:#c8d0d8; font-style:normal; }
-.sig-type-help { font-size:0.82em; color:var(--muted); margin:8px 0 0; font-style:italic; }
+  /* Sign-off panel */
+  .signoff-panel {
+    display: none; max-width: var(--page); margin: 0 auto 32px; padding: 32px;
+    background: #fff; border: 1px solid var(--rule); border-radius: var(--radius-lg);
+  }
+  .signoff-panel.open { display: block; animation: slideDown .25s ease; }
+  @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+  .signoff-panel h3 { color: var(--ink); margin: 0 0 6px; font-family: var(--font-serif); font-size: 22px; }
+  .signoff-panel .helper { color: var(--muted); font-size: 14px; margin: 0 0 22px; }
 
-.sig-fields { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:18px; }
-.sig-fields label { display:flex; flex-direction:column; gap:6px; font-size:0.72em; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; font-weight:700; }
-.sig-fields input { padding:12px 14px; border:1px solid var(--rule); border-radius:6px; font-size:1em; font-family:inherit; background:#fff; color:var(--ink); }
-.sig-fields input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(184,156,125,0.15); }
+  .sig-tabs { display: flex; gap: 0; margin-bottom: 14px; border-bottom: 1px solid var(--rule); }
+  .sig-tab {
+    background: none; border: none; padding: 10px 22px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+    cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+    transition: color .15s, border-color .15s;
+  }
+  .sig-tab:hover { color: var(--ink); }
+  .sig-tab.active { color: var(--ink); border-bottom-color: var(--brass); }
+  .sig-mode { display: none; }
+  .sig-mode.active { display: block; }
 
-.signoff-actions { margin-top:22px; display:flex; gap:14px; justify-content:flex-end; flex-wrap:wrap; }
-.sig-error { color:#b03a2e; font-size:0.88em; margin-top:10px; min-height:1.2em; text-align:right; }
+  .sig-pad-wrap, .sig-type-wrap {
+    background: #fff; border: 1px solid var(--rule); border-radius: var(--radius); padding: 0; position: relative;
+  }
+  .sig-pad-wrap canvas { display: block; width: 100%; height: 180px; cursor: crosshair; touch-action: none; border-radius: var(--radius); }
+  .sig-clear {
+    position: absolute; top: 10px; right: 10px; background: #fff; border: 1px solid var(--rule);
+    color: var(--muted); font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em;
+    cursor: pointer; padding: 6px 10px; border-radius: var(--radius-sm); text-transform: uppercase; font-weight: 500;
+  }
+  .sig-clear:hover { background: var(--paper-2); color: var(--ink); }
+  .sig-baseline { position: absolute; left: 30px; right: 30px; bottom: 36px; border-top: 1px dashed var(--rule); pointer-events: none; }
+  .sig-x { position: absolute; left: 24px; bottom: 18px; font-family: Georgia, serif; font-size: 1.4em; color: var(--rule); pointer-events: none; }
 
-.signed-confirmation { display:none; margin-top:30px; padding:32px 28px; background:#f0f7f3; border:1px solid #c8e0d0; border-radius:10px; text-align:center; }
-.signed-confirmation.shown { display:block; animation:slideDown 0.4s ease; }
-.signed-confirmation .badge {
-  display:inline-flex; align-items:center; gap:8px; background:#1b8754; color:#fff;
-  padding:8px 18px; border-radius:50px; font-size:0.72em; letter-spacing:2px; text-transform:uppercase; font-weight:700;
-}
-.signed-confirmation h3 { color:var(--primary); margin:18px 0 6px; font-size:1.35em; border:none; padding:0; }
-.signed-confirmation .signed-sub { color:var(--muted); margin:0 0 8px; font-size:0.95em; }
-.signed-confirmation .sig-display { background:#fff; border:1px solid #c8e0d0; border-radius:6px; padding:18px; margin:22px auto 16px; max-width:480px; }
-.signed-confirmation .sig-display img { max-width:100%; height:auto; display:block; margin:0 auto 8px; max-height:120px; }
-.signed-confirmation .sig-meta { font-size:0.88em; color:var(--muted); border-top:1px solid var(--rule); padding-top:12px; margin-top:8px; }
-.signed-confirmation .sig-meta strong { color:var(--primary); display:block; font-size:1.05em; margin-bottom:2px; }
+  .sig-type-wrap { height: 180px; display: flex; align-items: center; justify-content: center; padding: 20px 80px; }
+  .sig-type-wrap input#sig-typed {
+    border: none; outline: none; background: transparent;
+    font-family: var(--font-script); font-size: 3em; font-weight: 600; color: var(--ink);
+    text-align: center; width: 100%; padding: 0;
+  }
+  .sig-type-wrap input#sig-typed::placeholder { color: var(--rule); font-style: normal; }
+  .sig-type-help { font-size: 12px; color: var(--muted); margin: 8px 0 0; font-style: italic; }
 
-/* Hide buttons + form when capturing for PDF */
-body.pdf-mode .no-print { display:none !important; }
-body.pdf-mode { background:#fff; }
-body.pdf-mode .container { box-shadow:none; margin-top:30px; }
-@media print {
-  .no-print { display:none !important; }
-  body { background:#fff; }
-  .container { box-shadow:none; }
-}
+  .sig-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+  .sig-fields label { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; font-weight: 500; }
+  .sig-fields input { padding: 12px 14px; border: 1px solid var(--rule); border-radius: var(--radius-sm); font-size: 14px; font-family: var(--font-sans); background: #fff; color: var(--ink); }
+  .sig-fields input:focus { outline: none; border-color: var(--brass); box-shadow: 0 0 0 3px rgba(181,137,74,.15); }
 
-/* Mobile */
-@media (max-width:900px) {
-  .scope-tiles { grid-template-columns:repeat(4, 1fr); }
-}
-@media (max-width:768px) {
-  .hero { padding:60px 18px 140px; }
-  .hero h1 { font-size:1.9em; letter-spacing:2px; }
-  .hero::after { bottom:110px; }
-  .render-hero { margin-top:-100px; padding:0 14px; }
-  .stat-ribbon { grid-template-columns:1fr; }
-  .stat { border-right:none; border-bottom:1px solid var(--rule); padding:22px 16px; }
-  .stat:last-child { border-bottom:none; }
-  .stat .num { font-size:2em; }
-  .container { margin:34px 18px; padding:30px 22px; }
-  .grid { grid-template-columns:1fr; gap:30px; }
-  .process-grid { grid-template-columns:1fr 1fr; }
-  .render-caption { flex-direction:column; gap:6px; align-items:flex-start; font-size:0.78em; }
-  .total-card { padding:26px 24px; }
-  .total-card .figure { font-size:2em; }
-  .total-card .right { text-align:left; max-width:none; }
-  .signoff-panel { padding:24px 20px; }
-  .signed-confirmation { padding:26px 18px; }
-  .sig-fields { grid-template-columns:1fr; gap:12px; }
-  .signoff-actions { justify-content:stretch; }
-  .signoff-actions .btn { flex:1; min-width:0; padding:16px 20px; }
-  .footer-buttons .btn { flex:1; min-width:0; padding:16px 20px; }
-  .btn { padding:16px 28px; font-size:0.85em; letter-spacing:1.5px; }
-  .sig-pad-wrap canvas { height:160px; }
-  .sig-pad-wrap .sig-baseline { left:20px; right:20px; bottom:32px; }
-  .sig-pad-wrap .sig-x { left:14px; bottom:14px; }
-  .addon-card { padding:18px; gap:14px; }
-  .container { padding:26px 18px; }
-}
-@media (max-width:480px) {
-  .scope-tiles { grid-template-columns:repeat(2, 1fr); }
-  .hero h1 { font-size:1.55em; letter-spacing:1.5px; }
-  .total-card .figure { font-size:1.7em; }
-  .signed-confirmation h3 { font-size:1.15em; }
-}
+  .sig-error { color: #b03a2e; font-size: 13px; margin-top: 12px; min-height: 1.2em; text-align: right; }
+  .signoff-actions { margin-top: 18px; display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap; }
+
+  /* Signed confirmation */
+  .signed-confirmation {
+    display: none; max-width: var(--page); margin: 0 auto 40px; padding: 36px 32px;
+    background: var(--success-soft); border: 1px solid #B7DABA; border-radius: var(--radius-lg); text-align: center;
+  }
+  .signed-confirmation.shown { display: block; animation: slideDown .35s ease; }
+  .signed-confirmation .badge {
+    display: inline-flex; align-items: center; gap: 8px; background: var(--success); color: #fff;
+    padding: 8px 16px; border-radius: 999px; font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: .14em; text-transform: uppercase; font-weight: 500;
+  }
+  .signed-confirmation h3 { font-family: var(--font-serif); color: var(--ink); margin: 18px 0 6px; font-size: 24px; font-weight: 500; }
+  .signed-confirmation .signed-sub { color: var(--muted); margin: 0 0 8px; font-size: 14px; }
+  .signed-confirmation .sig-display { background: #fff; border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px; margin: 22px auto 16px; max-width: 480px; }
+  .signed-confirmation .sig-display img { max-width: 100%; height: auto; display: block; margin: 0 auto 8px; max-height: 120px; }
+  .signed-confirmation .sig-meta { font-family: var(--font-mono); font-size: 12px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 12px; margin-top: 8px; line-height: 1.7; }
+  .signed-confirmation .sig-meta strong { color: var(--ink); display: block; font-family: var(--font-sans); font-size: 15px; margin-bottom: 2px; font-weight: 600; letter-spacing: 0; text-transform: none; }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--rule); padding: 24px 0 40px;
+    font-size: 12px; font-family: var(--font-mono); letter-spacing: .04em; color: var(--muted);
+  }
+  footer .row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+  /* PDF mode */
+  body.pdf-mode .no-print { display: none !important; }
+  body.pdf-mode { background: #fff; }
+  body.pdf-mode .signoff-panel, body.pdf-mode .approve { display: none !important; }
+  @media print {
+    .no-print { display: none !important; }
+    body { background: #fff; }
+  }
+
+  /* Mobile */
+  @media (max-width: 720px) {
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .stats { grid-template-columns: 1fr; }
+    .stat { border-left: 0; border-top: 1px solid var(--rule); }
+    .stat:first-child { border-top: 0; }
+    .hero h1 { font-size: 40px; }
+    .hero { padding: 40px 0 32px; }
+    .section { padding: 56px 0; }
+    .process { grid-template-columns: 1fr 1fr; }
+    .step { border-left: 0; border-top: 1px solid var(--rule); }
+    .step:first-child { border-top: 0; }
+    .step:nth-child(2) { border-top: 0; }
+    .totals-card { grid-template-columns: 1fr; gap: 28px; padding: 28px; }
+    .totals-card .amount { font-size: 44px; }
+    .signoff-panel { padding: 24px 20px; margin: 0 14px 28px; }
+    .signed-confirmation { margin: 0 14px 32px; padding: 28px 20px; }
+    .sig-fields { grid-template-columns: 1fr; gap: 12px; }
+    .sig-type-wrap { padding: 20px 30px; }
+    .sig-type-wrap input#sig-typed { font-size: 2.2em; }
+    .sig-pad-wrap canvas { height: 160px; }
+    .signoff-actions { justify-content: stretch; }
+    .signoff-actions .btn { flex: 1; min-width: 0; padding: 14px 18px; }
+    .compare th, .compare td { padding: 12px 14px; font-size: 13.5px; }
+  }
+  @media (max-width: 480px) {
+    .process { grid-template-columns: 1fr; }
+    .step:nth-child(2) { border-top: 1px solid var(--rule); }
+    .hero h1 { font-size: 32px; }
+    .totals-card .amount { font-size: 36px; }
+    h2 { font-size: 26px; }
+  }
+
+  /* Utilities */
+  .tagline { color: var(--muted); font-size: 14.5px; max-width: 60ch; }
 </style>
 </head>
 <body>
 
-<!-- HERO -->
-<div class="hero">
-    <p class="kicker">Office Refresh &amp; Storeroom · Gosford</p>
-    <h1>Taylors Conveyancing</h1>
-    <p class="sub">Office Refresh &amp; New Secure Storeroom</p>
-    <p class="for-line">Prepared for <strong>Natalie Taylor</strong> · Mann Street, Gosford NSW</p>
-</div>
+  <!-- HERO -->
+  <header class="hero" data-screen-label="01 Hero">
+    <div class="page">
+      <p class="eyebrow">Office Refresh &amp; Storeroom · Gosford</p>
+      <h1>Taylors Conveyancing</h1>
+      <p class="lede">A refreshed kitchen, two secure new storerooms, and the finishing detail that lifts the office from working to client-ready.</p>
+      <p class="meta">Prepared for <strong>Natalie Taylor</strong> · Mann Street, Gosford NSW · 1 May 2026</p>
 
-<!-- HERO RENDER -->
-<div class="render-hero">
-    <div class="render-frame">
-        <img src="assets/taylors-plan.png" alt="Preliminary fitout plan showing the proposed storeroom, kitchen joinery and tall cabinet, and wall infill with new doors">
-        <div class="render-caption">
-            <span>PRELIMINARY FITOUT PLAN · STOREROOM · KITCHEN · WALL INFILL</span>
-            <span class="right">SBI · DESIGN · BUILD · CONSTRUCT</span>
-        </div>
+      <figure class="plan">
+        <img src="assets/taylors-plan.png" alt="Preliminary fitout plan showing the proposed storerooms, kitchen joinery and tall cabinet, and wall infill with new doors">
+        <figcaption class="plan-cap">
+          <span>Storerooms · Kitchen · Wall Infill</span>
+          <span>SBI · Design · Build · Construct</span>
+        </figcaption>
+      </figure>
     </div>
-</div>
+  </header>
 
-<div class="container">
+  <!-- SCOPE AT A GLANCE -->
+  <section class="section" data-screen-label="02 Scope At A Glance">
+    <div class="page">
+      <div class="stats">
+        <div class="stat"><p class="num">3</p><p class="label">Distinct works areas — kitchen, storerooms, finishes</p></div>
+        <div class="stat"><p class="num">5<small>Lm</small></p><p class="label">Acoustic partition wall, full-height to ceiling</p></div>
+        <div class="stat"><p class="num">7</p><p class="label">Trades coordinated under one SBI program</p></div>
+      </div>
 
-    <!-- STAT RIBBON -->
-    <div class="stat-ribbon">
-        <div class="stat">
-            <div class="num">3</div>
-            <div class="label">Distinct Works Areas</div>
-        </div>
-        <div class="stat">
-            <div class="num">5<small>Lm</small></div>
-            <div class="label">Acoustic Partition Wall</div>
-        </div>
-        <div class="stat">
-            <div class="num">7</div>
-            <div class="label">Trades, One Program</div>
-        </div>
+      <p class="trade-caption" style="margin-top:24px">Seven trades, one program manager:</p>
+      <div class="trades-row">
+        <span class="trade"><span class="badge">PM</span>Project Mgmt</span>
+        <span class="trade"><span class="badge">DM</span>Demolition</span>
+        <span class="trade"><span class="badge">WL</span>Walls</span>
+        <span class="trade"><span class="badge">DR</span>Doors</span>
+        <span class="trade"><span class="badge">PT</span>Painting</span>
+        <span class="trade"><span class="badge">JN</span>Joinery</span>
+        <span class="trade"><span class="badge">EL</span>Electrical</span>
+      </div>
     </div>
+  </section>
 
-    <!-- SCOPE AT A GLANCE -->
-    <div class="scope-section">
-        <div class="scope-eyebrow">Scope at a glance — 7 trades, one program</div>
-        <div class="scope-tiles">
-            <div class="scope-tile"><div class="pip">PM</div><span class="label">Project Mgmt</span></div>
-            <div class="scope-tile"><div class="pip">DM</div><span class="label">Demolition</span></div>
-            <div class="scope-tile"><div class="pip">WL</div><span class="label">Walls</span></div>
-            <div class="scope-tile"><div class="pip">DR</div><span class="label">Doors</span></div>
-            <div class="scope-tile"><div class="pip">PT</div><span class="label">Painting</span></div>
-            <div class="scope-tile"><div class="pip">JN</div><span class="label">Joinery</span></div>
-            <div class="scope-tile"><div class="pip">EL</div><span class="label">Electrical</span></div>
-        </div>
-    </div>
-
-    <!-- VISION + SPECS -->
-    <div class="grid">
+  <!-- VISION + SPECS -->
+  <section class="section" data-screen-label="03 Vision And Specs">
+    <div class="page">
+      <div class="two-col">
         <div>
-            <h2>The Project Vision</h2>
-            <p>Three small but defining changes to the Mann Street office. A <strong>refreshed kitchen</strong> with proper overhead, table and tall storage joinery; a new <strong>secure storeroom</strong> built into the existing layout with full-height acoustic partitioning and two fire-rated doors; and the <strong>finishing detail</strong> — paint, hardware and trims — that lifts the whole space from "office" to "client-ready".</p>
-            <p>Delivered as a single coordinated program by an SBI Project Manager. One face, one schedule, one handover — minimal disruption to client meetings during the works.</p>
+          <p class="eyebrow">The Project</p>
+          <h2>Three small changes, one defining result.</h2>
+          <p>A <strong>refreshed kitchen</strong> with proper overhead, table, and tall storage joinery. <strong>Two new secure storerooms</strong> built into the existing layout with full-height acoustic partitioning and fire-rated lever sets. And the <strong>finishing detail</strong> — paint, hardware, trims — that takes the space from "office" to "client-ready".</p>
+          <p>Delivered as a single coordinated program by an SBI Project Manager. One face, one schedule, one handover, with minimal disruption to client meetings during the works.</p>
         </div>
         <div>
-            <h2>Technical Specs</h2>
-            <ul>
-                <li><strong>New partition:</strong> 5 Lm × 2700H, 64mm steel stud, 13mm plasterboard both sides, 50mm polyester acoustic batts, 25mm clear anodised flat bar at top</li>
-                <li><strong>Doors:</strong> 2 × solid MDF 2700×900×35mm with fire-rated lever entrance sets, door stops, timber jambs</li>
-                <li><strong>Joinery (Mozaik):</strong> J01 overhead with microwave cabinet · J02 kitchen table · J03 tall kitchen cabinet</li>
-                <li><strong>Painting:</strong> New walls, new doors and trims — colour TBC at pre-start</li>
-                <li><strong>Demolition:</strong> Existing overhead cupboards removed and disposed</li>
-                <li><strong>Hardware:</strong> Padlock and hasp added to existing sliding door</li>
-            </ul>
+          <p class="eyebrow">Technical Specs</p>
+          <ul class="specs">
+            <li><strong>Partition</strong>5 Lm × 2700H · 64mm steel stud · 13mm plasterboard both sides · 50mm polyester acoustic batts · 25mm clear anodised flat bar at top</li>
+            <li><strong>Doors</strong>2 × solid MDF 2700×900×35mm with fire-rated lever entrance sets, door stops, timber jambs</li>
+            <li><strong>Joinery (Mozaik)</strong>J01 overhead with microwave cabinet · J02 kitchen table · J03 tall kitchen cabinet</li>
+            <li><strong>Painting</strong>New walls, doors, and trims — colour TBC at pre-start</li>
+            <li><strong>Demolition</strong>Existing overhead cupboards removed and disposed</li>
+            <li><strong>Hardware</strong>Padlock and hasp added to existing sliding door</li>
+          </ul>
         </div>
-    </div>
+      </div>
 
-    <!-- KNOWLEDGE BOX -->
-    <div class="knowledge-box">
-        <h3>Three details that quietly separate commercial-grade from off-the-shelf</h3>
-        <div class="insight-list">
-            <div class="insight">
-                <div class="num">1</div>
-                <div>
-                    <strong>50mm acoustic batts in the new partition wall</strong>
-                    <p>The polyester insulation in the storeroom partition isn't there for thermal — it's there for <em>client confidentiality</em>. In a conveyancing fitout, conversations carry. We spec the batts so a client meeting on one side of the wall doesn't reach the storeroom or kitchen on the other. A budget builder would leave the cavity empty and tell you it "meets code".</p>
-                </div>
-            </div>
-            <div class="insight">
-                <div class="num">2</div>
-                <div>
-                    <strong>25mm clear anodised flat bar at the top of the wall</strong>
-                    <p>Where the new gyprock meets the existing ceiling, most builders leave a raw plaster line. We finish it with a 25mm clear anodised aluminium flat bar — a $40-a-metre detail that turns a builder's wall into an architectural one. Clients won't tell you why it looks better, but they'll feel it the moment they walk in.</p>
-                </div>
-            </div>
-            <div class="insight">
-                <div class="num">3</div>
-                <div>
-                    <strong>Fire-rated lever entrance sets on commercial doors</strong>
-                    <p>Solid MDF doors with fire-rated lever sets are commercial-grade hardware — engineered for daily commercial use over 10+ years. Most off-the-shelf joinery suppliers would substitute a residential lever set to keep the price down, and you'd be replacing handles in 18 months. We use the commercial spec from day one.</p>
-                </div>
-            </div>
+      <!-- Three details -->
+      <div class="details">
+        <h3>Three details that quietly separate commercial-grade from off-the-shelf.</h3>
+
+        <div class="detail">
+          <div class="n">01</div>
+          <div>
+            <h4>50mm acoustic batts in the partition wall</h4>
+            <p>Polyester insulation isn't there for thermal — it's there for <em>client confidentiality</em>. Conversations carry in conveyancing offices. The batts mean a meeting on one side of the wall doesn't reach the storerooms or kitchen on the other. A budget builder leaves the cavity empty and tells you it "meets code".</p>
+          </div>
         </div>
-    </div>
 
-    <!-- DIFFERENCE TABLE -->
-    <h2 class="section-top">The SBI Difference</h2>
-    <table class="diff-table">
+        <div class="detail">
+          <div class="n">02</div>
+          <div>
+            <h4>25mm clear anodised flat bar at the top of the wall</h4>
+            <p>Where new gyprock meets existing ceiling, most builders leave a raw plaster line. We finish it with a <em>25mm anodised aluminium flat bar</em> — a $40-a-metre detail that turns a builder's wall into an architectural one. Clients won't tell you why it looks better. They'll feel it the moment they walk in.</p>
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="n">03</div>
+          <div>
+            <h4>Fire-rated lever entrance sets on commercial doors</h4>
+            <p>Solid MDF doors with <em>fire-rated commercial lever sets</em> are engineered for daily commercial use over 10+ years. Off-the-shelf joinery suppliers substitute residential levers to keep the price down — and you replace handles in 18 months. Commercial spec, day one.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SBI DIFFERENCE -->
+  <section class="section" data-screen-label="04 SBI Difference">
+    <div class="page">
+      <p class="eyebrow">The SBI Difference</p>
+      <h2>What you're actually paying for.</h2>
+      <p class="tagline">Five line-items where commercial-grade and "near enough" go their separate ways.</p>
+
+      <table class="compare">
         <thead>
-            <tr><th style="width:25%;">&nbsp;</th><th>SBI Commercial Build</th><th>Generic Builder</th></tr>
+          <tr><th></th><th>SBI Commercial Build</th><th>Generic Builder</th></tr>
         </thead>
         <tbody>
-            <tr class="sbi"><td>Partition spec</td><td>64mm stud + 50mm acoustic batts + anodised top</td><td>64mm stud, empty cavity, raw plaster line</td></tr>
-            <tr><td>Door hardware</td><td>Fire-rated commercial lever sets</td><td>Residential-grade levers, 18-month life</td></tr>
-            <tr class="sbi"><td>Trade coordination</td><td>Single SBI PM across all 7 trades</td><td>You coordinate the sub-trades</td></tr>
-            <tr><td>Variations</td><td>Written and signed before works begin</td><td>Verbal, billed at the end</td></tr>
-            <tr class="sbi"><td>Handover</td><td>Defect walk + workmanship warranty in writing</td><td>Defects emerge over the first month</td></tr>
+          <tr><th scope="row">Partition spec</th><td>64mm stud + 50mm acoustic batts + anodised top trim</td><td>64mm stud, empty cavity, raw plaster line</td></tr>
+          <tr><th scope="row">Door hardware</th><td>Fire-rated commercial lever sets, 10+ year life</td><td>Residential-grade levers, ~18 month life</td></tr>
+          <tr><th scope="row">Trade coordination</th><td>Single SBI PM across all 7 trades</td><td>You coordinate the sub-trades</td></tr>
+          <tr><th scope="row">Variations</th><td>Written and signed before works begin</td><td>Verbal, billed at the end</td></tr>
+          <tr><th scope="row">Handover</th><td>Defect walk + workmanship warranty in writing</td><td>Defects emerge over the first month</td></tr>
         </tbody>
-    </table>
-
-    <!-- PROCESS TIMELINE -->
-    <h2 class="section-top">Our Process &amp; Quality Checkpoints</h2>
-    <div class="process-grid">
-        <div class="process-step">
-            <span class="num">01</span>
-            <strong>Site Measure</strong>
-            <small>On-site verification, services located, finished plans signed off.</small>
-        </div>
-        <div class="process-step">
-            <span class="num">02</span>
-            <strong>Joinery Manufacture</strong>
-            <small>J01–J03 fabricated in our Mozaik-programmed shop, off-site.</small>
-        </div>
-        <div class="process-step">
-            <span class="num">03</span>
-            <strong>Site Build</strong>
-            <small>Demolition, partition, doors and electrical — sequenced under one PM.</small>
-        </div>
-        <div class="process-step">
-            <span class="num">04</span>
-            <strong>Finish &amp; Install</strong>
-            <small>Paint, joinery install, hardware, anodised top trim, padlock fit.</small>
-        </div>
-        <div class="process-step">
-            <span class="num">05</span>
-            <strong>Handover</strong>
-            <small>Defect walk, warranty in writing, your office back in business.</small>
-        </div>
+      </table>
     </div>
+  </section>
 
-    <!-- INVESTMENT SUMMARY -->
-    <h2 class="section-top">Investment Summary</h2>
-    <table class="price-table">
-        <thead><tr><th>Zone</th><th style="text-align:right; width:30%;">Amount (ex-GST)</th></tr></thead>
+  <!-- PROCESS -->
+  <section class="section" data-screen-label="05 Process">
+    <div class="page">
+      <p class="eyebrow">Process &amp; Quality Checkpoints</p>
+      <h2>Five checkpoints from measure to handover.</h2>
+      <div class="process">
+        <div class="step"><span class="n">01</span><h4>Site Measure</h4><p>On-site verification, services located, finished plans signed off.</p></div>
+        <div class="step"><span class="n">02</span><h4>Joinery Manufacture</h4><p>J01–J03 fabricated off-site in our Mozaik-programmed shop.</p></div>
+        <div class="step"><span class="n">03</span><h4>Site Build</h4><p>Demolition, partition, doors, electrical — sequenced under one PM.</p></div>
+        <div class="step"><span class="n">04</span><h4>Finish &amp; Install</h4><p>Paint, joinery, hardware, anodised top trim, padlock fit.</p></div>
+        <div class="step"><span class="n">05</span><h4>Handover</h4><p>Defect walk, warranty in writing, your office back in business.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INVESTMENT -->
+  <section class="section" data-screen-label="06 Investment">
+    <div class="page">
+      <p class="eyebrow">Investment Summary</p>
+      <h2>Five line items. No surprises.</h2>
+
+      <table class="invest-table" id="invest">
+        <thead><tr><th>Zone</th><th>Amount (ex-GST)</th></tr></thead>
         <tbody>
-            <tr>
-                <td><strong>Kitchen Joinery Suite</strong><br><small style="color:var(--muted);">J01 overhead + microwave cabinet · J02 kitchen table · J03 tall cabinet</small></td>
-                <td style="text-align:right;">$6,854</td>
-            </tr>
-            <tr>
-                <td><strong>New Storeroom Construction</strong><br><small style="color:var(--muted);">5 Lm acoustic partition · 2 × fire-rated doors · removal of existing overheads</small></td>
-                <td style="text-align:right;">$8,166</td>
-            </tr>
-            <tr>
-                <td><strong>Finishes &amp; Securing</strong><br><small style="color:var(--muted);">Paint to walls, doors and trims · padlock and hasp to existing sliding door</small></td>
-                <td style="text-align:right;">$1,947</td>
-            </tr>
-            <tr>
-                <td><strong>Project Delivery &amp; WHS</strong><br><small style="color:var(--muted);">SBI PM, site safety, floor protection, rubbish removal</small></td>
-                <td style="text-align:right;">$2,802</td>
-            </tr>
-            <tr id="addon-row" class="optional" style="display:none;">
-                <td><strong>Optional · Kitchen Power Upgrade</strong><br><small style="color:var(--muted);">4-gang GPO upgrade at the kitchen bench</small></td>
-                <td style="text-align:right;">+$239</td>
-            </tr>
-            <tr class="total-row">
-                <td>Subtotal (ex-GST)</td>
-                <td style="text-align:right;"><span id="subtotal">$19,769</span></td>
-            </tr>
-            <tr class="gst-row">
-                <td>GST (10%)</td>
-                <td style="text-align:right;"><span id="gst">$1,977</span></td>
-            </tr>
-            <tr class="total-row">
-                <td>Total (inc-GST)</td>
-                <td style="text-align:right;"><span id="total">$21,746</span></td>
-            </tr>
+          <tr>
+            <td>
+              <div class="line-title">Kitchen Joinery Suite</div>
+              <div class="line-detail">J01 overhead + microwave cabinet · J02 kitchen table · J03 tall cabinet</div>
+            </td>
+            <td class="amt">$6,854</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="line-title">New Storerooms (×2) Construction</div>
+              <div class="line-detail">5 Lm acoustic partition · 2 × solid MDF doors with fire-rated lever sets · removal of existing overheads</div>
+            </td>
+            <td class="amt">$8,166</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="line-title">Finishes &amp; Securing</div>
+              <div class="line-detail">Paint to walls, doors and trims · padlock and hasp to existing sliding door</div>
+            </td>
+            <td class="amt">$1,947</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="line-title">Project Delivery &amp; WHS</div>
+              <div class="line-detail">SBI PM, site safety, floor protection, rubbish removal</div>
+            </td>
+            <td class="amt">$2,802</td>
+          </tr>
+          <tr class="optional" id="addon-row" hidden>
+            <td>
+              <div class="line-title">Optional · Kitchen Power Upgrade</div>
+              <div class="line-detail">4-gang GPO upgrade at the kitchen bench</div>
+            </td>
+            <td class="amt">+$239</td>
+          </tr>
+          <tr class="subtotal"><td class="label">Subtotal (ex-GST)</td><td class="amt" id="subtotal">$19,769</td></tr>
+          <tr class="subtotal"><td class="label">GST (10%)</td><td class="amt" id="gst">$1,977</td></tr>
+          <tr class="total"><td>Total (inc-GST)</td><td class="amt" id="invest-total">$21,746</td></tr>
         </tbody>
-    </table>
+      </table>
 
-    <!-- ADD-ON TOGGLE -->
-    <div class="addon-card" id="addon-card">
-        <div class="check" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7l3 3 7-7" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <!-- Add-on toggle -->
+      <div class="addon">
+        <div>
+          <h4>Optional add-on — Kitchen 4-gang GPO upgrade</h4>
+          <p>Replace the existing kitchen GPO with a 4-gang outlet. Useful if you plan to run a kettle, toaster, and microwave on the bench at the same time.</p>
         </div>
-        <div class="body">
-            <strong>Optional add-on — Kitchen 4-gang GPO upgrade</strong>
-            <small>Replace the existing kitchen GPO with a 4-gang outlet. Useful if you plan to add a kettle, toaster and microwave on the bench at the same time. Tick to add to the proposal — total recalculates above.</small>
+        <div style="display:flex; align-items:center; gap:18px;">
+          <span class="amt">+$263 inc-GST</span>
+          <label class="switch">
+            <input type="checkbox" id="addon-toggle">
+            <span class="track"></span>
+            <span>Add</span>
+          </label>
         </div>
-        <div class="price">+$263 inc-GST</div>
+      </div>
+
+      <!-- Totals + Locked -->
+      <div class="totals-card">
+        <div>
+          <p class="label">Total Investment · inc-GST</p>
+          <p class="amount" id="grand-total">$21,746</p>
+          <p class="breakdown" id="grand-breakdown">$19,769 ex-GST + 10% GST</p>
+        </div>
+        <div class="locked">
+          <h4>What's locked</h4>
+          <ul>
+            <li>All 7 trades, single SBI Project Manager</li>
+            <li>Written variations only — no verbal billing</li>
+            <li>Fire-rated commercial hardware throughout</li>
+            <li>Defect walk + workmanship warranty in writing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCOPE NOTES -->
+  <section class="section" data-screen-label="07 Scope Notes">
+    <div class="page">
+      <p class="eyebrow">Scope Notes</p>
+      <div class="scope">
+        <p>Pricing is based on full acceptance of the outlined scope and is subject to site measure and supplier availability. Works scheduled for standard business hours (Mon–Fri, 7:00 AM – 3:00 PM).</p>
+        <p><strong>Excluded:</strong> equipment hire, statutory fees, plumbing, flooring, electrical switchboard upgrades, extensive wall patching or plasterwork, painting to existing walls, ceiling alterations, ceiling lighting, furniture, shopfront hoarding, new splashback to kitchen, fridge GPO.</p>
+        <p style="margin-bottom:0">Proposal valid for 30 days. Sign below to approve and we'll book the on-site measure within 5 working days.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPROVE BUTTONS -->
+  <section class="approve no-print" data-screen-label="08 Approve" id="approve-section">
+    <div class="page">
+      <p>Ready to lock it in?</p>
+      <div class="actions">
+        <button type="button" class="btn" id="btn-pdf">Download PDF</button>
+        <button type="button" class="btn primary" id="btn-open-signoff">Sign &amp; Approve →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGN-OFF PANEL -->
+  <div class="signoff-panel no-print" id="signoff-panel" aria-hidden="true">
+    <h3>Sign &amp; Approve</h3>
+    <p class="helper">Sign by drawing or typing your signature, fill in your details, and submit. A signed PDF copy will be available to download immediately.</p>
+
+    <div class="sig-tabs" role="tablist">
+      <button type="button" class="sig-tab active" data-mode="draw" role="tab" aria-selected="true">Draw</button>
+      <button type="button" class="sig-tab" data-mode="type" role="tab" aria-selected="false">Type</button>
     </div>
 
-    <!-- FEATURED TOTAL -->
-    <div class="total-card">
-        <div class="left">
-            <span class="label">Total Investment · Inc-GST</span>
-            <span class="figure" id="total-card-figure">$21,746</span>
-            <span class="gst-note">Subtotal <span id="total-card-sub">$19,769</span> ex-GST + 10% GST</span>
-        </div>
-        <div class="right">
-            <strong>What's Locked</strong>
-            All 7 trades, single SBI PM, written variations only, fire-rated commercial hardware throughout, defect walk and workmanship warranty in writing.
-        </div>
+    <div class="sig-mode active" data-mode="draw">
+      <div class="sig-pad-wrap">
+        <canvas id="sig-canvas" aria-label="Signature drawing area"></canvas>
+        <span class="sig-baseline"></span>
+        <span class="sig-x">×</span>
+        <button type="button" class="sig-clear" id="sig-clear">Clear</button>
+      </div>
     </div>
 
-    <!-- SCOPE NOTES -->
-    <h2 class="section-top">Scope Notes</h2>
-    <p style="font-size:0.92em; color:var(--muted); margin-top:0;">
-        Pricing is based on full acceptance of the outlined scope and is subject to site measure and supplier availability. Works scheduled for standard business hours (Mon–Fri, 7:00 AM – 3:00 PM). <strong>Excluded:</strong> equipment hire, statutory fees, plumbing, flooring, electrical switchboard upgrades, extensive wall patching or plasterwork, painting to existing walls, ceiling alterations, ceiling lighting, furniture, shopfront hoarding, new splashback to kitchen, fridge GPO. Proposal valid for 30 days.
-    </p>
-
-    <!-- FOOTER CTA + SIGN-OFF -->
-    <div class="footer-action">
-        <p class="valid no-print">This proposal is valid for 30 days. Sign below to approve and we'll book the on-site measure within 5 working days.</p>
-        <div class="footer-buttons no-print">
-            <button type="button" class="btn btn-secondary" id="btn-pdf">Download PDF</button>
-            <button type="button" class="btn" id="btn-open-signoff">Sign &amp; Approve</button>
-        </div>
+    <div class="sig-mode" data-mode="type">
+      <div class="sig-type-wrap">
+        <input type="text" id="sig-typed" placeholder="Type your full name" autocomplete="off" maxlength="60">
+        <span class="sig-baseline"></span>
+        <span class="sig-x">×</span>
+      </div>
+      <p class="sig-type-help">By typing your name above, you provide your electronic signature.</p>
     </div>
 
-    <!-- SIGN-OFF PANEL -->
-    <div class="signoff-panel no-print" id="signoff-panel" aria-hidden="true">
-        <h3>Sign &amp; Approve</h3>
-        <p class="helper">Sign by drawing or typing your signature, fill in your details, and submit. A signed PDF copy will be available to download immediately.</p>
-
-        <div class="sig-tabs" role="tablist">
-            <button type="button" class="sig-tab active" data-mode="draw" role="tab" aria-selected="true">Draw</button>
-            <button type="button" class="sig-tab" data-mode="type" role="tab" aria-selected="false">Type</button>
-        </div>
-
-        <div class="sig-mode active" data-mode="draw">
-            <div class="sig-pad-wrap">
-                <canvas id="sig-canvas" aria-label="Signature drawing area"></canvas>
-                <span class="sig-baseline"></span>
-                <span class="sig-x">×</span>
-                <button type="button" class="sig-clear" id="sig-clear">Clear</button>
-            </div>
-        </div>
-
-        <div class="sig-mode" data-mode="type">
-            <div class="sig-type-wrap">
-                <input type="text" id="sig-typed" placeholder="Type your full name" autocomplete="off" maxlength="60">
-                <span class="sig-baseline"></span>
-                <span class="sig-x">×</span>
-            </div>
-            <p class="sig-type-help">By typing your name above, you provide your electronic signature.</p>
-        </div>
-
-        <div class="sig-fields">
-            <label>Full name
-                <input type="text" id="sig-name" placeholder="e.g. Natalie Taylor" autocomplete="name">
-            </label>
-            <label>Position / Company
-                <input type="text" id="sig-title" placeholder="e.g. Director, Taylor &amp; Associates" autocomplete="organization-title">
-            </label>
-        </div>
-
-        <div class="sig-error" id="sig-error" role="alert"></div>
-
-        <div class="signoff-actions">
-            <button type="button" class="btn btn-secondary" id="btn-cancel-signoff">Cancel</button>
-            <button type="button" class="btn" id="btn-submit-signoff">Submit Signature</button>
-        </div>
+    <div class="sig-fields">
+      <label>Full name
+        <input type="text" id="sig-name" placeholder="e.g. Natalie Taylor" autocomplete="name">
+      </label>
+      <label>Position / Company
+        <input type="text" id="sig-title" placeholder="e.g. Director, Taylor & Associates" autocomplete="organization-title">
+      </label>
     </div>
 
-    <!-- SIGNED STATE -->
-    <div class="signed-confirmation" id="signed-confirmation" aria-live="polite">
-        <span class="badge">
-            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7l3 3 7-7" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Proposal Approved
-        </span>
-        <h3>Thank you — proposal signed.</h3>
-        <p class="signed-sub">A signed copy is ready to download. We'll be in touch within 1 business day to book the on-site measure.</p>
-        <div class="sig-display">
-            <img id="signed-image" alt="Client signature">
-            <div class="sig-meta">
-                <strong id="signed-name">—</strong>
-                <span id="signed-title">—</span><br>
-                Signed <span id="signed-date">—</span>
-            </div>
-        </div>
-        <div class="footer-buttons no-print">
-            <button type="button" class="btn" id="btn-pdf-signed">Download Signed PDF</button>
-        </div>
+    <div class="sig-error" id="sig-error" role="alert"></div>
+
+    <div class="signoff-actions">
+      <button type="button" class="btn" id="btn-cancel-signoff">Cancel</button>
+      <button type="button" class="btn primary" id="btn-submit-signoff">Submit Signature</button>
     </div>
+  </div>
 
-    <div class="signature">
-        <span class="left">Spoke Building &amp; Interiors · Sydney</span>
-        <span class="right">Prepared 1 May 2026 by Michael Cook</span>
+  <!-- SIGNED CONFIRMATION -->
+  <div class="signed-confirmation" id="signed-confirmation" aria-live="polite">
+    <span class="badge">
+      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7l3 3 7-7" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Proposal Approved
+    </span>
+    <h3>Thank you — proposal signed.</h3>
+    <p class="signed-sub">A signed copy is ready to download. We'll be in touch within 1 business day to book the on-site measure.</p>
+    <div class="sig-display">
+      <img id="signed-image" alt="Client signature">
+      <div class="sig-meta">
+        <strong id="signed-name">—</strong>
+        <span id="signed-title">—</span><br>
+        Signed <span id="signed-date">—</span>
+      </div>
     </div>
+    <div class="actions no-print">
+      <button type="button" class="btn primary" id="btn-pdf-signed">Download Signed PDF</button>
+    </div>
+  </div>
 
-</div>
-
-<script>
-(function() {
-    const ZONE_BASE = 6854 + 8166 + 1947 + 2802; // ex-GST = 19,769
-    const ADDON = 239; // ex-GST
-    const card = document.getElementById('addon-card');
-    const addonRow = document.getElementById('addon-row');
-    const subtotalEl = document.getElementById('subtotal');
-    const gstEl = document.getElementById('gst');
-    const totalEl = document.getElementById('total');
-    const cardFigEl = document.getElementById('total-card-figure');
-    const cardSubEl = document.getElementById('total-card-sub');
-    const fmt = n => '$' + Math.round(n).toLocaleString('en-AU');
-
-    function recalc(includeAddon) {
-        const sub = ZONE_BASE + (includeAddon ? ADDON : 0);
-        const gst = sub * 0.1;
-        const total = sub + gst;
-        addonRow.style.display = includeAddon ? '' : 'none';
-        subtotalEl.textContent = fmt(sub);
-        gstEl.textContent = fmt(gst);
-        totalEl.textContent = fmt(total);
-        cardFigEl.textContent = fmt(total);
-        cardSubEl.textContent = fmt(sub);
-    }
-
-    function toggle() {
-        const active = card.classList.toggle('active');
-        recalc(active);
-    }
-
-    card.addEventListener('click', toggle);
-    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
-    card.tabIndex = 0;
-    card.setAttribute('role', 'checkbox');
-    card.setAttribute('aria-checked', 'false');
-    recalc(false);
-})();
-</script>
+  <!-- FOOTER -->
+  <footer>
+    <div class="page">
+      <div class="row">
+        <span>Spoke Building &amp; Interiors · Sydney</span>
+        <span>Prepared 1 May 2026 · Michael Cook</span>
+      </div>
+    </div>
+  </footer>
 
 <!-- html2pdf for client-side PDF export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
-/* ─── Signature pad ─── */
-(function() {
-    const canvas = document.getElementById('sig-canvas');
-    const ctx = canvas.getContext('2d');
-    let drawing = false, hasInk = false;
+/* =====================================================================
+   PROPOSAL CONFIG
+   ===================================================================== */
+var PROPOSAL = {
+  jobName: 'TS260424 Taylors Conveyancing - Gosford',
+  clientName: 'Natalie Taylor',
+  salesTaskId: '86d2rtzzc',
+  salesTaskUrl: 'https://app.clickup.com/t/86d2rtzzc',
+  proposalUrl: 'https://michael-sbi.github.io/sbi-workflows/qwilr-samples/taylors-conveyancing-gosford.html',
+  webhookUrl: 'https://hook.eu1.make.com/gp5tfpe52pk44e7ispdi0t2bq33inc72'
+};
 
-    function resize() {
-        const rect = canvas.getBoundingClientRect();
-        const dpr = window.devicePixelRatio || 1;
-        const data = hasInk ? canvas.toDataURL('image/png') : null;
-        canvas.width = rect.width * dpr;
-        canvas.height = rect.height * dpr;
-        ctx.scale(dpr, dpr);
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.strokeStyle = '#1a2a3a';
-        ctx.lineWidth = 2.2;
-        if (data) {
-            const img = new Image();
-            img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
-            img.src = data;
-        }
+/* =====================================================================
+   1. ADD-ON TOGGLE (single source of truth for table + totals card)
+   ===================================================================== */
+(function () {
+  var BASE_EX_GST = 19769;       // Sum of 4 mandatory line items
+  var ADDON_EX_GST = 239;        // Optional GPO upgrade
+  var GST_RATE = 0.10;
+  var fmt = function (n) { return '$' + n.toLocaleString('en-AU', { maximumFractionDigits: 0 }); };
+
+  var toggle = document.getElementById('addon-toggle');
+  var row    = document.getElementById('addon-row');
+  var sub    = document.getElementById('subtotal');
+  var gst    = document.getElementById('gst');
+  var total  = document.getElementById('invest-total');
+  var grand  = document.getElementById('grand-total');
+  var bd     = document.getElementById('grand-breakdown');
+
+  function recalc() {
+    var on = toggle.checked;
+    var ex = BASE_EX_GST + (on ? ADDON_EX_GST : 0);
+    var g  = Math.round(ex * GST_RATE);
+    var t  = ex + g;
+    row.hidden = !on;
+    sub.textContent = fmt(ex);
+    gst.textContent = fmt(g);
+    total.textContent = fmt(t);
+    grand.textContent = fmt(t);
+    bd.textContent = fmt(ex) + ' ex-GST + 10% GST';
+  }
+  toggle.addEventListener('change', recalc);
+  recalc();
+})();
+
+/* =====================================================================
+   2. SIGNATURE PAD + TYPE MODE + SIGN-OFF FLOW
+   ===================================================================== */
+(function () {
+  var canvas = document.getElementById('sig-canvas');
+  var ctx = canvas.getContext('2d');
+  var drawing = false, hasInk = false;
+
+  function resize() {
+    var rect = canvas.getBoundingClientRect();
+    if (rect.width === 0) return;
+    var dpr = window.devicePixelRatio || 1;
+    var data = hasInk ? canvas.toDataURL('image/png') : null;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#14202E';
+    ctx.lineWidth = 2.2;
+    if (data) {
+      var img = new Image();
+      img.onload = function () { ctx.drawImage(img, 0, 0, rect.width, rect.height); };
+      img.src = data;
     }
-    function pos(e) {
-        const rect = canvas.getBoundingClientRect();
-        const t = e.touches ? e.touches[0] : e;
-        return { x: t.clientX - rect.left, y: t.clientY - rect.top };
+  }
+  function pos(e) {
+    var rect = canvas.getBoundingClientRect();
+    var t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - rect.left, y: t.clientY - rect.top };
+  }
+  function start(e) { e.preventDefault(); drawing = true; hasInk = true; var p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }
+  function move(e)  { if (!drawing) return; e.preventDefault(); var p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); }
+  function end()    { drawing = false; }
+
+  window.addEventListener('resize', resize);
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  canvas.addEventListener('mouseup', end);
+  canvas.addEventListener('mouseleave', end);
+  canvas.addEventListener('touchstart', start, { passive: false });
+  canvas.addEventListener('touchmove', move, { passive: false });
+  canvas.addEventListener('touchend', end);
+
+  document.getElementById('sig-clear').addEventListener('click', function () {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hasInk = false;
+  });
+
+  /* Mode tabs */
+  var mode = 'draw';
+  var tabs = document.querySelectorAll('.sig-tab');
+  var modes = document.querySelectorAll('.sig-mode');
+  var typedInput = document.getElementById('sig-typed');
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      mode = tab.dataset.mode;
+      tabs.forEach(function (t) { t.classList.toggle('active', t === tab); t.setAttribute('aria-selected', t === tab ? 'true' : 'false'); });
+      modes.forEach(function (m) { m.classList.toggle('active', m.dataset.mode === mode); });
+      if (mode === 'draw') setTimeout(resize, 30);
+      if (mode === 'type') setTimeout(function () { typedInput.focus(); }, 30);
+    });
+  });
+
+  /* Render typed signature to PNG */
+  async function renderTypedSignature(text) {
+    if (document.fonts && document.fonts.load) {
+      try { await document.fonts.load('600 80px "Dancing Script"'); } catch (e) {}
     }
-    function start(e) { e.preventDefault(); drawing = true; hasInk = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }
-    function move(e)  { if (!drawing) return; e.preventDefault(); const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); }
-    function end()    { drawing = false; }
+    var c = document.createElement('canvas');
+    var w = 800, h = 200;
+    c.width = w; c.height = h;
+    var cx = c.getContext('2d');
+    cx.fillStyle = '#14202E';
+    var size = 90;
+    cx.font = '600 ' + size + 'px "Dancing Script", "Brush Script MT", cursive';
+    while (cx.measureText(text).width > w - 60 && size > 30) {
+      size -= 4;
+      cx.font = '600 ' + size + 'px "Dancing Script", "Brush Script MT", cursive';
+    }
+    cx.textAlign = 'center';
+    cx.textBaseline = 'middle';
+    cx.fillText(text, w / 2, h / 2);
+    return c.toDataURL('image/png');
+  }
 
-    window.addEventListener('resize', resize);
-    canvas.addEventListener('mousedown', start);
-    canvas.addEventListener('mousemove', move);
-    canvas.addEventListener('mouseup', end);
-    canvas.addEventListener('mouseleave', end);
-    canvas.addEventListener('touchstart', start, { passive:false });
-    canvas.addEventListener('touchmove', move, { passive:false });
-    canvas.addEventListener('touchend', end);
+  /* Panel open/close */
+  var panel = document.getElementById('signoff-panel');
+  var confirmation = document.getElementById('signed-confirmation');
+  var approveSection = document.getElementById('approve-section');
+  var errorEl = document.getElementById('sig-error');
 
-    document.getElementById('sig-clear').addEventListener('click', () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        hasInk = false;
+  document.getElementById('btn-open-signoff').addEventListener('click', function () {
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+    setTimeout(function () { resize(); panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
+  });
+  document.getElementById('btn-cancel-signoff').addEventListener('click', function () {
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+    errorEl.textContent = '';
+  });
+
+  /* Submit — validates, renders signature, fires webhook, shows confirmation */
+  document.getElementById('btn-submit-signoff').addEventListener('click', async function () {
+    var name = document.getElementById('sig-name').value.trim();
+    var title = document.getElementById('sig-title').value.trim();
+    var typedSig = typedInput.value.trim();
+
+    if (mode === 'draw' && !hasInk) { errorEl.textContent = 'Please draw your signature, or switch to Type.'; return; }
+    if (mode === 'type' && !typedSig) { errorEl.textContent = 'Please type your signature, or switch to Draw.'; return; }
+    if (!name) { errorEl.textContent = 'Please enter your full name.'; return; }
+    errorEl.textContent = '';
+
+    var dataURL = mode === 'draw'
+      ? canvas.toDataURL('image/png')
+      : await renderTypedSignature(typedSig);
+
+    document.getElementById('signed-image').src = dataURL;
+    document.getElementById('signed-name').textContent = name;
+    document.getElementById('signed-title').textContent = title || '';
+    var now = new Date();
+    var dateStr = now.toLocaleString('en-AU', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    document.getElementById('signed-date').textContent = dateStr;
+
+    /* Fire sign event to ClickUp via Make webhook */
+    notifyClickUp({
+      event_type: 'sign',
+      task_id: PROPOSAL.salesTaskId,
+      job_name: PROPOSAL.jobName,
+      client_name: PROPOSAL.clientName,
+      proposal_url: PROPOSAL.proposalUrl,
+      signed_at: now.toISOString(),
+      signed_at_local: dateStr,
+      signed_name: name,
+      signed_title: title,
+      sign_method: mode,
+      typed_signature: mode === 'type' ? typedSig : null,
+      addon_included: document.getElementById('addon-toggle').checked,
+      total_inc_gst: document.getElementById('grand-total').textContent
     });
 
-    /* ─── Mode tabs (Draw / Type) ─── */
-    let mode = 'draw';
-    const tabs = document.querySelectorAll('.sig-tab');
-    const modes = document.querySelectorAll('.sig-mode');
-    const typedInput = document.getElementById('sig-typed');
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+    approveSection.style.display = 'none';
+    confirmation.classList.add('shown');
+    setTimeout(function () { confirmation.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 60);
+  });
 
-    tabs.forEach(tab => tab.addEventListener('click', () => {
-        mode = tab.dataset.mode;
-        tabs.forEach(t => { t.classList.toggle('active', t === tab); t.setAttribute('aria-selected', t === tab); });
-        modes.forEach(m => m.classList.toggle('active', m.dataset.mode === mode));
-        if (mode === 'draw') setTimeout(resize, 30);
-        if (mode === 'type') setTimeout(() => typedInput.focus(), 30);
-    }));
+  /* PDF export */
+  function downloadPDF(filename) {
+    var opt = {
+      margin: [8, 8, 8, 8],
+      filename: filename,
+      image: { type: 'jpeg', quality: 0.95 },
+      html2canvas: { scale: 2, useCORS: true, scrollY: 0, windowWidth: document.documentElement.scrollWidth },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+    document.body.classList.add('pdf-mode');
+    return html2pdf().set(opt).from(document.body).save().finally(function () {
+      document.body.classList.remove('pdf-mode');
+    });
+  }
+  document.getElementById('btn-pdf').addEventListener('click', function () { downloadPDF('Taylors-Conveyancing-Proposal.pdf'); });
+  document.getElementById('btn-pdf-signed').addEventListener('click', function () { downloadPDF('Taylors-Conveyancing-Proposal-SIGNED.pdf'); });
 
-    /* ─── Render typed signature to a PNG ─── */
-    async function renderTypedSignature(text) {
-        if (document.fonts && document.fonts.load) {
-            try { await document.fonts.load('600 80px "Dancing Script"'); } catch (e) {}
-        }
-        const c = document.createElement('canvas');
-        const w = 800, h = 200;
-        c.width = w; c.height = h;
-        const cx = c.getContext('2d');
-        cx.fillStyle = '#1a2a3a';
-        // Fit font size to text width
-        let size = 90;
-        cx.font = `600 ${size}px "Dancing Script", "Brush Script MT", cursive`;
-        while (cx.measureText(text).width > w - 60 && size > 30) {
-            size -= 4;
-            cx.font = `600 ${size}px "Dancing Script", "Brush Script MT", cursive`;
-        }
-        cx.textAlign = 'center';
-        cx.textBaseline = 'middle';
-        cx.fillText(text, w / 2, h / 2);
-        return c.toDataURL('image/png');
+  resize();
+})();
+
+/* =====================================================================
+   3. NOTIFICATIONS — fire view + sign events to Make webhook
+   ===================================================================== */
+function notifyClickUp(payload) {
+  if (!PROPOSAL.webhookUrl) return;
+  try {
+    var body = JSON.stringify(payload);
+    if (navigator.sendBeacon) {
+      var blob = new Blob([body], { type: 'application/json' });
+      navigator.sendBeacon(PROPOSAL.webhookUrl, blob);
+    } else {
+      fetch(PROPOSAL.webhookUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json' },
+        body: body
+      }).catch(function () {});
     }
+  } catch (e) { /* swallow — never block the UX on telemetry */ }
+}
 
-    /* ─── Panel open/close + submit ─── */
-    const panel = document.getElementById('signoff-panel');
-    const confirmation = document.getElementById('signed-confirmation');
-    const errorEl = document.getElementById('sig-error');
+/* View event — fires once per page load, debounced via sessionStorage to
+   suppress link-preview/bot pre-fetches. Bots don't usually run JS, but
+   when they do, the SAME session won't fire twice. */
+(function fireViewEvent() {
+  try {
+    var key = 'taylors-proposal-viewed';
+    var lastView = sessionStorage.getItem(key);
+    var now = Date.now();
+    if (lastView && (now - parseInt(lastView, 10)) < 60 * 60 * 1000) return; // 1h debounce
+    sessionStorage.setItem(key, String(now));
+  } catch (e) { /* private mode — fall through and notify anyway */ }
 
-    document.getElementById('btn-open-signoff').addEventListener('click', () => {
-        panel.classList.add('open');
-        panel.setAttribute('aria-hidden', 'false');
-        setTimeout(() => { resize(); panel.scrollIntoView({ behavior:'smooth', block:'start' }); }, 50);
+  // Wait 2s before firing to skip social-card scrapers that don't execute JS
+  setTimeout(function () {
+    notifyClickUp({
+      event_type: 'view',
+      task_id: PROPOSAL.salesTaskId,
+      job_name: PROPOSAL.jobName,
+      client_name: PROPOSAL.clientName,
+      proposal_url: PROPOSAL.proposalUrl,
+      viewed_at: new Date().toISOString(),
+      viewed_at_local: new Date().toLocaleString('en-AU', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+      user_agent: navigator.userAgent,
+      referrer: document.referrer || '(direct)',
+      viewport: window.innerWidth + 'x' + window.innerHeight,
+      language: navigator.language
     });
-    document.getElementById('btn-cancel-signoff').addEventListener('click', () => {
-        panel.classList.remove('open');
-        panel.setAttribute('aria-hidden', 'true');
-        errorEl.textContent = '';
-    });
-
-    document.getElementById('btn-submit-signoff').addEventListener('click', async () => {
-        const name = document.getElementById('sig-name').value.trim();
-        const title = document.getElementById('sig-title').value.trim();
-        const typedSig = typedInput.value.trim();
-
-        if (mode === 'draw' && !hasInk) { errorEl.textContent = 'Please draw your signature, or switch to Type.'; return; }
-        if (mode === 'type' && !typedSig) { errorEl.textContent = 'Please type your signature, or switch to Draw.'; return; }
-        if (!name) { errorEl.textContent = 'Please enter your full name.'; return; }
-        errorEl.textContent = '';
-
-        const dataURL = mode === 'draw'
-            ? canvas.toDataURL('image/png')
-            : await renderTypedSignature(typedSig);
-        document.getElementById('signed-image').src = dataURL;
-        document.getElementById('signed-name').textContent = name;
-        document.getElementById('signed-title').textContent = title || '';
-        const now = new Date();
-        const dateStr = now.toLocaleString('en-AU', { day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' });
-        document.getElementById('signed-date').textContent = dateStr;
-
-        panel.classList.remove('open');
-        panel.setAttribute('aria-hidden', 'true');
-        confirmation.classList.add('shown');
-        setTimeout(() => confirmation.scrollIntoView({ behavior:'smooth', block:'center' }), 60);
-    });
-
-    /* ─── PDF export (works for both unsigned + signed states) ─── */
-    function downloadPDF(filename) {
-        const opt = {
-            margin: [8, 8, 8, 8],
-            filename: filename || 'Taylors-Conveyancing-Proposal.pdf',
-            image: { type:'jpeg', quality:0.95 },
-            html2canvas: { scale:2, useCORS:true, scrollY:0, windowWidth: document.documentElement.scrollWidth },
-            jsPDF: { unit:'mm', format:'a4', orientation:'portrait' },
-            pagebreak: { mode:['avoid-all', 'css', 'legacy'] }
-        };
-        document.body.classList.add('pdf-mode');
-        return html2pdf().set(opt).from(document.body).save().finally(() => {
-            document.body.classList.remove('pdf-mode');
-        });
-    }
-    document.getElementById('btn-pdf').addEventListener('click', () => downloadPDF('Taylors-Conveyancing-Proposal.pdf'));
-    document.getElementById('btn-pdf-signed').addEventListener('click', () => downloadPDF('Taylors-Conveyancing-Proposal-SIGNED.pdf'));
-
-    resize();
+  }, 2000);
 })();
 </script>
 
