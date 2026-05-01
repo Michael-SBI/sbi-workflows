@@ -923,17 +923,20 @@ var PROPOSAL = {
 function notifyClickUp(payload) {
   if (!PROPOSAL.webhookUrl) return;
   try {
+    /* Make's webhook responds with Access-Control-Allow-Origin: *, which
+       browsers reject for "credentialed" requests OR when Content-Type
+       triggers a preflight (e.g. application/json). To avoid both, we
+       send as text/plain — Make parses the JSON body regardless. */
     var body = JSON.stringify(payload);
     if (navigator.sendBeacon) {
-      var blob = new Blob([body], { type: 'application/json' });
+      var blob = new Blob([body], { type: 'text/plain;charset=UTF-8' });
       navigator.sendBeacon(PROPOSAL.webhookUrl, blob);
     } else {
       fetch(PROPOSAL.webhookUrl, {
         method: 'POST',
         mode: 'no-cors',
         keepalive: true,
-        headers: { 'Content-Type': 'application/json' },
-        body: body
+        body: body /* no Content-Type header → simple request, no preflight */
       }).catch(function () {});
     }
   } catch (e) { /* swallow — never block the UX on telemetry */ }
