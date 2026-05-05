@@ -1,652 +1,1355 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>63 Webb Street — Home Reconfiguration Proposal</title>
+<meta charset="UTF-8">
+<title>63 Webb Street — Home Reconfiguration Proposal · Spoke Building &amp; Interiors</title>
+<meta name="description" content="Home reconfiguration proposal for 63 Webb Street, East Gosford NSW — prepared by Spoke Building & Interiors for Debbie-Anne Sergeant & Matthew Lawther.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Caveat:wght@400;700&amp;display=swap" rel="stylesheet">
 <style>
-  :root {
-    --ink:        #14202E;
-    --navy:       #0E1B2C;
-    --navy-2:     #19283C;
-    --paper:      #F7F4EE;
-    --paper-2:    #EFEAE0;
-    --rule:       #DCD5C7;
-    --rule-2:     #E7E1D4;
-    --muted:      #6B7384;
-    --muted-2:    #8A8273;
-    --brass:      #B5894A;
-    --brass-deep: #9D7538;
-    --brass-soft: #E8D9B8;
-    --highlight:  #F4ECD8;
-    --success:    #1B7A4E;
-    --success-soft:#E0EFDD;
+:root {
+  --paper:        #f6f3ed;
+  --paper-2:      #efeae0;
+  --cream:        #ece6d8;
+  --ink:          #1c1a17;
+  --ink-2:        #3a3631;
+  --ink-3:        #6b665e;
+  --rule:         #d8d1c3;
+  --rule-soft:    #e3ddd0;
+  --accent:       #4f9a3a;
+  --accent-2:     #b85c38;
+  --green:        #4f9a3a;
+  --red:          #a8533c;
+  --max:          1240px;
+  --gutter:       40px;
+}
 
-    --shadow-sm:  0 1px 2px rgba(20,32,46,.06);
-    --shadow-md:  0 12px 32px -16px rgba(20,32,46,.25);
+[data-theme="dark"] {
+  --paper:        #131210;
+  --paper-2:      #19171413;
+  --cream:        #1c1a17;
+  --ink:          #ece7dc;
+  --ink-2:        #c2bdb1;
+  --ink-3:        #8a857a;
+  --rule:         #2c2924;
+  --rule-soft:    #221f1b;
+  --accent:       #c79a55;
+  --accent-2:     #d97a55;
+}
 
-    --radius-sm:  4px;
-    --radius:     8px;
-    --radius-lg:  14px;
+* { box-sizing: border-box; }
 
-    --font-sans:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-serif: 'Fraunces', 'Iowan Old Style', Georgia, serif;
-    --font-mono:  'JetBrains Mono', ui-monospace, Menlo, monospace;
-    --font-script:'Dancing Script', 'Brush Script MT', cursive;
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
 
-    --page:       880px;
-  }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
 
-  *, *::before, *::after { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--font-sans);
-    font-size: 15.5px;
-    line-height: 1.6;
-    font-feature-settings: "ss01", "cv11";
-    -webkit-font-smoothing: antialiased;
-  }
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
 
-  .page { max-width: var(--page); margin: 0 auto; padding: 0 28px; }
-  .section { padding: 72px 0; border-top: 1px solid var(--rule); }
-  .section:first-of-type { border-top: 0; }
-  .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: 0 0 16px;
-    font-weight: 500;
-  }
-  h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 500; letter-spacing: -.01em; color: var(--ink); }
-  h2 { font-size: 32px; line-height: 1.15; margin: 0 0 22px; }
-  h3 { font-size: 20px; line-height: 1.25; margin: 0 0 14px; }
-  h4 { font-size: 16px; line-height: 1.3; margin: 0 0 8px; font-family: var(--font-sans); font-weight: 600; letter-spacing: 0; }
-  p  { margin: 0 0 14px; text-wrap: pretty; }
-  strong { font-weight: 600; color: var(--ink); }
-  a { color: var(--brass); text-decoration: none; border-bottom: 1px solid currentColor; }
+h1, h2, h3, h4 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 360;
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  letter-spacing: -0.015em;
+  line-height: 1.04;
+  margin: 0;
+  color: var(--ink);
+  text-wrap: pretty;
+}
 
-  .hero {
-    background: var(--navy);
-    color: var(--paper);
-    padding: 56px 0 48px;
-    border-top: 0;
-  }
-  .hero .eyebrow { color: var(--brass-soft); }
-  .hero h1 {
-    color: var(--paper);
-    font-size: 56px;
-    line-height: 1.02;
-    letter-spacing: -.025em;
-    margin: 0 0 14px;
-    font-weight: 400;
-  }
-  .hero .lede {
-    font-family: var(--font-serif);
-    font-size: 19px;
-    color: rgba(247,244,238,.78);
-    margin: 0 0 8px;
-    font-style: italic;
-  }
-  .hero .meta {
-    font-size: 13.5px;
-    color: rgba(247,244,238,.62);
-    font-family: var(--font-mono);
-    letter-spacing: .02em;
-    margin: 0;
-  }
-  .hero .meta strong { color: var(--paper); font-weight: 500; }
+h1 { font-size: clamp(48px, 7vw, 104px); letter-spacing: -0.025em; }
+h2 { font-size: clamp(36px, 5vw, 64px); letter-spacing: -0.02em; }
+h3 { font-size: 24px; letter-spacing: -0.01em; }
 
-  .plan {
-    margin: 40px 0 0;
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: var(--radius);
-    overflow: hidden;
-    background: rgba(255,255,255,.03);
-  }
-  .plan img { display: block; width: 100%; height: auto; }
-  .plan-cap {
-    display: flex; justify-content: space-between; gap: 16px;
-    padding: 14px 18px;
-    border-top: 1px solid rgba(255,255,255,.08);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: rgba(247,244,238,.55);
-  }
-  .plan-cap span:last-child { color: var(--brass-soft); }
+h1 em, h2 em, h3 em {
+  font-style: italic;
+  font-weight: 340;
+  color: var(--accent);
+}
 
-  .stats {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 0;
-    border: 1px solid var(--rule); border-radius: var(--radius); background: #fff; overflow: hidden;
-  }
-  .stat { padding: 28px 24px; border-left: 1px solid var(--rule); }
-  .stat:first-child { border-left: 0; }
-  .stat .num { font-family: var(--font-serif); font-size: 44px; line-height: 1; letter-spacing: -.02em; margin: 0 0 6px; }
-  .stat .num small { font-size: 22px; color: var(--muted); margin-left: 2px; font-family: var(--font-serif); }
-  .stat .label { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.4; }
+p { margin: 0 0 1em; color: var(--ink-2); }
+p.lede {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 330;
+  font-size: clamp(20px, 2vw, 24px);
+  line-height: 1.4;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
 
-  .trades-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0 0; }
-  .trade {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 8px 12px 8px 8px;
-    border: 1px solid var(--rule); border-radius: 999px; background: #fff; font-size: 13px;
-  }
-  .trade .badge {
-    width: 22px; height: 22px; border-radius: 999px;
-    background: var(--navy); color: var(--paper);
-    font-family: var(--font-mono); font-size: 10px; font-weight: 500;
-    display: grid; place-items: center; letter-spacing: 0;
-  }
-  .trade-caption { font-size: 13px; color: var(--muted); margin: 0; }
+.eyebrow {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--ink-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--ink-3);
+}
 
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
-  .specs { list-style: none; padding: 0; margin: 0; }
-  .specs li { padding: 10px 0; border-top: 1px dashed var(--rule); font-size: 14.5px; line-height: 1.55; }
-  .specs li:first-child { border-top: 0; padding-top: 0; }
-  .specs li strong { display: block; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; font-weight: 600; }
+.mono {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
 
-  .details {
-    background: var(--highlight); border: 1px solid var(--brass-soft); border-radius: var(--radius);
-    padding: 36px 36px 12px; margin-top: 36px;
-  }
-  .details h3 { font-size: 18px; margin-bottom: 24px; color: var(--ink); }
-  .detail { display: grid; grid-template-columns: 36px 1fr; gap: 20px; padding: 20px 0; border-top: 1px solid var(--brass-soft); }
-  .detail:first-of-type { border-top: 0; }
-  .detail .n { font-family: var(--font-serif); font-size: 28px; line-height: 1; color: var(--brass); font-weight: 500; }
-  .detail h4 { margin-bottom: 6px; font-family: var(--font-serif); font-weight: 500; font-size: 17px; letter-spacing: -.005em; }
-  .detail p { font-size: 14.5px; margin-bottom: 0; color: #2C3441; }
-  .detail em { color: var(--brass); font-style: normal; font-weight: 500; background: rgba(181,137,74,.12); padding: 0 4px; border-radius: 3px; }
+b, strong { font-weight: 600; color: var(--ink); }
 
-  .compare { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 12px; }
-  .compare th, .compare td { text-align: left; padding: 14px 18px; vertical-align: top; border-bottom: 1px solid var(--rule); }
-  .compare thead th { font-weight: 600; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--ink); padding-bottom: 10px; }
-  .compare thead th:nth-child(2) { color: var(--ink); }
-  .compare tbody th { font-weight: 600; color: var(--ink); width: 28%; }
-  .compare td:nth-child(2) { color: var(--ink); }
-  .compare td:nth-child(3) { color: var(--muted); }
-  .compare tr:last-child th, .compare tr:last-child td { border-bottom: 0; }
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in oklab, var(--paper) 92%, transparent);
+  backdrop-filter: saturate(140%) blur(8px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  gap: 24px;
+}
+.brand-mark {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 380;
+  letter-spacing: -0.01em;
+}
+.brand-mark .dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+.brand-mark .sub {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.nav-meta {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.nav-meta b { color: var(--ink); font-weight: 500; }
 
-  .process { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: 16px; border: 1px solid var(--rule); border-radius: var(--radius); background: #fff; overflow: hidden; }
-  .step { padding: 24px 20px; border-left: 1px solid var(--rule); position: relative; }
-  .step:first-child { border-left: 0; }
-  .step .n { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; color: var(--brass); font-weight: 500; display: block; margin-bottom: 10px; }
-  .step h4 { font-family: var(--font-serif); font-weight: 500; font-size: 16px; margin-bottom: 6px; }
-  .step p { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.5; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: 1px solid var(--ink);
+  cursor: pointer;
+  transition: transform .15s ease, background .2s ease;
+}
+.btn:hover { transform: translateY(-1px); background: var(--ink-2); }
+.btn .arrow { transition: transform .2s ease; }
+.btn:hover .arrow { transform: translate(3px, 0); }
+.btn.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+}
+.btn.ghost:hover { background: var(--cream); border-color: var(--ink-3); }
+.btn.sm { padding: 10px 16px; font-size: 13px; }
 
-  .invest-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-  .invest-table th, .invest-table td { padding: 18px 0; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
-  .invest-table thead th { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--ink); padding-bottom: 12px; }
-  .invest-table thead th:last-child { text-align: right; }
-  .invest-table .line-title { font-weight: 600; font-size: 15.5px; color: var(--ink); margin-bottom: 4px; }
-  .invest-table .line-detail { font-size: 13px; color: var(--muted); line-height: 1.5; }
-  .invest-table .amt { text-align: right; font-variant-numeric: tabular-nums; font-size: 15.5px; color: var(--ink); white-space: nowrap; padding-left: 24px; }
-  .invest-table .optional td { background: rgba(181,137,74,.05); }
-  .invest-table .optional .line-title { color: var(--brass); font-weight: 500; }
-  .invest-table .subtotal td { padding: 16px 0; border-bottom: 1px solid var(--rule-2); }
-  .invest-table .subtotal .label { color: var(--muted); font-size: 13px; }
-  .invest-table .subtotal .amt { color: var(--ink); font-weight: 500; }
-  .invest-table .total td { border-bottom: 0; padding-top: 22px; font-weight: 600; font-size: 16px; }
+section { padding: 96px 0; border-top: 1px solid var(--rule); }
+section:first-of-type { border-top: none; }
 
-  .totals-card {
-    margin-top: 32px; background: var(--navy); color: var(--paper); border-radius: var(--radius-lg);
-    padding: 36px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end;
-    box-shadow: var(--shadow-md);
-  }
-  .totals-card .label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass-soft); margin: 0 0 10px; }
-  .totals-card .amount { font-family: var(--font-serif); font-size: 56px; line-height: 1; letter-spacing: -.025em; margin: 0; color: var(--paper); font-weight: 400; }
-  .totals-card .breakdown { font-size: 13px; color: rgba(247,244,238,.65); margin: 8px 0 0; font-family: var(--font-mono); }
-  .totals-card .locked h4 { color: var(--brass-soft); font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 12px; font-weight: 500; }
-  .totals-card .locked ul { margin: 0; padding: 0; list-style: none; font-size: 13px; color: rgba(247,244,238,.85); line-height: 1.65; }
-  .totals-card .locked li { padding-left: 18px; position: relative; }
-  .totals-card .locked li::before { content: ""; position: absolute; left: 0; top: 9px; width: 8px; height: 1px; background: var(--brass); }
+.section-head {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 56px;
+  align-items: end;
+  margin-bottom: 56px;
+}
+.section-head p {
+  font-size: 17px;
+  color: var(--ink-2);
+  max-width: 46ch;
+}
 
-  .addon {
-    margin-top: 28px; border: 1px solid var(--rule); border-radius: var(--radius);
-    padding: 18px 22px; background: #fff;
-    display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;
-  }
-  .addon h4 { font-family: var(--font-sans); font-size: 14px; margin: 0 0 4px; font-weight: 600; }
-  .addon p { margin: 0; font-size: 13px; color: var(--muted); }
-  .addon .amt { font-family: var(--font-serif); font-size: 20px; color: var(--brass); font-variant-numeric: tabular-nums; }
-  .addon .switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; font-size: 12px; font-family: var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-  .addon .switch input { display: none; }
-  .addon .switch .track { width: 36px; height: 20px; background: var(--rule); border-radius: 999px; position: relative; transition: background .18s; }
-  .addon .switch .track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: #fff; border-radius: 999px; box-shadow: var(--shadow-sm); transition: transform .18s; }
-  .addon .switch input:checked + .track { background: var(--brass); }
-  .addon .switch input:checked + .track::after { transform: translateX(16px); }
+.hero { padding: 72px 0 48px; border-top: none; }
+.hero .meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 18px;
+  margin-bottom: 56px;
+}
+.hero .meta-row .lhs,
+.hero .meta-row .rhs {
+  display: flex;
+  gap: 28px;
+  font-size: 12px;
+  color: var(--ink-3);
+  font-family: 'Instrument Sans', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
 
-  .scope { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--radius); padding: 28px 32px; font-size: 13.5px; color: var(--muted); line-height: 1.65; }
-  .scope strong { color: var(--ink); }
+.hero h1 .addr-line2 {
+  display: block;
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 320;
+}
 
-  .approve { text-align: center; padding: 64px 0 32px; }
-  .approve p { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
-  .actions { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 13px 22px; border-radius: 999px; font-size: 13px; font-weight: 500; letter-spacing: .02em;
-    border: 1px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer;
-    font-family: var(--font-sans); transition: background .15s, color .15s, border-color .15s;
-  }
-  .btn:hover { background: var(--ink); color: var(--paper); }
-  .btn.primary { background: var(--brass); border-color: var(--brass); color: #fff; }
-  .btn.primary:hover { background: var(--brass-deep); border-color: var(--brass-deep); color:#fff; }
-  .btn[disabled] { opacity: .5; cursor: not-allowed; pointer-events: none; }
+.hero-lede {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 48px;
+  margin-top: 56px;
+  align-items: start;
+}
+.hero-lede .col-meta dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 10px 24px;
+  font-size: 14px;
+}
+.hero-lede .col-meta dt {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  align-self: center;
+}
+.hero-lede .col-meta dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 15px;
+}
 
-  .signoff-panel {
-    display: none; max-width: var(--page); margin: 0 auto 32px; padding: 32px;
-    background: #fff; border: 1px solid var(--rule); border-radius: var(--radius-lg);
-  }
-  .signoff-panel.open { display: block; animation: slideDown .25s ease; }
-  @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
-  .signoff-panel h3 { color: var(--ink); margin: 0 0 6px; font-family: var(--font-serif); font-size: 22px; }
-  .signoff-panel .helper { color: var(--muted); font-size: 14px; margin: 0 0 22px; }
+.hero-plan {
+  margin-top: 64px;
+  border: 1px solid var(--rule);
+  background: var(--cream);
+  position: relative;
+}
+.hero-plan-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--rule);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.hero-plan-head .legend {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.hero-plan-head .legend span { display: inline-flex; align-items: center; gap: 8px; }
+.hero-plan-head .legend .sw { width: 10px; height: 10px; display: inline-block; }
+.sw.red { background: var(--red); }
+.sw.green { background: var(--green); }
+.hero-plan figure { margin: 0; padding: 32px; }
+.hero-plan img { width: 100%; height: auto; display: block; }
+.hero-plan figcaption {
+  padding: 16px 24px 18px;
+  border-top: 1px solid var(--rule);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 12px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+}
 
-  .sig-tabs { display: flex; gap: 0; margin-bottom: 14px; border-bottom: 1px solid var(--rule); }
-  .sig-tab {
-    background: none; border: none; padding: 10px 22px;
-    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
-    letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
-    cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
-    transition: color .15s, border-color .15s;
-  }
-  .sig-tab:hover { color: var(--ink); }
-  .sig-tab.active { color: var(--ink); border-bottom-color: var(--brass); }
-  .sig-mode { display: none; }
-  .sig-mode.active { display: block; }
+.kpi-row {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.kpi {
+  padding: 28px 24px;
+  border-right: 1px solid var(--rule);
+}
+.kpi:last-child { border-right: none; }
+.kpi .n {
+  display: block;
+  font-family: 'Fraunces', serif;
+  font-size: 56px;
+  font-weight: 320;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.kpi .n em { font-style: italic; color: var(--accent); font-weight: 320; }
+.kpi .l {
+  display: block;
+  margin-top: 10px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  color: var(--ink-3);
+  max-width: 32ch;
+}
 
-  .sig-pad-wrap, .sig-type-wrap {
-    background: #fff; border: 1px solid var(--rule); border-radius: var(--radius); padding: 0; position: relative;
-  }
-  .sig-pad-wrap canvas { display: block; width: 100%; height: 180px; cursor: crosshair; touch-action: none; border-radius: var(--radius); }
-  .sig-clear {
-    position: absolute; top: 10px; right: 10px; background: #fff; border: 1px solid var(--rule);
-    color: var(--muted); font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em;
-    cursor: pointer; padding: 6px 10px; border-radius: var(--radius-sm); text-transform: uppercase; font-weight: 500;
-  }
-  .sig-clear:hover { background: var(--paper-2); color: var(--ink); }
-  .sig-baseline { position: absolute; left: 30px; right: 30px; bottom: 36px; border-top: 1px dashed var(--rule); pointer-events: none; }
-  .sig-x { position: absolute; left: 24px; bottom: 18px; font-family: Georgia, serif; font-size: 1.4em; color: var(--rule); pointer-events: none; }
+.trades {
+  margin-top: 32px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.trade-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 1px solid var(--rule);
+  background: var(--paper-2);
+  font-family: 'Instrument Sans', sans-serif;
+  color: var(--ink);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.trade-chip .i {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--accent);
+}
 
-  .sig-type-wrap { height: 180px; display: flex; align-items: center; justify-content: center; padding: 20px 80px; }
-  .sig-type-wrap input#sig-typed {
-    border: none; outline: none; background: transparent;
-    font-family: var(--font-script); font-size: 3em; font-weight: 600; color: var(--ink);
-    text-align: center; width: 100%; padding: 0;
-  }
-  .sig-type-wrap input#sig-typed::placeholder { color: var(--rule); font-style: normal; }
-  .sig-type-help { font-size: 12px; color: var(--muted); margin: 8px 0 0; font-style: italic; }
+.specs {
+  margin-top: 48px;
+  border-top: 1px solid var(--rule);
+}
+.specs > .row {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 32px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+.specs > .row .label {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.specs > .row .label .n {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--accent);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.specs > .row .body {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.specs .row.muted .body { color: var(--ink-3); font-style: italic; }
 
-  .sig-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
-  .sig-fields label { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; font-weight: 500; }
-  .sig-fields input { padding: 12px 14px; border: 1px solid var(--rule); border-radius: var(--radius-sm); font-size: 14px; font-family: var(--font-sans); background: #fff; color: var(--ink); }
-  .sig-fields input:focus { outline: none; border-color: var(--brass); box-shadow: 0 0 0 3px rgba(181,137,74,.15); }
+.details-head {
+  margin: 96px 0 48px;
+  max-width: 64ch;
+}
+.details-head h3 {
+  font-size: clamp(28px, 3.4vw, 44px);
+  letter-spacing: -0.015em;
+}
 
-  .sig-error { color: #b03a2e; font-size: 13px; margin-top: 12px; min-height: 1.2em; text-align: right; }
-  .signoff-actions { margin-top: 18px; display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap; }
+.details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.detail {
+  padding: 32px 28px 36px;
+  border: 1px solid var(--rule);
+  background: var(--paper-2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.detail .num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 56px;
+  font-weight: 320;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+.detail h4 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 380;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  margin: 0 0 14px;
+  color: var(--ink);
+}
+.detail p {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin: 0;
+}
+.detail p em { font-style: italic; color: var(--ink); }
 
-  .signed-confirmation {
-    display: none; max-width: var(--page); margin: 0 auto 40px; padding: 36px 32px;
-    background: var(--success-soft); border: 1px solid #B7DABA; border-radius: var(--radius-lg); text-align: center;
-  }
-  .signed-confirmation.shown { display: block; animation: slideDown .35s ease; }
-  .signed-confirmation .badge {
-    display: inline-flex; align-items: center; gap: 8px; background: var(--success); color: #fff;
-    padding: 8px 16px; border-radius: 999px; font-family: var(--font-mono); font-size: 10px;
-    letter-spacing: .14em; text-transform: uppercase; font-weight: 500;
-  }
-  .signed-confirmation h3 { font-family: var(--font-serif); color: var(--ink); margin: 18px 0 6px; font-size: 24px; font-weight: 500; }
-  .signed-confirmation .signed-sub { color: var(--muted); margin: 0 0 8px; font-size: 14px; }
-  .signed-confirmation .sig-display { background: #fff; border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px; margin: 22px auto 16px; max-width: 480px; }
-  .signed-confirmation .sig-display img { max-width: 100%; height: auto; display: block; margin: 0 auto 8px; max-height: 120px; }
-  .signed-confirmation .sig-meta { font-family: var(--font-mono); font-size: 12px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 12px; margin-top: 8px; line-height: 1.7; }
-  .signed-confirmation .sig-meta strong { color: var(--ink); display: block; font-family: var(--font-sans); font-size: 15px; margin-bottom: 2px; font-weight: 600; letter-spacing: 0; text-transform: none; }
+.compare {
+  border-top: 1px solid var(--rule);
+  margin-top: 16px;
+}
+.compare .row {
+  display: grid;
+  grid-template-columns: 1.1fr 1.6fr 1.4fr;
+  gap: 32px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+.compare .row.head {
+  padding: 18px 0;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.compare .row.head .col-sbi {
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.compare .row.head .col-sbi::before {
+  content: "";
+  width: 9px; height: 9px; background: var(--accent);
+  display: inline-block;
+}
+.compare .col-label {
+  font-family: 'Fraunces', serif;
+  font-size: 19px;
+  font-weight: 380;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.compare .col-sbi { font-size: 15px; color: var(--ink); }
+.compare .col-other { font-size: 15px; color: var(--ink-3); font-style: italic; }
 
-  footer {
-    border-top: 1px solid var(--rule); padding: 24px 0 40px;
-    font-size: 12px; font-family: var(--font-mono); letter-spacing: .04em; color: var(--muted);
-  }
-  footer .row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.process {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-top: 1px solid var(--rule);
+}
+.step {
+  padding: 32px 24px 36px;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: transparent;
+}
+.step:last-child { border-right: none; }
+.step .n {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 32px;
+  color: var(--accent);
+  font-weight: 320;
+  line-height: 1;
+}
+.step h4 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 380;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--ink);
+}
+.step p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin: 0;
+}
 
-  body.pdf-mode .no-print { display: none !important; }
-  body.pdf-mode { background: #fff; }
-  body.pdf-mode .signoff-panel, body.pdf-mode .approve { display: none !important; }
-  @media print {
-    .no-print { display: none !important; }
-    body { background: #fff; }
-  }
+.invest-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.invest-table { border-top: 1px solid var(--rule); }
+.invest-table .row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+.invest-table .row .pkg-name {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 380;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  margin: 0 0 6px;
+}
+.invest-table .row .pkg-detail {
+  font-size: 14px;
+  color: var(--ink-3);
+  margin: 0;
+  max-width: 60ch;
+  line-height: 1.55;
+}
+.invest-table .row .amt {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 380;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.invest-table .row.subtotal,
+.invest-table .row.gst { padding: 14px 0; }
+.invest-table .row.subtotal .pkg-name,
+.invest-table .row.gst .pkg-name {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.invest-table .row.subtotal .amt,
+.invest-table .row.gst .amt { font-size: 17px; color: var(--ink-2); }
+.invest-table .row.total {
+  padding: 24px 0 4px;
+  border-bottom: none;
+}
+.invest-table .row.total .pkg-name {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.invest-table .row.total .amt { font-size: 28px; color: var(--ink); }
 
-  @media (max-width: 720px) {
-    .two-col { grid-template-columns: 1fr; gap: 32px; }
-    .stats { grid-template-columns: 1fr; }
-    .stat { border-left: 0; border-top: 1px solid var(--rule); }
-    .stat:first-child { border-top: 0; }
-    .hero h1 { font-size: 40px; }
-    .hero { padding: 40px 0 32px; }
-    .section { padding: 56px 0; }
-    .process { grid-template-columns: 1fr 1fr; }
-    .step { border-left: 0; border-top: 1px solid var(--rule); }
-    .step:first-child { border-top: 0; }
-    .step:nth-child(2) { border-top: 0; }
-    .totals-card { grid-template-columns: 1fr; gap: 28px; padding: 28px; }
-    .totals-card .amount { font-size: 44px; }
-    .signoff-panel { padding: 24px 20px; margin: 0 14px 28px; }
-    .signed-confirmation { margin: 0 14px 32px; padding: 28px 20px; }
-    .sig-fields { grid-template-columns: 1fr; gap: 12px; }
-    .sig-type-wrap { padding: 20px 30px; }
-    .sig-type-wrap input#sig-typed { font-size: 2.2em; }
-    .sig-pad-wrap canvas { height: 160px; }
-    .signoff-actions { justify-content: stretch; }
-    .signoff-actions .btn { flex: 1; min-width: 0; padding: 14px 18px; }
-    .compare th, .compare td { padding: 12px 14px; font-size: 13.5px; }
-  }
-  @media (max-width: 480px) {
-    .process { grid-template-columns: 1fr; }
-    .step:nth-child(2) { border-top: 1px solid var(--rule); }
-    .hero h1 { font-size: 32px; }
-    .totals-card .amount { font-size: 36px; }
-    h2 { font-size: 26px; }
-  }
+.invest-card {
+  border: 1px solid var(--rule);
+  background: var(--cream);
+  padding: 36px 32px 32px;
+  position: sticky;
+  top: 90px;
+}
+.invest-card .label {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 14px;
+  display: block;
+}
+.invest-card .total-fig {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(56px, 6.5vw, 88px);
+  font-weight: 320;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.invest-card .total-fig em { color: var(--accent); font-style: italic; font-weight: 320; }
+.invest-card .sub {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--ink-3);
+  font-family: 'Instrument Sans', sans-serif;
+}
+.invest-card .locked {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+.invest-card .locked h5 {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+  margin: 0 0 14px;
+}
+.invest-card .locked ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+.invest-card .locked li {
+  padding-left: 20px;
+  position: relative;
+}
+.invest-card .locked li::before {
+  content: "✓";
+  position: absolute;
+  left: 0; top: 0;
+  color: var(--accent);
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+}
 
-  .tagline { color: var(--muted); font-size: 14.5px; max-width: 60ch; }
+.notes {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 32px 64px;
+  padding-top: 48px;
+  margin-top: 56px;
+  border-top: 1px solid var(--rule);
+  font-size: 14px;
+  color: var(--ink-3);
+}
+.notes dt {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.notes dd {
+  margin: 0;
+  color: var(--ink-2);
+  max-width: 70ch;
+  line-height: 1.6;
+}
+.notes dd b { color: var(--ink); font-weight: 500; }
+
+.sign-section {
+  background: var(--cream);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.sign-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.sign-grid .left p.lede { margin-bottom: 32px; }
+.sign-grid .actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.sign-card {
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  padding: 0;
+}
+.sign-card .head {
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.sign-card h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 380;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.sign-card .head .meta {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.sign-card .body { padding: 28px; }
+
+.tabs {
+  display: inline-flex;
+  border: 1px solid var(--rule);
+  margin-bottom: 18px;
+}
+.tabs button {
+  background: transparent;
+  border: none;
+  padding: 10px 22px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  cursor: pointer;
+  border-right: 1px solid var(--rule);
+}
+.tabs button:last-child { border-right: none; }
+.tabs button.active { background: var(--ink); color: var(--paper); }
+
+.sig-pad {
+  border: 1px solid var(--rule);
+  background: var(--paper-2);
+  height: 180px;
+  position: relative;
+  cursor: crosshair;
+  margin-bottom: 8px;
+}
+.sig-pad canvas { display: block; width: 100%; height: 100%; }
+.sig-pad .placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Caveat', cursive;
+  font-size: 28px;
+  color: var(--ink-3);
+  pointer-events: none;
+  opacity: 0.6;
+}
+.sig-pad-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-bottom: 18px;
+}
+.sig-pad-tools button {
+  background: none; border: none;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+.sig-pad-tools button:hover { color: var(--accent); }
+
+.sig-typed {
+  border: 1px solid var(--rule);
+  background: var(--paper-2);
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  padding: 0 24px;
+}
+.sig-typed-input {
+  background: transparent;
+  border: none;
+  font-family: 'Caveat', cursive;
+  font-size: 48px;
+  color: var(--ink);
+  text-align: center;
+  width: 100%;
+  outline: none;
+}
+.sig-typed-input::placeholder { color: var(--ink-3); opacity: 0.5; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.field label {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.field input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 0;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 16px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .2s;
+}
+.field input:focus { border-bottom-color: var(--accent); }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+.sign-card .submit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 28px;
+  border-top: 1px solid var(--rule);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.approved-card {
+  border: 1px solid var(--accent);
+  padding: 40px 36px;
+  background: var(--paper);
+}
+.approved-card .check {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 64px;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.approved-card h3 { margin: 0 0 12px; }
+.approved-card .sig-line {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.approved-card .sig-img {
+  font-family: 'Caveat', cursive;
+  font-size: 40px;
+  color: var(--ink);
+  line-height: 1;
+}
+.approved-card .sig-meta {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 12px;
+  color: var(--ink-3);
+  letter-spacing: 0.06em;
+}
+
+footer {
+  border-top: 1px solid var(--rule);
+  padding: 56px 0 40px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.foot-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.foot-row .brand {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  color: var(--ink);
+  font-weight: 380;
+}
+.foot-row .brand em { color: var(--accent); font-style: italic; }
+
+body.pdf-mode .no-print { display: none !important; }
+@media print {
+  .no-print { display: none !important; }
+  .nav { position: static; }
+}
+
+@media (max-width: 960px) {
+  :root { --gutter: 24px; }
+  section { padding: 64px 0; }
+  .hero { padding: 48px 0 32px; }
+  .section-head { grid-template-columns: 1fr; gap: 24px; }
+  .hero-lede,
+  .invest-grid,
+  .sign-grid { grid-template-columns: 1fr; gap: 32px; }
+  .kpi-row { grid-template-columns: 1fr; }
+  .kpi { border-right: none; border-bottom: 1px solid var(--rule); }
+  .kpi:last-child { border-bottom: none; }
+  .details { grid-template-columns: 1fr; }
+  .process { grid-template-columns: repeat(2, 1fr); }
+  .compare .row { grid-template-columns: 1fr; gap: 6px; padding: 18px 0; }
+  .compare .row.head { display: none; }
+  .compare .col-sbi::before { content: "SBI · "; font-family: 'Instrument Sans', sans-serif; font-size: 10px; letter-spacing: 0.2em; color: var(--accent); margin-right: 4px; background: none; width: auto; height: auto; display: inline; }
+  .compare .col-other::before { content: "Generic · "; font-family: 'Instrument Sans', sans-serif; font-size: 10px; letter-spacing: 0.2em; color: var(--ink-3); margin-right: 4px; }
+  .specs > .row { grid-template-columns: 1fr; gap: 8px; }
+  .form-row { grid-template-columns: 1fr; }
+  .invest-card { position: static; }
+  h1 { font-size: 56px; }
+}
+
+@media (max-width: 560px) {
+  .process { grid-template-columns: 1fr; }
+  .step:nth-last-child(-n+5) { border-right: none; }
+}
 </style>
 </head>
 <body>
 
-  <!-- HERO -->
-  <header class="hero" data-screen-label="01 Hero">
-    <div class="page">
-      <p class="eyebrow">Home Reconfiguration · East Gosford</p>
-      <h1>63 Webb Street</h1>
-      <p class="lede">Take out what isn't working, drop in a new acoustic-rated partition where it counts, and finish the ceiling cavity with the acoustic detail most builds skip.</p>
-      <p class="meta">Prepared for <strong>Debbie-Anne Sergeant &amp; Matthew Lawther</strong> · East Gosford NSW · 5 May 2026</p>
+<header class="nav no-print">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand-mark">
+      <span class="dot"></span>
+      <span>Spoke<span class="sub" style="margin-left:14px;">Building &amp; Interiors</span></span>
+    </a>
+    <div class="nav-meta">
+      <span>Proposal · <b>SBI-TS260504-WEBB</b></span>
+      <span>Prepared <b>5 May 2026</b></span>
+      <a class="btn sm" href="#sign">Sign &amp; Approve <span class="arrow">→</span></a>
+    </div>
+  </div>
+</header>
 
-      <figure class="plan">
-        <img src="assets/63-webb-plan.png" alt="SBI proposed plan for 63 Webb Street — 3D demolition / new-partition overlay (red = walls and fittings out, green = new partition) over the ground floor 2D plan, with site photos">
-        <figcaption class="plan-cap">
-          <span>Demolition · New Partition · Acoustic Treatment</span>
-          <span>SBI · Design · Build · Construct</span>
-        </figcaption>
+<main id="top">
+
+<section class="hero">
+  <div class="wrap">
+    <div class="meta-row">
+      <div class="lhs">
+        <span>HOME RECONFIGURATION</span>
+        <span>· East Gosford NSW</span>
+      </div>
+      <div class="rhs">
+        <span>PROJECT № TS260504</span>
+        <span>Issued 05 / 05 / 2026</span>
+      </div>
+    </div>
+
+    <span class="eyebrow">A proposal · prepared for Debbie-Anne &amp; Matthew</span>
+
+    <h1 style="margin-top:24px;">
+      63 Webb Street.<br>
+      <em class="addr-line2">Reshape the ground floor<br>without losing the quiet.</em>
+    </h1>
+
+    <div class="hero-lede">
+      <div class="col-meta">
+        <dl>
+          <dt>Client</dt>
+          <dd>Debbie-Anne Sergeant<br>&amp; Matthew Lawther</dd>
+          <dt>Site</dt>
+          <dd>63 Webb Street<br>East Gosford NSW</dd>
+          <dt>Scope</dt>
+          <dd>Demolition · New Partition<br>Acoustic Treatment · Painting</dd>
+          <dt>Prepared by</dt>
+          <dd>Michael Cook<br>Spoke Building &amp; Interiors</dd>
+        </dl>
+      </div>
+      <div class="col-lede">
+        <p class="lede">Take out what isn't working, drop in a <em style="color:var(--accent); font-style:italic;">new acoustic-rated partition</em> where it counts, and finish the ceiling cavity with the acoustic detail most builds skip.</p>
+        <p style="margin-top:18px; color:var(--ink-2);">Delivered as a single coordinated program by an SBI Project Manager. One face, one schedule, one handover — with the family in mind for staging and dust control through the works.</p>
+      </div>
+    </div>
+
+    <figure class="hero-plan">
+      <div class="hero-plan-head">
+        <span>Plate 01 · Ground floor — proposed</span>
+        <div class="legend">
+          <span><span class="sw red"></span> Walls &amp; fittings out</span>
+          <span><span class="sw green"></span> New partition</span>
+        </div>
+      </div>
+      <figure>
+        <img src="assets/63-webb-plan.png" alt="SBI proposed plan for 63 Webb Street — 3D demolition / new-partition overlay over the ground floor 2D plan">
       </figure>
-    </div>
-  </header>
+      <figcaption>Demolition · New Partition · Acoustic Treatment — overlaid on the existing ground-floor plan with site reference photographs.</figcaption>
+    </figure>
 
-  <!-- SCOPE AT A GLANCE -->
-  <section class="section" data-screen-label="02 Scope At A Glance">
-    <div class="page">
-      <div class="stats">
-        <div class="stat"><p class="num">28<small>m²</small></p><p class="label">Existing plasterboard walls cleared</p></div>
-        <div class="stat"><p class="num">3.5<small>Lm</small></p><p class="label">New full-height acoustic partition wall</p></div>
-        <div class="stat"><p class="num">11<small>Lm</small></p><p class="label">Easy Baffle treatment through the ceiling cavity</p></div>
+    <div class="kpi-row">
+      <div class="kpi">
+        <span class="n">28<em>m²</em></span>
+        <span class="l">Existing plasterboard walls cleared, plus existing kitchen island joinery</span>
       </div>
-
-      <p class="trade-caption" style="margin-top:24px">Four trades, one program manager:</p>
-      <div class="trades-row">
-        <span class="trade"><span class="badge">PM</span>Project Mgmt</span>
-        <span class="trade"><span class="badge">DM</span>Demolition</span>
-        <span class="trade"><span class="badge">WL</span>Walls &amp; Partition</span>
-        <span class="trade"><span class="badge">PT</span>Painting</span>
+      <div class="kpi">
+        <span class="n">3.5<em>Lm</em></span>
+        <span class="l">New full-height acoustic partition wall, finished with anodised top trim</span>
+      </div>
+      <div class="kpi">
+        <span class="n">11<em>Lm</em></span>
+        <span class="l">Easy Baffle treatment laid through the ceiling cavity above</span>
       </div>
     </div>
-  </section>
 
-  <!-- VISION + SPECS -->
-  <section class="section" data-screen-label="03 Vision And Specs">
-    <div class="page">
-      <div class="two-col">
-        <div>
-          <p class="eyebrow">The Project</p>
-          <h2>Reshape the ground floor without losing the quiet.</h2>
-          <p>Existing plasterboard walls and the existing kitchen joinery come out to open the ground-floor layout. A <strong>new acoustic partition</strong> goes back in where it matters most — finished cleanly to the ceiling with an anodised top trim. And the room above stays quiet, because we treat the ceiling cavity, not just the wall.</p>
-          <p>Delivered as a single coordinated program by an SBI Project Manager. One face, one schedule, one handover, with the family in mind for staging and dust control through the works.</p>
-        </div>
-        <div>
-          <p class="eyebrow">Technical Specs</p>
-          <ul class="specs">
-            <li><strong>Demolition</strong>28 m² existing plasterboard walls plus the existing kitchen island joinery — removed, broken down, and disposed (Units 1 &amp; 3)</li>
-            <li><strong>New Partition</strong>3.5 Lm × 2700H · 64mm steel stud · 13mm plasterboard both sides · 50mm polyester acoustic batts · SK100 clear anodised aluminium skirting · 25mm clear anodised flat bar at top · MDF stopends</li>
-            <li><strong>Door Frame</strong>45 × 25mm aluminium door and glazing section, integrated into the new partition</li>
-            <li><strong>Acoustic Treatment</strong>11 Lm Easy Baffle laid through the ceiling cavity above the new wall — closes the flanking path most builds ignore</li>
-            <li><strong>Painting</strong>New walls — undercoat plus two topcoats over 18 m²</li>
-            <li><strong>Site Logistics</strong>Skip on-site, deliveries managed, full final clean at handover</li>
-            <li><strong>Not in scope</strong>No new joinery is included — the new layout is built around your existing fittings (or fittings supplied separately)</li>
-          </ul>
-        </div>
+    <div class="trades">
+      <span style="margin-right:8px;">Four trades, one program manager —</span>
+      <span class="trade-chip"><span class="i">PM</span>Project Mgmt</span>
+      <span class="trade-chip"><span class="i">DM</span>Demolition</span>
+      <span class="trade-chip"><span class="i">WL</span>Walls &amp; Partition</span>
+      <span class="trade-chip"><span class="i">PT</span>Painting</span>
+    </div>
+  </div>
+</section>
+
+<section id="project">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">01 · The Project</span>
+        <h2 style="margin-top:20px;">Reshape the ground floor<br><em>without losing the quiet.</em></h2>
       </div>
+      <p>Existing plasterboard walls and the existing kitchen joinery come out to open the ground-floor layout. A new acoustic partition goes back in where it matters most — finished cleanly to the ceiling with an anodised top trim. And the room above stays quiet, because we treat the ceiling cavity, not just the wall.</p>
+    </div>
 
-      <!-- Three details -->
-      <div class="details">
-        <h3>Three details that quietly separate a considered build from a quick one.</h3>
+    <span class="eyebrow">Technical specifications</span>
+    <div class="specs" style="margin-top:24px;">
+      <div class="row">
+        <div class="label"><span class="n">i.</span> Demolition</div>
+        <div class="body">28 m² existing plasterboard walls plus the existing kitchen island joinery — removed, broken down, and disposed (Units 1 &amp; 3).</div>
+      </div>
+      <div class="row">
+        <div class="label"><span class="n">ii.</span> New Partition</div>
+        <div class="body">3.5 Lm × 2700H · 64mm steel stud · 13mm plasterboard both sides · 50mm polyester acoustic batts · SK100 clear anodised aluminium skirting · 25mm clear anodised flat bar at top · MDF stopends.</div>
+      </div>
+      <div class="row">
+        <div class="label"><span class="n">iii.</span> Acoustic Treatment</div>
+        <div class="body">11 Lm Easy Baffle laid through the ceiling cavity above the new wall — closes the flanking path most builds ignore.</div>
+      </div>
+      <div class="row">
+        <div class="label"><span class="n">iv.</span> Painting</div>
+        <div class="body">New walls — undercoat plus two topcoats over 18 m².</div>
+      </div>
+      <div class="row">
+        <div class="label"><span class="n">v.</span> Site Logistics</div>
+        <div class="body">Skip on-site, deliveries managed, full final clean at handover.</div>
+      </div>
+      <div class="row muted">
+        <div class="label"><span class="n">—</span> Not in scope</div>
+        <div class="body">Make good or modification of existing has not been included in this scope.</div>
+      </div>
+    </div>
 
-        <div class="detail">
-          <div class="n">01</div>
+    <div class="details-head">
+      <span class="eyebrow">Three quiet differences</span>
+      <h3 style="margin-top:20px;">Three details that quietly separate a <em>considered build</em> from a quick one.</h3>
+    </div>
+    <div class="details">
+      <article class="detail">
+        <span class="num">01</span>
+        <h4>11 Lm of Easy Baffle laid through the ceiling cavity</h4>
+        <p>Most builders treat sound as a wall problem, full stop. The reality is that conversations and TV bridge from one side of the wall to the other <em>over the top of it</em> — through the open cavity above the ceiling. That's the path the Easy Baffle closes. Without it, you'd hear next door even with a perfectly built partition below.</p>
+      </article>
+      <article class="detail">
+        <span class="num">02</span>
+        <h4>50mm polyester acoustic batts inside the new partition</h4>
+        <p>The cavity inside a 64mm steel stud is the cheapest acoustic upgrade in the build. Polyester batts aren't there for thermal — they're there for <em>privacy between rooms</em>. A budget builder leaves the cavity empty and tells you it "meets code". You can hear the difference the day you walk through.</p>
+      </article>
+      <article class="detail">
+        <span class="num">03</span>
+        <h4>25mm clear anodised flat bar where the wall meets the ceiling</h4>
+        <p>Where new gyprock meets the existing ceiling, most builders leave a raw plaster line. We finish it with a <em>25mm anodised aluminium flat bar</em> — a small detail that turns a builder's wall into an architectural one. Clients won't tell you why it looks better. They'll feel it the moment they walk in.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">02 · The SBI Difference</span>
+        <h2 style="margin-top:20px;">What you're<br><em>actually paying for.</em></h2>
+      </div>
+      <p>Five line items where a considered build and a quick build go their separate ways. Read them once and you'll see the value sitting inside the price.</p>
+    </div>
+
+    <div class="compare">
+      <div class="row head">
+        <div></div>
+        <div class="col-sbi">SBI · Considered Build</div>
+        <div class="col-other">Generic Builder</div>
+      </div>
+      <div class="row">
+        <div class="col-label">Acoustic strategy</div>
+        <div class="col-sbi">Wall <em style="font-style:italic; color:var(--accent);">and</em> ceiling-cavity treatment (Easy Baffle).</div>
+        <div class="col-other">Wall only — flanking path ignored.</div>
+      </div>
+      <div class="row">
+        <div class="col-label">Partition spec</div>
+        <div class="col-sbi">64mm stud + 50mm acoustic batts + anodised top trim.</div>
+        <div class="col-other">64mm stud, empty cavity, raw plaster line.</div>
+      </div>
+      <div class="row">
+        <div class="col-label">Trade coordination</div>
+        <div class="col-sbi">Single SBI Project Manager across all four trades.</div>
+        <div class="col-other">You coordinate the sub-trades.</div>
+      </div>
+      <div class="row">
+        <div class="col-label">Variations</div>
+        <div class="col-sbi">Written and signed before works begin.</div>
+        <div class="col-other">Verbal, billed at the end.</div>
+      </div>
+      <div class="row">
+        <div class="col-label">Handover</div>
+        <div class="col-sbi">Defect walk + workmanship warranty in writing.</div>
+        <div class="col-other">Defects emerge over the first month.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">03 · Process &amp; Quality Checkpoints</span>
+        <h2 style="margin-top:20px;">Five checkpoints<br>from <em>measure to handover.</em></h2>
+      </div>
+      <p>A program you can plan a week around. Each checkpoint is signed off before the next begins, so there's no surprise about where a job sits — or what it costs to keep it moving.</p>
+    </div>
+
+    <div class="process">
+      <div class="step">
+        <span class="n">01</span>
+        <h4>Site Measure</h4>
+        <p>On-site verification, services located, finished plans signed off.</p>
+      </div>
+      <div class="step">
+        <span class="n">02</span>
+        <h4>Demolition</h4>
+        <p>Existing walls and kitchen joinery out, full waste removal, site protected.</p>
+      </div>
+      <div class="step">
+        <span class="n">03</span>
+        <h4>Frame &amp; Acoustic</h4>
+        <p>Partition framed, 50mm batts in the cavity, 11 Lm Easy Baffle laid through the ceiling void.</p>
+      </div>
+      <div class="step">
+        <span class="n">04</span>
+        <h4>Finish &amp; Install</h4>
+        <p>Plasterboard, 25mm anodised top trim, undercoat plus two topcoats.</p>
+      </div>
+      <div class="step">
+        <span class="n">05</span>
+        <h4>Handover</h4>
+        <p>Defect walk, warranty in writing, your home back in business.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="investment">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">04 · Investment Summary</span>
+        <h2 style="margin-top:20px;">Three line items.<br><em>No surprises.</em></h2>
+      </div>
+      <p>Itemised, ex-GST, with the GST line shown plainly. Pricing is based on full acceptance of the outlined scope and is subject to site measure and supplier availability.</p>
+    </div>
+
+    <div class="invest-grid">
+      <div class="invest-table">
+        <div class="row">
           <div>
-            <h4>11 Lm of Easy Baffle laid through the ceiling cavity</h4>
-            <p>Most builders treat sound as a wall problem, full stop. The reality is that conversations and TV bridge from one side of the wall to the other <em>over the top of it</em> — through the open cavity above the ceiling. That's the path the Easy Baffle closes. It's an efficient way to limit noise transfer above existing walls in the ceiling space, and without it, you'd hear next door even with a perfectly built partition below.</p>
+            <p class="pkg-name">Construction Package</p>
+            <p class="pkg-detail">Demolition · 3.5 Lm acoustic partition · 11 Lm Easy Baffle ceiling-cavity treatment · materials · single SBI Project Manager.</p>
           </div>
+          <div class="amt">$9,288</div>
         </div>
-
-        <div class="detail">
-          <div class="n">02</div>
+        <div class="row">
           <div>
-            <h4>50mm polyester acoustic batts inside the new partition</h4>
-            <p>The cavity inside a 64mm steel stud is the cheapest acoustic upgrade in the build. Polyester batts aren't there for thermal — they're there for <em>privacy between rooms</em>. A budget builder leaves the cavity empty and tells you it "meets code". You can hear the difference the day you walk through.</p>
+            <p class="pkg-name">Finishing Package</p>
+            <p class="pkg-detail">Paint to new walls (undercoat + two topcoats, 18 m²) · skip · final clean at handover.</p>
           </div>
+          <div class="amt">$1,105</div>
         </div>
-
-        <div class="detail">
-          <div class="n">03</div>
+        <div class="row">
           <div>
-            <h4>25mm clear anodised flat bar where the wall meets the ceiling</h4>
-            <p>Where new gyprock meets the existing ceiling, most builders leave a raw plaster line. We finish it with a <em>25mm anodised aluminium flat bar</em> — a small detail that turns a builder's wall into an architectural one. Clients won't tell you why it looks better. They'll feel it the moment they walk in.</p>
+            <p class="pkg-name">Site Logistics</p>
+            <p class="pkg-detail">Coordinated deliveries, site safety, floor and floor-protection through the works.</p>
           </div>
+          <div class="amt">$240</div>
+        </div>
+        <div class="row subtotal">
+          <div class="pkg-name">Subtotal · ex-GST</div>
+          <div class="amt">$10,633</div>
+        </div>
+        <div class="row gst">
+          <div class="pkg-name">GST · 10%</div>
+          <div class="amt">$1,063</div>
+        </div>
+        <div class="row total">
+          <div class="pkg-name">Total · inc-GST</div>
+          <div class="amt">$11,696</div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- SBI DIFFERENCE -->
-  <section class="section" data-screen-label="04 SBI Difference">
-    <div class="page">
-      <p class="eyebrow">The SBI Difference</p>
-      <h2>What you're actually paying for.</h2>
-      <p class="tagline">Five line-items where a considered build and a quick build go their separate ways.</p>
-
-      <table class="compare">
-        <thead>
-          <tr><th></th><th>SBI Considered Build</th><th>Generic Builder</th></tr>
-        </thead>
-        <tbody>
-          <tr><th scope="row">Acoustic strategy</th><td>Wall <em>and</em> ceiling-cavity treatment (Easy Baffle)</td><td>Wall only — flanking path ignored</td></tr>
-          <tr><th scope="row">Partition spec</th><td>64mm stud + 50mm acoustic batts + anodised top trim</td><td>64mm stud, empty cavity, raw plaster line</td></tr>
-          <tr><th scope="row">Trade coordination</th><td>Single SBI PM across all 4 trades</td><td>You coordinate the sub-trades</td></tr>
-          <tr><th scope="row">Variations</th><td>Written and signed before works begin</td><td>Verbal, billed at the end</td></tr>
-          <tr><th scope="row">Handover</th><td>Defect walk + workmanship warranty in writing</td><td>Defects emerge over the first month</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- PROCESS -->
-  <section class="section" data-screen-label="05 Process">
-    <div class="page">
-      <p class="eyebrow">Process &amp; Quality Checkpoints</p>
-      <h2>Five checkpoints from measure to handover.</h2>
-      <div class="process">
-        <div class="step"><span class="n">01</span><h4>Site Measure</h4><p>On-site verification, services located, finished plans signed off.</p></div>
-        <div class="step"><span class="n">02</span><h4>Demolition</h4><p>Existing walls and kitchen joinery out, full waste removal, site protected.</p></div>
-        <div class="step"><span class="n">03</span><h4>Frame &amp; Acoustic</h4><p>Partition framed, 50mm batts in the cavity, 11 Lm Easy Baffle laid through the ceiling void.</p></div>
-        <div class="step"><span class="n">04</span><h4>Finish &amp; Install</h4><p>Plasterboard, 25mm anodised top trim, undercoat plus two topcoats.</p></div>
-        <div class="step"><span class="n">05</span><h4>Handover</h4><p>Defect walk, warranty in writing, your home back in business.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- INVESTMENT -->
-  <section class="section" data-screen-label="06 Investment">
-    <div class="page">
-      <p class="eyebrow">Investment Summary</p>
-      <h2>Three line items. No surprises.</h2>
-
-      <table class="invest-table" id="invest">
-        <thead><tr><th>Package</th><th>Amount (ex-GST)</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>
-              <div class="line-title">Construction Package</div>
-              <div class="line-detail">Demolition · 3.5 Lm acoustic partition · 11 Lm Easy Baffle ceiling-cavity treatment · materials · single SBI Project Manager</div>
-            </td>
-            <td class="amt">$9,288</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="line-title">Finishing Package</div>
-              <div class="line-detail">Paint to new walls (undercoat + two topcoats, 18 m²) · skip · final clean at handover</div>
-            </td>
-            <td class="amt">$1,105</td>
-          </tr>
-          <tr>
-            <td>
-              <div class="line-title">Site Logistics</div>
-              <div class="line-detail">Coordinated deliveries, site safety, floor and floor-protection through the works</div>
-            </td>
-            <td class="amt">$240</td>
-          </tr>
-          <tr class="subtotal"><td class="label">Subtotal (ex-GST)</td><td class="amt">$10,633</td></tr>
-          <tr class="subtotal"><td class="label">GST (10%)</td><td class="amt">$1,063</td></tr>
-          <tr class="total"><td>Total (inc-GST)</td><td class="amt">$11,696</td></tr>
-        </tbody>
-      </table>
-
-      <!-- Totals + Locked -->
-      <div class="totals-card">
-        <div>
-          <p class="label">Total Investment · inc-GST</p>
-          <p class="amount">$11,696</p>
-          <p class="breakdown">$10,633 ex-GST + 10% GST</p>
-        </div>
+      <aside class="invest-card">
+        <span class="label">Total Investment · inc-GST</span>
+        <div class="total-fig">$11,<em>696</em></div>
+        <p class="sub">$10,633 ex-GST + 10% GST · valid 30 days</p>
         <div class="locked">
-          <h4>What's locked</h4>
+          <h5>What's locked in</h5>
           <ul>
-            <li>All 4 trades, single SBI Project Manager</li>
+            <li>All four trades, single SBI Project Manager</li>
             <li>Written variations only — no verbal billing</li>
             <li>Acoustic batts, Easy Baffle and anodised trim throughout</li>
             <li>Defect walk + workmanship warranty in writing</li>
           </ul>
         </div>
+      </aside>
+    </div>
+
+    <dl class="notes">
+      <dt>Schedule</dt>
+      <dd>Works scheduled for standard business hours, <b>Mon–Fri, 7:00 AM – 3:00 PM.</b></dd>
+      <dt>Excluded</dt>
+      <dd>Equipment hire, statutory fees, plumbing, flooring, electrical, ceiling alterations or new ceiling lighting, structural alterations, splashbacks, kitchen appliances, painting to existing walls, furniture.</dd>
+      <dt>Validity</dt>
+      <dd>Proposal valid for <b>30 days</b>. Sign below to approve and we'll book the on-site measure within 5 working days.</dd>
+    </dl>
+  </div>
+</section>
+
+<section id="sign" class="sign-section">
+  <div class="wrap">
+    <div class="sign-grid">
+      <div class="left">
+        <span class="eyebrow">05 · Ready to lock it in?</span>
+        <h2 style="margin-top:20px;">Sign by drawing or typing.<br><em>We'll be in touch within one business day.</em></h2>
+        <p class="lede" style="margin-top:24px;">A signed PDF copy will be available to download immediately. We'll book the on-site measure within five working days of approval.</p>
+        <div class="actions no-print">
+          <a class="btn ghost" href="#" id="btn-pdf">↓ Download PDF</a>
+          <a class="btn" href="#sign-card-anchor">Sign &amp; Approve <span class="arrow">→</span></a>
+        </div>
       </div>
-    </div>
-  </section>
 
-  <!-- SCOPE NOTES -->
-  <section class="section" data-screen-label="07 Scope Notes">
-    <div class="page">
-      <p class="eyebrow">Scope Notes</p>
-      <div class="scope">
-        <p>Pricing is based on full acceptance of the outlined scope and is subject to site measure and supplier availability. Works scheduled for standard business hours (Mon–Fri, 7:00 AM – 3:00 PM).</p>
-        <p><strong>Excluded:</strong> equipment hire, statutory fees, plumbing, flooring, electrical, ceiling alterations or new ceiling lighting, structural alterations, splashbacks, kitchen appliances, painting to existing walls, furniture.</p>
-        <p style="margin-bottom:0">Proposal valid for 30 days. Sign below to approve and we'll book the on-site measure within 5 working days.</p>
+      <div id="sign-card-anchor">
+        <div class="sign-card no-print" id="signFormCard">
+          <div class="head">
+            <h3>Sign &amp; Approve</h3>
+            <span class="meta">Proposal SBI-TS260504-WEBB</span>
+          </div>
+          <div class="body">
+            <div class="tabs" role="tablist">
+              <button class="active" data-tab="draw" onclick="switchTab('draw')">Draw</button>
+              <button data-tab="type" onclick="switchTab('type')">Type</button>
+            </div>
+
+            <div id="tab-draw">
+              <div class="sig-pad" id="sigPad">
+                <canvas id="sigCanvas"></canvas>
+                <div class="placeholder" id="sigPlaceholder">sign here</div>
+              </div>
+              <div class="sig-pad-tools">
+                <span>Draw your signature in the box above.</span>
+                <button type="button" onclick="clearSig()">× Clear</button>
+              </div>
+            </div>
+
+            <div id="tab-type" style="display:none;">
+              <div class="sig-typed">
+                <input class="sig-typed-input" id="typedSig" placeholder="Your signature" oninput="updateTyped()">
+              </div>
+              <p style="font-size:12px; color:var(--ink-3); margin:0 0 18px;">By typing your name above, you provide your electronic signature.</p>
+            </div>
+
+            <div class="field">
+              <label for="fullName">Full name</label>
+              <input id="fullName" type="text" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="position">Position / Company</label>
+              <input id="position" type="text">
+            </div>
+          </div>
+          <div class="submit-row">
+            <span>Saved as a signed PDF on submit.</span>
+            <button class="btn" onclick="submitSig()">Submit Signature <span class="arrow">→</span></button>
+          </div>
+        </div>
+
+        <div class="approved-card" id="approvedCard" style="display:none;">
+          <div class="check">✓</div>
+          <span class="eyebrow">Proposal Approved</span>
+          <h3 style="margin-top:16px;">Thank you — proposal signed.</h3>
+          <p style="margin-top:14px; color:var(--ink-2);">A signed copy is ready to download. We'll be in touch within one business day to book the on-site measure.</p>
+          <div class="sig-line">
+            <div>
+              <div class="sig-img" id="approvedSig"></div>
+              <div class="sig-meta" style="margin-top:8px;">— <span id="approvedName">—</span> · Signed <span id="approvedDate">—</span></div>
+            </div>
+          </div>
+          <div style="margin-top:28px;" class="no-print">
+            <a class="btn" href="#" id="btn-pdf-signed">↓ Download Signed PDF</a>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- APPROVE BUTTONS -->
-  <section class="approve no-print" data-screen-label="08 Approve" id="approve-section">
-    <div class="page">
-      <p>Ready to lock it in?</p>
-      <div class="actions">
-        <button type="button" class="btn" id="btn-pdf">Download PDF</button>
-        <button type="button" class="btn primary" id="btn-open-signoff">Sign &amp; Approve →</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- SIGN-OFF PANEL -->
-  <div class="signoff-panel no-print" id="signoff-panel" aria-hidden="true">
-    <h3>Sign &amp; Approve</h3>
-    <p class="helper">Sign by drawing or typing your signature, fill in your details, and submit. A signed PDF copy will be available to download immediately.</p>
-
-    <div class="sig-tabs" role="tablist">
-      <button type="button" class="sig-tab active" data-mode="draw" role="tab" aria-selected="true">Draw</button>
-      <button type="button" class="sig-tab" data-mode="type" role="tab" aria-selected="false">Type</button>
-    </div>
-
-    <div class="sig-mode active" data-mode="draw">
-      <div class="sig-pad-wrap">
-        <canvas id="sig-canvas" aria-label="Signature drawing area"></canvas>
-        <span class="sig-baseline"></span>
-        <span class="sig-x">×</span>
-        <button type="button" class="sig-clear" id="sig-clear">Clear</button>
-      </div>
-    </div>
-
-    <div class="sig-mode" data-mode="type">
-      <div class="sig-type-wrap">
-        <input type="text" id="sig-typed" placeholder="Type your full name" autocomplete="off" maxlength="60">
-        <span class="sig-baseline"></span>
-        <span class="sig-x">×</span>
-      </div>
-      <p class="sig-type-help">By typing your name above, you provide your electronic signature.</p>
-    </div>
-
-    <div class="sig-fields">
-      <label>Full name
-        <input type="text" id="sig-name" placeholder="e.g. Debbie-Anne Sergeant" autocomplete="name">
-      </label>
-      <label>Position / Company
-        <input type="text" id="sig-title" placeholder="e.g. Homeowner" autocomplete="organization-title">
-      </label>
-    </div>
-
-    <div class="sig-error" id="sig-error" role="alert"></div>
-
-    <div class="signoff-actions">
-      <button type="button" class="btn" id="btn-cancel-signoff">Cancel</button>
-      <button type="button" class="btn primary" id="btn-submit-signoff">Submit Signature</button>
     </div>
   </div>
+</section>
 
-  <!-- SIGNED CONFIRMATION -->
-  <div class="signed-confirmation" id="signed-confirmation" aria-live="polite">
-    <span class="badge">
-      <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7l3 3 7-7" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Proposal Approved
-    </span>
-    <h3>Thank you — proposal signed.</h3>
-    <p class="signed-sub">A signed copy is ready to download. We'll be in touch within 1 business day to book the on-site measure.</p>
-    <div class="sig-display">
-      <img id="signed-image" alt="Client signature">
-      <div class="sig-meta">
-        <strong id="signed-name">—</strong>
-        <span id="signed-title">—</span><br>
-        Signed <span id="signed-date">—</span>
-      </div>
-    </div>
-    <div class="actions no-print">
-      <button type="button" class="btn primary" id="btn-pdf-signed">Download Signed PDF</button>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="brand">Spoke <em>Building &amp; Interiors</em> · Sydney</div>
+      <div>Prepared 5 May 2026 · Michael Cook</div>
+      <div>SBI-TS260504-WEBB · v2</div>
     </div>
   </div>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="page">
-      <div class="row">
-        <span>Spoke Building &amp; Interiors · Sydney</span>
-        <span>Prepared 5 May 2026 · Michael Cook</span>
-      </div>
-    </div>
-  </footer>
+</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <script>
 var PROPOSAL = {
   jobName: 'TS260504 63 Webb street',
@@ -657,179 +1360,148 @@ var PROPOSAL = {
   webhookUrl: 'https://hook.eu1.make.com/gp5tfpe52pk44e7ispdi0t2bq33inc72'
 };
 
-(function () {
-  var canvas = document.getElementById('sig-canvas');
-  var ctx = canvas.getContext('2d');
-  var drawing = false, hasInk = false;
+(function(){
+  const canvas = document.getElementById('sigCanvas');
+  const placeholder = document.getElementById('sigPlaceholder');
+  const ctx = canvas.getContext('2d');
+  let drawing = false, hasInk = false, last = null;
 
   function resize() {
-    var rect = canvas.getBoundingClientRect();
-    if (rect.width === 0) return;
-    var dpr = window.devicePixelRatio || 1;
-    var data = hasInk ? canvas.toDataURL('image/png') : null;
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    const r = canvas.getBoundingClientRect();
+    if (r.width === 0) return;
+    const dpr = window.devicePixelRatio || 1;
+    const data = hasInk ? canvas.toDataURL('image/png') : null;
+    canvas.width = r.width * dpr;
+    canvas.height = r.height * dpr;
     ctx.scale(dpr, dpr);
+    ctx.lineWidth = 1.8;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.strokeStyle = '#14202E';
-    ctx.lineWidth = 2.2;
+    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#1c1a17';
     if (data) {
-      var img = new Image();
-      img.onload = function () { ctx.drawImage(img, 0, 0, rect.width, rect.height); };
+      const img = new Image();
+      img.onload = () => ctx.drawImage(img, 0, 0, r.width, r.height);
       img.src = data;
     }
   }
-  function pos(e) {
-    var rect = canvas.getBoundingClientRect();
-    var t = e.touches ? e.touches[0] : e;
-    return { x: t.clientX - rect.left, y: t.clientY - rect.top };
-  }
-  function start(e) { e.preventDefault(); drawing = true; hasInk = true; var p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }
-  function move(e)  { if (!drawing) return; e.preventDefault(); var p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); }
-  function end()    { drawing = false; }
-
   window.addEventListener('resize', resize);
+  resize();
+
+  function pos(e) {
+    const r = canvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - r.left, y: t.clientY - r.top };
+  }
+  function start(e) { e.preventDefault(); drawing = true; last = pos(e); placeholder.style.display='none'; }
+  function move(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    const p = pos(e);
+    ctx.beginPath();
+    ctx.moveTo(last.x, last.y);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    last = p;
+    hasInk = true;
+  }
+  function end() { drawing = false; last = null; }
+
   canvas.addEventListener('mousedown', start);
   canvas.addEventListener('mousemove', move);
-  canvas.addEventListener('mouseup', end);
-  canvas.addEventListener('mouseleave', end);
+  window.addEventListener('mouseup', end);
   canvas.addEventListener('touchstart', start, { passive: false });
   canvas.addEventListener('touchmove', move, { passive: false });
   canvas.addEventListener('touchend', end);
 
-  document.getElementById('sig-clear').addEventListener('click', function () {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  window.clearSig = function(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
     hasInk = false;
-  });
-
-  var mode = 'draw';
-  var tabs = document.querySelectorAll('.sig-tab');
-  var modes = document.querySelectorAll('.sig-mode');
-  var typedInput = document.getElementById('sig-typed');
-
-  tabs.forEach(function (tab) {
-    tab.addEventListener('click', function () {
-      mode = tab.dataset.mode;
-      tabs.forEach(function (t) { t.classList.toggle('active', t === tab); t.setAttribute('aria-selected', t === tab ? 'true' : 'false'); });
-      modes.forEach(function (m) { m.classList.toggle('active', m.dataset.mode === mode); });
-      if (mode === 'draw') setTimeout(resize, 30);
-      if (mode === 'type') setTimeout(function () { typedInput.focus(); }, 30);
-    });
-  });
-
-  async function renderTypedSignature(text) {
-    if (document.fonts && document.fonts.load) {
-      try { await document.fonts.load('600 80px "Dancing Script"'); } catch (e) {}
-    }
-    var c = document.createElement('canvas');
-    var w = 800, h = 200;
-    c.width = w; c.height = h;
-    var cx = c.getContext('2d');
-    cx.fillStyle = '#14202E';
-    var size = 90;
-    cx.font = '600 ' + size + 'px "Dancing Script", "Brush Script MT", cursive';
-    while (cx.measureText(text).width > w - 60 && size > 30) {
-      size -= 4;
-      cx.font = '600 ' + size + 'px "Dancing Script", "Brush Script MT", cursive';
-    }
-    cx.textAlign = 'center';
-    cx.textBaseline = 'middle';
-    cx.fillText(text, w / 2, h / 2);
-    return c.toDataURL('image/png');
-  }
-
-  var panel = document.getElementById('signoff-panel');
-  var confirmation = document.getElementById('signed-confirmation');
-  var approveSection = document.getElementById('approve-section');
-  var errorEl = document.getElementById('sig-error');
-
-  document.getElementById('btn-open-signoff').addEventListener('click', function () {
-    panel.classList.add('open');
-    panel.setAttribute('aria-hidden', 'false');
-    setTimeout(function () { resize(); panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
-  });
-  document.getElementById('btn-cancel-signoff').addEventListener('click', function () {
-    panel.classList.remove('open');
-    panel.setAttribute('aria-hidden', 'true');
-    errorEl.textContent = '';
-  });
-
-  document.getElementById('btn-submit-signoff').addEventListener('click', async function () {
-    var name = document.getElementById('sig-name').value.trim();
-    var title = document.getElementById('sig-title').value.trim();
-    var typedSig = typedInput.value.trim();
-
-    if (mode === 'draw' && !hasInk) { errorEl.textContent = 'Please draw your signature, or switch to Type.'; return; }
-    if (mode === 'type' && !typedSig) { errorEl.textContent = 'Please type your signature, or switch to Draw.'; return; }
-    if (!name) { errorEl.textContent = 'Please enter your full name.'; return; }
-    errorEl.textContent = '';
-
-    var dataURL = mode === 'draw'
-      ? canvas.toDataURL('image/png')
-      : await renderTypedSignature(typedSig);
-
-    document.getElementById('signed-image').src = dataURL;
-    document.getElementById('signed-name').textContent = name;
-    document.getElementById('signed-title').textContent = title || '';
-    var now = new Date();
-    var dateStr = now.toLocaleString('en-AU', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-    document.getElementById('signed-date').textContent = dateStr;
-
-    notifyClickUp({
-      event_type: 'sign',
-      task_id: PROPOSAL.salesTaskId,
-      job_name: PROPOSAL.jobName,
-      client_name: PROPOSAL.clientName,
-      proposal_url: PROPOSAL.proposalUrl,
-      signed_at: now.toISOString(),
-      signed_at_local: dateStr,
-      signed_name: name,
-      signed_title: title,
-      sign_method: mode,
-      typed_signature: mode === 'type' ? typedSig : null,
-      total_inc_gst: '$11,696'
-    });
-
-    panel.classList.remove('open');
-    panel.setAttribute('aria-hidden', 'true');
-    approveSection.style.display = 'none';
-    confirmation.classList.add('shown');
-    setTimeout(function () { confirmation.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 60);
-  });
-
-  function downloadPDF(filename) {
-    var opt = {
-      margin: [8, 8, 8, 8],
-      filename: filename,
-      image: { type: 'jpeg', quality: 0.95 },
-      html2canvas: { scale: 2, useCORS: true, scrollY: 0, windowWidth: document.documentElement.scrollWidth },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-    };
-    document.body.classList.add('pdf-mode');
-    return html2pdf().set(opt).from(document.body).save().finally(function () {
-      document.body.classList.remove('pdf-mode');
-    });
-  }
-  document.getElementById('btn-pdf').addEventListener('click', function () { downloadPDF('63-Webb-Street-Proposal.pdf'); });
-  document.getElementById('btn-pdf-signed').addEventListener('click', function () { downloadPDF('63-Webb-Street-Proposal-SIGNED.pdf'); });
-
-  resize();
+    placeholder.style.display='flex';
+  };
+  window.hasSig = () => hasInk;
+  window.sigDataURL = () => canvas.toDataURL();
 })();
+
+window.switchTab = function(which) {
+  document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === which));
+  document.getElementById('tab-draw').style.display = which === 'draw' ? '' : 'none';
+  document.getElementById('tab-type').style.display = which === 'type' ? '' : 'none';
+};
+window.updateTyped = function(){};
+
+window.submitSig = function(){
+  const name = document.getElementById('fullName').value.trim();
+  const pos = document.getElementById('position').value.trim();
+  const typed = document.getElementById('typedSig').value.trim();
+  const isDrawTab = document.querySelector('.tabs button.active').dataset.tab === 'draw';
+  if (!name) { document.getElementById('fullName').focus(); return; }
+  if (isDrawTab && !window.hasSig()) { alert('Please draw your signature, or switch to Type.'); return; }
+  if (!isDrawTab && !typed) { document.getElementById('typedSig').focus(); return; }
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-AU', { day:'numeric', month:'long', year:'numeric' });
+
+  document.getElementById('signFormCard').style.display = 'none';
+  const card = document.getElementById('approvedCard');
+  card.style.display = '';
+
+  document.getElementById('approvedName').textContent = name + (pos ? ', ' + pos : '');
+  document.getElementById('approvedDate').textContent = dateStr;
+
+  const sigEl = document.getElementById('approvedSig');
+  if (isDrawTab) {
+    sigEl.innerHTML = '<img src="'+window.sigDataURL()+'" style="max-height:64px; width:auto; display:block;" alt="Signature">';
+  } else {
+    sigEl.textContent = typed;
+  }
+
+  notifyClickUp({
+    event_type: 'sign',
+    task_id: PROPOSAL.salesTaskId,
+    job_name: PROPOSAL.jobName,
+    client_name: PROPOSAL.clientName,
+    proposal_url: PROPOSAL.proposalUrl,
+    signed_at: now.toISOString(),
+    signed_at_local: dateStr,
+    signed_name: name,
+    signed_title: pos,
+    sign_method: isDrawTab ? 'draw' : 'type',
+    typed_signature: isDrawTab ? null : typed,
+    total_inc_gst: '$11,696'
+  });
+
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+
+function downloadPDF(filename) {
+  const opt = {
+    margin: [8, 8, 8, 8],
+    filename: filename,
+    image: { type: 'jpeg', quality: 0.95 },
+    html2canvas: { scale: 2, useCORS: true, scrollY: 0, windowWidth: document.documentElement.scrollWidth },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+  };
+  document.body.classList.add('pdf-mode');
+  return html2pdf().set(opt).from(document.body).save().finally(() => {
+    document.body.classList.remove('pdf-mode');
+  });
+}
+document.getElementById('btn-pdf').addEventListener('click', e => { e.preventDefault(); downloadPDF('63-Webb-Street-Proposal.pdf'); });
+document.getElementById('btn-pdf-signed').addEventListener('click', e => { e.preventDefault(); downloadPDF('63-Webb-Street-Proposal-SIGNED.pdf'); });
 
 function notifyClickUp(payload) {
   if (!PROPOSAL.webhookUrl) return;
   try {
-    var params = new URLSearchParams();
-    Object.keys(payload).forEach(function (k) {
-      var v = payload[k];
+    const params = new URLSearchParams();
+    Object.keys(payload).forEach(k => {
+      const v = payload[k];
       if (v == null) return;
       params.append(k, typeof v === 'object' ? JSON.stringify(v) : String(v));
     });
-    var body = params.toString();
+    const body = params.toString();
     if (navigator.sendBeacon) {
-      var blob = new Blob([body], { type: 'application/x-www-form-urlencoded;charset=UTF-8' });
+      const blob = new Blob([body], { type: 'application/x-www-form-urlencoded;charset=UTF-8' });
       navigator.sendBeacon(PROPOSAL.webhookUrl, blob);
     } else {
       fetch(PROPOSAL.webhookUrl, {
@@ -838,21 +1510,21 @@ function notifyClickUp(payload) {
         keepalive: true,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
         body: body
-      }).catch(function () {});
+      }).catch(() => {});
     }
-  } catch (e) { }
+  } catch (e) {}
 }
 
 (function fireViewEvent() {
   try {
-    var key = '63-webb-proposal-viewed';
-    var lastView = sessionStorage.getItem(key);
-    var now = Date.now();
+    const key = '63-webb-proposal-viewed';
+    const lastView = sessionStorage.getItem(key);
+    const now = Date.now();
     if (lastView && (now - parseInt(lastView, 10)) < 60 * 60 * 1000) return;
     sessionStorage.setItem(key, String(now));
-  } catch (e) { }
+  } catch (e) {}
 
-  setTimeout(function () {
+  setTimeout(() => {
     notifyClickUp({
       event_type: 'view',
       task_id: PROPOSAL.salesTaskId,
