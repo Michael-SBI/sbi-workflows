@@ -934,6 +934,30 @@ body.pdf-mode .no-print { display: none !important; }
   .form-row { grid-template-columns: 1fr; }
   .invest-card { position: static; }
   h1 { font-size: 56px; }
+
+  /* Nav: drop the proposal-id/date spans (duplicated in the hero meta-row), keep the Sign button */
+  .nav-meta { gap: 12px; }
+  .nav-meta > span { display: none; }
+  .brand-mark .sub { display: none; }
+
+  /* Hero meta-row: allow LHS/RHS to wrap independently */
+  .hero .meta-row { flex-wrap: wrap; gap: 6px 16px; align-items: flex-start; }
+  .hero .meta-row .lhs,
+  .hero .meta-row .rhs { gap: 6px 16px; flex-wrap: wrap; font-size: 11px; }
+
+  /* Plan caption + legend stack vertically and the legend is allowed to wrap */
+  .hero-plan-head { flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 18px; }
+  .hero-plan-head .legend { gap: 14px; flex-wrap: wrap; }
+  .hero-plan figure { padding: 18px; }
+  .hero-plan figcaption { padding: 14px 18px 16px; }
+
+  /* Footer: stack the brand / prepared / version rows */
+  .foot-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+
+  /* Notes dl: stack each entry — wide labels were tight against the dd column */
+  .notes { grid-template-columns: 1fr; gap: 4px 0; }
+  .notes dt { margin-top: 12px; }
+  .notes dt:first-child { margin-top: 0; }
 }
 
 @media (max-width: 560px) {
