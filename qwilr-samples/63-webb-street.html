@@ -291,7 +291,12 @@ section:first-of-type { border-top: none; }
 .sw.red { background: var(--red); }
 .sw.green { background: var(--green); }
 .hero-plan figure { margin: 0; padding: 32px; }
-.hero-plan img { width: 100%; height: auto; display: block; }
+.hero-plan img {
+  width: 100%; height: auto; display: block;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none; user-select: none;
+}
 .hero-plan figcaption {
   padding: 16px 24px 18px;
   border-top: 1px solid var(--rule);
@@ -299,7 +304,28 @@ section:first-of-type { border-top: none; }
   font-size: 12px;
   color: var(--ink-3);
   letter-spacing: 0.04em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
+.plan-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border: 1px solid var(--rule);
+  padding: 8px 14px;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.plan-open:hover { color: var(--ink); border-color: var(--ink-3); background: var(--paper); }
+.plan-open .ext { color: var(--accent); font-style: normal; font-family: 'Fraunces', serif; font-size: 14px; line-height: 1; }
 
 .kpi-row {
   margin-top: 48px;
@@ -1034,7 +1060,10 @@ body.pdf-mode .no-print { display: none !important; }
       <figure>
         <img src="assets/63-webb-plan.png" alt="SBI proposed plan for 63 Webb Street — 3D demolition / new-partition overlay over the ground floor 2D plan">
       </figure>
-      <figcaption>Demolition · New Partition · Acoustic Treatment — overlaid on the existing ground-floor plan with site reference photographs.</figcaption>
+      <figcaption>
+        <span>Demolition · New Partition · Acoustic Treatment — overlaid on the existing ground-floor plan with site reference photographs.</span>
+        <a class="plan-open" href="63-webb-street-plan.html" target="_blank" rel="noopener">View plan detail <span class="ext" aria-hidden="true">↗</span></a>
+      </figcaption>
     </figure>
 
     <div class="kpi-row">
@@ -1538,6 +1567,17 @@ function notifyClickUp(payload) {
     }
   } catch (e) {}
 }
+
+// Plan image — discourage casual save (right-click, drag) on the hero-plan
+// thumbnail. Friction only; the standalone plan-detail page carries the
+// watermark for the real deterrent. Scoped to the image so it doesn't break
+// form usability elsewhere on the page.
+(function () {
+  const planImg = document.querySelector('.hero-plan img');
+  if (!planImg) return;
+  planImg.addEventListener('contextmenu', e => e.preventDefault());
+  planImg.addEventListener('dragstart', e => e.preventDefault());
+})();
 
 (function fireViewEvent() {
   try {

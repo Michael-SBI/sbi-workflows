@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
+<title>63 Webb Street — Plan Detail · Spoke Building &amp; Interiors</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,360;1,9..144,400&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #f6f3ed;
+    --ink-2:      #c2bdb1;
+    --ink-3:      #8a857a;
+    --paper:      #131210;
+    --paper-2:    #1c1a17;
+    --rule:       #2c2924;
+    --accent:     #c79a55;
+    --accent-2:   #4f9a3a;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -webkit-user-select: none; user-select: none;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .bar {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in oklab, var(--paper) 92%, transparent);
+    backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .bar .brand {
+    display: inline-flex; align-items: baseline; gap: 12px;
+    font-family: 'Fraunces', Georgia, serif; font-weight: 380; font-size: 18px;
+  }
+  .bar .brand .dot {
+    width: 8px; height: 8px; background: var(--accent-2);
+    border-radius: 50%; display: inline-block;
+  }
+  .bar .brand .sub {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-3); margin-left: 10px;
+  }
+  .bar .title {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .bar .title strong {
+    color: var(--ink); font-weight: 500;
+    font-family: 'Fraunces', serif; font-style: italic;
+    text-transform: none; letter-spacing: -0.01em;
+    font-size: 16px; margin-left: 8px;
+  }
+  .bar .close {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-2); padding: 9px 16px;
+    border: 1px solid var(--rule);
+    transition: color .15s, border-color .15s, background .15s;
+  }
+  .bar .close:hover { color: var(--ink); border-color: var(--ink-3); background: var(--paper-2); }
+
+  .stage {
+    position: relative;
+    padding: 24px;
+    min-height: calc(100vh - 96px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .plan-frame {
+    position: relative;
+    max-width: 100%;
+    max-height: 88vh;
+    line-height: 0;
+  }
+  .plan-img {
+    display: block;
+    max-width: 100%;
+    max-height: 88vh;
+    width: auto; height: auto;
+    box-shadow: 0 20px 80px rgba(0,0,0,.6), 0 4px 20px rgba(0,0,0,.4);
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; user-select: none;
+    pointer-events: auto;
+  }
+  /* Diagonal repeating CONFIDENTIAL watermark — sits OVER the image */
+  .watermark {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='460' height='240'><text x='230' y='130' text-anchor='middle' font-family='Fraunces, Georgia, serif' font-size='26' font-style='italic' fill='%23ffffff' fill-opacity='0.18' transform='rotate(-22 230 130)'>SBI · 63 WEBB ST · CONFIDENTIAL</text></svg>");
+    background-repeat: repeat;
+    mix-blend-mode: overlay;
+  }
+
+  .footnote {
+    padding: 18px 24px 28px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-3);
+    border-top: 1px solid var(--rule);
+    line-height: 1.55;
+  }
+  .footnote em {
+    font-family: 'Fraunces', serif; font-style: italic;
+    color: var(--accent); font-size: 13px;
+  }
+
+  /* Stop highlighting on iOS long-press */
+  img { -webkit-tap-highlight-color: transparent; }
+
+  @media (max-width: 720px) {
+    .bar { padding: 12px 16px; gap: 10px; }
+    .bar .title { display: none; }
+    .bar .brand .sub { display: none; }
+    .bar .close { padding: 8px 12px; font-size: 10px; }
+    .stage { padding: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="brand">
+    <span class="dot"></span>
+    <span>Spoke<span class="sub">Building &amp; Interiors</span></span>
+  </div>
+  <div class="title">Plate 01 · <strong>63 Webb Street — Ground Floor Proposed</strong></div>
+  <a class="close" href="63-webb-street.html">← Back to proposal</a>
+</header>
+
+<main class="stage">
+  <div class="plan-frame">
+    <img class="plan-img" src="assets/63-webb-plan.png" alt="63 Webb Street — proposed plan, demolition (red) and new partition (green) overlaid on the ground-floor 2D plan">
+    <div class="watermark" aria-hidden="true"></div>
+  </div>
+</main>
+
+<footer class="footnote">
+  Confidential proposal artwork — for review only by the named recipient.<br>
+  Spoke Building &amp; Interiors · <em>Sydney</em> · Proposal SBI-TS260504-WEBB · 5 May 2026
+</footer>
+
+<script>
+// Friction (not security) — discourages casual right-click-save / drag-save /
+// iOS long-press save / Ctrl-S. A determined viewer can still screenshot;
+// the diagonal watermark is the real deterrent in that case.
+(function () {
+  const block = e => e.preventDefault();
+  document.addEventListener('contextmenu', block);
+  document.addEventListener('dragstart', block);
+  document.addEventListener('selectstart', block);
+  document.addEventListener('keydown', e => {
+    const k = (e.key || '').toLowerCase();
+    if (e.ctrlKey && (k === 's' || k === 'u' || k === 'p')) e.preventDefault();
+    if (e.metaKey && (k === 's' || k === 'p')) e.preventDefault();
+  });
+})();
+</script>
+
+</body>
+</html>
