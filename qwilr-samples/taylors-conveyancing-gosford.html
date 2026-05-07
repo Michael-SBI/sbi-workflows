@@ -337,6 +337,19 @@
   body.pdf-mode .no-print { display: none !important; }
   body.pdf-mode { background: #fff; }
   body.pdf-mode .signoff-panel, body.pdf-mode .approve { display: none !important; }
+
+  /* Approved-summary PDF mode — hero + investment + signature only */
+  body.pdf-signed-only { background: #fff; }
+  body.pdf-signed-only .no-print { display: none !important; }
+  body.pdf-signed-only .section { display: none !important; }
+  body.pdf-signed-only #investment-section { display: block !important; }
+  body.pdf-signed-only .approve, body.pdf-signed-only .signoff-panel { display: none !important; }
+  body.pdf-signed-only footer { display: none !important; }
+  body.pdf-signed-only .hero .plan,
+  body.pdf-signed-only .hero .lede { display: none !important; }
+  body.pdf-signed-only .hero { padding-bottom: 8px; }
+  body.pdf-signed-only .addon { display: none !important; }
+
   @media print {
     .no-print { display: none !important; }
     body { background: #fff; }
@@ -513,7 +526,7 @@
   </section>
 
   <!-- INVESTMENT -->
-  <section class="section" data-screen-label="06 Investment">
+  <section class="section" data-screen-label="06 Investment" id="investment-section">
     <div class="page">
       <p class="eyebrow">Investment Summary</p>
       <h2>Five line items. No surprises.</h2>
@@ -706,7 +719,7 @@
       </div>
     </div>
     <div class="actions no-print">
-      <button type="button" class="btn primary" id="btn-pdf-signed">Download Signed PDF</button>
+      <button type="button" class="btn primary" id="btn-pdf-signed">Download Approved Summary</button>
     </div>
   </div>
 
@@ -926,8 +939,14 @@ var PROPOSAL = {
     setTimeout(function () { confirmation.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 60);
   });
 
-  /* PDF export */
-  function downloadPDF(filename) {
+  /* PDF export
+     mode = 'full' (default)         → entire proposal, hides sign-off panel
+            'signed-only'            → hero + investment + signed-confirmation only,
+                                       used after the client signs to give them a
+                                       short contractual artifact instead of the
+                                       full marketing document */
+  function downloadPDF(filename, mode) {
+    var bodyClass = mode === 'signed-only' ? 'pdf-signed-only' : 'pdf-mode';
     var opt = {
       margin: [8, 8, 8, 8],
       filename: filename,
@@ -936,13 +955,13 @@ var PROPOSAL = {
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
     };
-    document.body.classList.add('pdf-mode');
+    document.body.classList.add(bodyClass);
     return html2pdf().set(opt).from(document.body).save().finally(function () {
-      document.body.classList.remove('pdf-mode');
+      document.body.classList.remove(bodyClass);
     });
   }
   document.getElementById('btn-pdf').addEventListener('click', function () { downloadPDF('Taylors-Conveyancing-Proposal.pdf'); });
-  document.getElementById('btn-pdf-signed').addEventListener('click', function () { downloadPDF('Taylors-Conveyancing-Proposal-SIGNED.pdf'); });
+  document.getElementById('btn-pdf-signed').addEventListener('click', function () { downloadPDF('Taylors-Conveyancing-Approved-Summary.pdf', 'signed-only'); });
 
   resize();
 })();
