@@ -646,8 +646,8 @@
     </div>
   </section>
 
-  <!-- APPROVE BUTTONS -->
-  <section class="approve no-print" data-screen-label="08 Approve" id="approve-section">
+  <!-- APPROVE BUTTONS — hidden because proposal has been signed (see signed-confirmation below) -->
+  <section class="approve no-print" data-screen-label="08 Approve" id="approve-section" style="display:none">
     <div class="page">
       <p>Ready to lock it in?</p>
       <div class="actions">
@@ -702,20 +702,22 @@
     </div>
   </div>
 
-  <!-- SIGNED CONFIRMATION -->
-  <div class="signed-confirmation" id="signed-confirmation" aria-live="polite">
+  <!-- SIGNED CONFIRMATION — pre-populated from sign-off comment 90160184483645 (07 May 2026, 11:11 am) -->
+  <div class="signed-confirmation shown" id="signed-confirmation" aria-live="polite">
     <span class="badge">
       <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7l3 3 7-7" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Proposal Approved
     </span>
     <h3>Thank you — proposal signed.</h3>
-    <p class="signed-sub">A signed copy is ready to download. We'll be in touch within 1 business day to book the on-site measure.</p>
+    <p class="signed-sub">We'll be in touch within 1 business day to book the on-site measure.</p>
     <div class="sig-display">
-      <img id="signed-image" alt="Client signature">
+      <div style="font-family: var(--font-serif); font-size: 36px; font-style: italic; color: var(--ink); padding: 18px 8px 8px; text-align: center; line-height: 1.1;">Natalie Taylor</div>
+      <p style="font-size: 11px; color: var(--muted); text-align: center; margin: 0 0 14px; font-style: italic;">Signed electronically via the proposal page (draw signature)</p>
       <div class="sig-meta">
-        <strong id="signed-name">—</strong>
-        <span id="signed-title">—</span><br>
-        Signed <span id="signed-date">—</span>
+        <strong id="signed-name">Natalie Taylor</strong>
+        <span id="signed-title">Director / Taylor &amp; Associates Conveyancing Services</span><br>
+        Signed <span id="signed-date">07 May 2026 at 11:11 am AEST</span><br>
+        Total agreed: <strong style="display:inline; font-family: var(--font-sans); letter-spacing: 0; text-transform: none;">$21,746 inc-GST</strong>
       </div>
     </div>
     <div class="actions no-print">
