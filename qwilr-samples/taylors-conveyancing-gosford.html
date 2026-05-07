@@ -556,6 +556,13 @@
             </td>
             <td class="amt">+$239</td>
           </tr>
+          <tr class="optional" id="addon2-row" hidden>
+            <td>
+              <div class="line-title">Optional · Kitchen LED Ceiling Panel Light</div>
+              <div class="line-detail">Supply and install LED ceiling panel light in kitchen</div>
+            </td>
+            <td class="amt">+$222</td>
+          </tr>
           <tr class="subtotal"><td class="label">Subtotal (ex-GST)</td><td class="amt" id="subtotal">$19,769</td></tr>
           <tr class="subtotal"><td class="label">GST (10%)</td><td class="amt" id="gst">$1,977</td></tr>
           <tr class="total"><td>Total (inc-GST)</td><td class="amt" id="invest-total">$21,746</td></tr>
@@ -572,6 +579,22 @@
           <span class="amt">+$263 inc-GST</span>
           <label class="switch">
             <input type="checkbox" id="addon-toggle">
+            <span class="track"></span>
+            <span>Add</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Add-on toggle 2 -->
+      <div class="addon">
+        <div>
+          <h4>Optional add-on — Kitchen LED ceiling panel light</h4>
+          <p>Supply and install an LED ceiling panel light in the kitchen — brighter, more even task lighting over the bench.</p>
+        </div>
+        <div style="display:flex; align-items:center; gap:18px;">
+          <span class="amt">+$244 inc-GST</span>
+          <label class="switch">
+            <input type="checkbox" id="addon2-toggle">
             <span class="track"></span>
             <span>Add</span>
           </label>
@@ -717,25 +740,30 @@ var PROPOSAL = {
    1. ADD-ON TOGGLE (single source of truth for table + totals card)
    ===================================================================== */
 (function () {
-  var BASE_EX_GST = 19769;       // Sum of 4 mandatory line items
-  var ADDON_EX_GST = 239;        // Optional GPO upgrade
+  var BASE_EX_GST   = 19769;     // Sum of 4 mandatory line items
+  var ADDON_EX_GST  = 239;       // Optional GPO upgrade
+  var ADDON2_EX_GST = 222;       // Optional LED ceiling panel light
   var GST_RATE = 0.10;
   var fmt = function (n) { return '$' + n.toLocaleString('en-AU', { maximumFractionDigits: 0 }); };
 
-  var toggle = document.getElementById('addon-toggle');
-  var row    = document.getElementById('addon-row');
-  var sub    = document.getElementById('subtotal');
-  var gst    = document.getElementById('gst');
-  var total  = document.getElementById('invest-total');
-  var grand  = document.getElementById('grand-total');
-  var bd     = document.getElementById('grand-breakdown');
+  var toggle  = document.getElementById('addon-toggle');
+  var row     = document.getElementById('addon-row');
+  var toggle2 = document.getElementById('addon2-toggle');
+  var row2    = document.getElementById('addon2-row');
+  var sub     = document.getElementById('subtotal');
+  var gst     = document.getElementById('gst');
+  var total   = document.getElementById('invest-total');
+  var grand   = document.getElementById('grand-total');
+  var bd      = document.getElementById('grand-breakdown');
 
   function recalc() {
-    var on = toggle.checked;
-    var ex = BASE_EX_GST + (on ? ADDON_EX_GST : 0);
+    var on1 = toggle.checked;
+    var on2 = toggle2.checked;
+    var ex = BASE_EX_GST + (on1 ? ADDON_EX_GST : 0) + (on2 ? ADDON2_EX_GST : 0);
     var g  = Math.round(ex * GST_RATE);
     var t  = ex + g;
-    row.hidden = !on;
+    row.hidden = !on1;
+    row2.hidden = !on2;
     sub.textContent = fmt(ex);
     gst.textContent = fmt(g);
     total.textContent = fmt(t);
@@ -743,6 +771,7 @@ var PROPOSAL = {
     bd.textContent = fmt(ex) + ' ex-GST + 10% GST';
   }
   toggle.addEventListener('change', recalc);
+  toggle2.addEventListener('change', recalc);
   recalc();
 })();
 
@@ -886,6 +915,7 @@ var PROPOSAL = {
       sign_method: mode,
       typed_signature: mode === 'type' ? typedSig : null,
       addon_included: document.getElementById('addon-toggle').checked,
+      addon2_included: document.getElementById('addon2-toggle').checked,
       total_inc_gst: document.getElementById('grand-total').textContent
     });
 
