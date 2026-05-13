@@ -747,7 +747,7 @@
           <span class="phase-tag tag-make">MAKE.COM</span>
           <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
         </div>
-        <div class="phase-who">Run by <strong>Make.com</strong> &bull; ~30 seconds</div>
+        <div class="phase-who">Run by <strong>Make.com</strong> then <strong>Chadd (PM)</strong> &bull; ~30 seconds auto + RFQs manual</div>
       </div>
       <div class="phase-body">
         <ol>
@@ -774,6 +774,15 @@
                 <tr><td>320&ndash;330</td><td>Contractors</td></tr>
               </table>
               Workflow set to <strong>&ldquo;Not Started&rdquo;</strong>.
+            </div></div>
+          </li>
+          <li class="has-flyout" onclick="toggleFlyout(this)">Chadd sends RFQs from each contractor/supplier procurement task
+            <div class="step-flyout"><div class="step-flyout-inner">
+              Once the procurement tasks are created, <strong>Chadd</strong> opens each contractor and supplier task in List 08 and runs the <strong>SBI-RFQ-Contractors-Suppliers</strong> skill. This generates and sends RFQ emails to the relevant contacts directly from within the task &mdash; kicking off the procurement phase.<br><br>
+              <strong>Standing subs RFQ&rsquo;d on every project regardless of scope:</strong><br>
+              &bull; TCA Electrical<br>
+              &bull; Brush Magic<br><br>
+              Quote responses and award decisions are recorded back on each procurement task as they come in.
             </div></div>
           </li>
         </ol>
@@ -883,7 +892,7 @@
             <div class="step-flyout"><div class="step-flyout-inner">
               <strong>Leah</strong> &mdash; job folder in Shared Drive, Client Info Form, Master Builders Contract.<br>
               <strong>Gail</strong> &mdash; Xero project, deposit invoice, cost codes in Xero.<br>
-              <strong>PM Team</strong> &mdash; handover meeting within 2 days, confirm no materials ordered before deposit paid.
+              <strong>PM Team</strong> &mdash; handover meeting within 2 days, confirm no materials ordered before deposit paid, send RFQs from procurement tasks.
             </div></div>
           </li>
         </ol>
@@ -924,6 +933,7 @@
             <li>Handover meeting scheduled</li>
             <li>Joinery project set up (if applicable)</li>
             <li>Confirm no materials ordered before deposit paid</li>
+            <li>Send RFQs from each contractor/supplier procurement task in List 08 (SBI-RFQ-Contractors-Suppliers skill) &mdash; TCA Electrical &amp; Brush Magic on every job</li>
           </ul>
         </div>
       </div>
@@ -966,8 +976,8 @@
       <div class="swim-item">
         <div class="swim-icon pm">PM</div>
         <div>
-          <div class="swim-label">PM Team</div>
-          <div class="swim-desc">Handover meeting, joinery, materials hold</div>
+          <div class="swim-label">PM Team (Chadd)</div>
+          <div class="swim-desc">Handover meeting, joinery, materials hold, RFQs</div>
         </div>
       </div>
     </div>
@@ -976,8 +986,8 @@
 </div><!-- /container -->
 
 <div class="footer">
-  <strong>Spoke Building & Interiors</strong> &mdash; Project Setup Workflow v3.0<br>
-  Last updated April 2026
+  <strong>Spoke Building & Interiors</strong> &mdash; Project Setup Workflow v3.1<br>
+  Last updated May 2026
 </div>
 
 <script>
