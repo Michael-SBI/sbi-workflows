@@ -276,6 +276,8 @@
     .phase[data-phase="2"] .phase-dot { background: var(--blue); }
     .phase[data-phase="3"] .phase-dot { background: var(--purple); }
     .phase[data-phase="4"] .phase-dot { background: var(--green); }
+    .phase[data-phase="5"] .phase-dot { background: var(--teal); }
+    .phase[data-phase="6"] .phase-dot { background: var(--green-dark); }
     .phase[data-phase="done"] .phase-dot { background: var(--orange-light); border-color: var(--orange-light); }
     .phase[data-phase="notify"] .phase-dot { background: var(--pink); border-color: var(--pink); }
     .phase[data-phase="check"] .phase-dot { background: var(--yellow); color: #000; border-color: var(--yellow); }
@@ -715,7 +717,7 @@
   <div class="banner">
     <div class="banner-badge">Spoke Building &amp; Interiors</div>
     <h1>Project Setup <span>Orchestrator</span></h1>
-    <p>What the automated orchestrator does the moment a sales task moves to Won &mdash; pre-flight, four sub-skills, Gail &amp; Leah notification, health check, summary comment. Tap any phase to drill in.</p>
+    <p>What the automated orchestrator does the moment a sales task moves to Won &mdash; pre-flight, six sub-skills, Gail &amp; Leah notification, health check, summary comment. Tap any phase to drill in.</p>
   </div>
 
   <div class="container">
@@ -745,7 +747,7 @@
         <span class="trigger-arrow">&rarr;</span>
         <span class="trigger-node">Orchestrator <code>--unattended --triggered-by=&#123;userId&#125;</code></span>
         <span class="trigger-arrow">&rarr;</span>
-        <span class="trigger-node">Phases 1&ndash;4 &rarr; Notify Gail &amp; Leah &rarr; Health Check &rarr; Summary</span>
+        <span class="trigger-node">Phases 1&ndash;6 &rarr; Notify Gail &amp; Leah &rarr; Health Check &rarr; Summary</span>
       </div>
       <p>Can also be run manually: <code>/project-setup-orchestrator sunshine kebabs</code>. Interactive mode asks questions; unattended mode makes safe default choices and logs every decision.</p>
     </div>
@@ -823,14 +825,14 @@
                 3. Check the Job Type custom field label<br>
                 4. Unattended fallback: default to BUILD and log the decision<br>
                 5. Interactive fallback: ask the user<br><br>
-                Project type drives downstream behaviour: DESIGN skips Phases 2 &amp; 3, uses a simplified schedule and a 60/40 claim split.
+                Project type drives downstream behaviour: DESIGN skips Phases 2, 3, 4 &amp; 5 (no budget, no procurement, no RFQ, no site works), uses a simplified schedule and a 60/40 claim split.
               </div></div>
             </li>
             <li class="has-flyout" onclick="toggleFlyout(this)">If fields missing &rarr; post blocking comment, STOP
               <div class="step-flyout"><div class="step-flyout-inner">
                 In <strong>unattended mode</strong>, the orchestrator posts an <strong>assigned comment</strong> on the sales task (using the ClickUp REST API, <code>assignee</code> = the person who triggered it, <code>notify_all: true</code>).<br><br>
                 The comment appears in the salesperson's Assigned Comments tray. They can't miss it.<br><br>
-                <strong>Recovery:</strong> salesperson fills the missing fields, toggles the status off Won and back to Won. The webhook fires again, the orchestrator runs again, pre-flight now passes, and Phases 1-4 proceed.
+                <strong>Recovery:</strong> salesperson fills the missing fields, toggles the status off Won and back to Won. The webhook fires again, the orchestrator runs again, pre-flight now passes, and Phases 1-6 proceed.
               </div></div>
             </li>
             <li class="has-flyout" onclick="toggleFlyout(this)">Wait for folder provisioning (poll up to 3 min)
@@ -936,12 +938,6 @@
                 <strong>Never touched:</strong> JOB SOLD, 10.1 SITE WORKS, and all site subtasks &mdash; those are PM-owned once set.
               </div></div>
             </li>
-            <li class="has-flyout" data-mode="build-only" onclick="toggleFlyout(this)">Site works tasks created from proposal scope <span class="build-only-tag">BUILD ONLY</span>
-              <div class="step-flyout"><div class="step-flyout-inner">
-                The signed proposal and cost budget are read to extract the scope of works. This is broken into <strong>5-10 sequential install tasks</strong>, created as subtasks of the <code>10.1 SITE WORKS</code> parent task in List 06 (NOT at the top of List 10).<br><br>
-                Task names reference actual materials and quantities from the proposal. A scope summary is posted as a comment on the <code>Completions_Punchlist</code> task in List 10.
-              </div></div>
-            </li>
             <li class="has-flyout" onclick="toggleFlyout(this)">Handover task assigned &mdash; Chadd, Gemma, Gail, Michael
               <div class="step-flyout"><div class="step-flyout-inner">
                 <strong>BUILD:</strong> The &ldquo;Handover between SALES and PM&rdquo; task in List 05 gets a due date within 2 days and is assigned to the full team.<br><br>
@@ -977,7 +973,7 @@
                 <strong>Why:</strong> A Buildsoft with cost-code structure but no numbers generates a $0 budget.<br><br>
                 The check looks for at least one line with Qty &gt; 0, Rate &gt; 0, Total &gt; 0. If empty:<br>
                 &bull; <strong>Interactive:</strong> ask user to Price / Mark N/A / Generate stub<br>
-                &bull; <strong>Unattended:</strong> mark budget as &ldquo;pending&rdquo; &mdash; skip Phase 2 &amp; 3, log it, continue to Phase 4
+                &bull; <strong>Unattended:</strong> mark budget as &ldquo;pending&rdquo; &mdash; skip Phases 2, 3 &amp; 4, log it, continue to Phase 5
               </div></div>
             </li>
             <li class="has-flyout" onclick="toggleFlyout(this)">SBI Cost Budget tab generated
@@ -1048,12 +1044,139 @@
         </div>
       </div>
 
-      <!-- PHASE 4 — DASHBOARD -->
-      <div class="phase" data-phase="4">
+      <!-- PHASE 4 — RFQ SETUP -->
+      <div class="phase" data-phase="4" data-build-only="true">
         <div class="phase-dot">4</div>
         <div class="phase-header" onclick="togglePhase(this)">
           <div class="phase-header-top">
-            <h3><span>Phase 4</span> &mdash; Dashboard</h3>
+            <h3><span>Phase 4</span> &mdash; RFQ Setup (Contractors &amp; Suppliers)</h3>
+            <span class="phase-tag tag-build-only">BUILD ONLY</span>
+            <span class="phase-tag tag-auto">AUTOMATED</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+          </div>
+          <div class="phase-who">Sub-skill <strong>/SBI-RFQ-Contractors-Suppliers</strong> &bull; ~2 min</div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" onclick="toggleFlyout(this)">In-scope procurement tasks identified
+              <div class="step-flyout"><div class="step-flyout-inner">
+                Filters the populated <code>&#10024;&#65039;08 Procurement_Budget track</code> list to tasks whose cost code is RFQ-eligible:<br><br>
+                <strong>In scope:</strong> <code>310</code> (Build Works Supplier), <code>320</code>&ndash;<code>326</code> (Contractors), <code>330</code> (Contractors)<br>
+                <strong>Out of scope:</strong> <code>300</code>&ndash;<code>304</code> (SBI internal labour), <code>315</code> / <code>317</code> (Factory Materials / Joinery &mdash; handled separately)<br><br>
+                <strong>Skippable</strong> when no in-scope cost codes have budgets &mdash; e.g. SBI-only labour project, or budget marked N/A upstream.
+              </div></div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Top 3 matching subs linked to each task
+              <div class="step-flyout"><div class="step-flyout-inner">
+                For each in-scope task, the trade keyword (from cost code + task name) is matched against the <strong>Supplier CATEGORY</strong> field on subs in the Contractors &amp; Suppliers list (<code>901602030956</code>).<br><br>
+                The top 3 matches are linked via <strong>ClickUp task links</strong> &mdash; they appear in the task's Linked Tasks panel for one-click access to contact info, insurance status, and pricing history.<br><br>
+                Two standing subs are always included regardless of category match: <strong>TCA Electrical</strong> (322) and <strong>Brush Magic</strong> (326).
+              </div></div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Scope-of-works markdown written to task description
+              <div class="step-flyout"><div class="step-flyout-inner">
+                A copy-pasteable scope-of-works document is written to each task's description, wrapped in <code>&lt;!-- SBI-AUTO-SCOPE-START --&gt;</code> / <code>END</code> sentinels so PM edits outside the block are preserved on re-run.<br><br>
+                Contents:<br>
+                &bull; Project header (client, address, dates)<br>
+                &bull; Narrative scope &mdash; extracted from the signed proposal trade section<br>
+                &bull; Buildsoft line items for the cost code (Qty &times; Rate)<br>
+                &bull; Reference documents (plans path, proposal path)<br>
+                &bull; Quote requirements + reply-by date
+              </div></div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">RFQ tracking subtasks created (one per matched sub)
+              <div class="step-flyout"><div class="step-flyout-inner">
+                Under each in-scope procurement task, one subtask is created per matched sub:<br><br>
+                <strong>Name:</strong> <code>RFQ &#123;sub name&#125;</code><br>
+                <strong>Workflow:</strong> Not Started &rarr; Quote Request Sent &rarr; Quote Received &rarr; ADMIN TO ORDER &rarr; Ordered &rarr; Received<br>
+                <strong>Category + label:</strong> inherited from parent procurement task<br>
+                <strong>Linked task:</strong> the sub itself (for one-click jump to contact)<br><br>
+                Once quotes come back, the PM records the figure on each subtask via the <strong>&#128176; Quoted $ SBI</strong> custom field. Idempotent &mdash; safe to re-run, never duplicates.
+              </div></div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PHASE 5 — SITE WORKS -->
+      <div class="phase" data-phase="5">
+        <div class="phase-dot">5</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 5</span> &mdash; Site Works</h3>
+            <span class="phase-tag tag-auto">AUTOMATED</span>
+            <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+          </div>
+          <div class="phase-who">Sub-skill <strong>/site-works-tasks</strong> &bull; ~1 min &bull; <strong>Skippable</strong></div>
+        </div>
+        <div class="phase-body">
+          <ol>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Skip check &mdash; is on-site work in scope?
+              <div class="step-flyout"><div class="step-flyout-inner">
+                <strong>Phase 5 is skipped entirely</strong> when any of:<br>
+                &bull; Sales-task <strong>&ldquo;Site measure/install required?&rdquo;</strong> checkbox is unticked (canonical signal)<br>
+                &bull; Project type = <strong>DESIGN</strong> &mdash; no site install phase<br>
+                &bull; Job Type = <strong>Joinery</strong> AND proposal scope mentions &ldquo;supply only&rdquo; / &ldquo;factory only&rdquo; / &ldquo;delivery only&rdquo; (and contains no &ldquo;site&rdquo; / &ldquo;install&rdquo; / &ldquo;measure&rdquo; / &ldquo;fit&rdquo; mentions)<br>
+                &bull; Orchestrator was called with the explicit <code>--skip-site-works</code> flag<br><br>
+                If the skill runs and discovers any of these AFTER the fact, it writes <strong>zero subtasks</strong> and reports &ldquo;skipped &mdash; no on-site scope detected&rdquo; rather than fabricating generic tasks.
+              </div></div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Find the <code>10.1 SITE WORKS</code> parent task in List 06
+              <div class="step-flyout"><div class="step-flyout-inner">
+                Searches List 06 (<code>&#10024;&#65039;06 [Schedule]</code>) for a task matching <code>^10\.1 .* SITE WORKS .*\[SCHEDULE\]</code> (template task type &ldquo;4. Project Sched&rdquo;, <code>custom_item_id: 1009</code>).<br><br>
+                That's the parent under which all site works subtasks live. <strong>NEVER created at the top of List 10</strong> &mdash; List 10 stays at template state (one <code>Completions_Punchlist</code> task).<br><br>
+                <strong>Re-run safety:</strong> if the parent already has &gt;1 subtask or any subtask is renamed/dated/status-changed, the PM has populated it &mdash; skill skips entirely (PM owns the list day-to-day).
+              </div></div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Read scope source documents
+              <div class="step-flyout"><div class="step-flyout-inner">
+                1. <strong>Signed proposal PDF</strong> from <code>1.0 SALES/SIGNED *.pdf</code> (or <code>APPROVED *.pdf</code>) &mdash; extract scope of works<br>
+                2. <strong>SBI cost budget PDF</strong> from <code>1.2 COST SHEETS/SBI Cost Budget *.pdf</code> &mdash; read line items for materials/labour the on-site team handles
+              </div></div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Build 5&ndash;10 sequential install subtasks
+              <div class="step-flyout"><div class="step-flyout-inner">
+                Scope is broken down into 5&ndash;10 install tasks following the standard SBI site sequence (or the joinery measure-then-replace sequence where applicable):<br><br>
+                <strong>Standard BUILD sequence:</strong><br>
+                &bull; Site setup &amp; safety (drop sheets, signage, isolate work area)<br>
+                &bull; Site measure &amp; mark out<br>
+                &bull; Protect existing equipment, furniture &amp; floor coverings<br>
+                &bull; Material prep / cut to size<br>
+                &bull; Main install<br>
+                &bull; Inspect alignment / quality<br>
+                &bull; Final clean &amp; rubbish removal<br>
+                &bull; Site demobilisation &amp; client walkthrough<br><br>
+                Task names reference the <strong>actual scope</strong> (e.g. &ldquo;Cut perimeter panels (Planobevel 625x625, ~40 panels)&rdquo;) &mdash; not generic.
+              </div></div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Create subtasks under <code>10.1 SITE WORKS</code>
+              <div class="step-flyout"><div class="step-flyout-inner">
+                Each subtask is created via <code>clickup_create_task</code> with <code>parent: &#123;parentTaskId&#125;</code> (NOT the list &mdash; these are subtasks).<br><br>
+                &bull; Sequential <code>start_date</code> / <code>due_date</code> within the Site Works window (read from the parent's start/due)<br>
+                &bull; Status defaults to <strong>not started</strong><br>
+                &bull; No assignees &mdash; the PM allocates these
+              </div></div>
+            </li>
+            <li class="has-flyout" onclick="toggleFlyout(this)">Post scope summary + exclusions to <code>Completions_Punchlist</code>
+              <div class="step-flyout"><div class="step-flyout-inner">
+                A single comment is posted on the <code>Completions_Punchlist</code> task in List 10 containing:<br>
+                &bull; Proposal scope summary<br>
+                &bull; Exclusions (verbatim from proposal)<br>
+                &bull; Work hours (typically Mon-Thu 7-3, Fri 7-1)<br>
+                &bull; Any client-specific access/security/parking notes<br><br>
+                This is the punchlist reference for the install team. List 10 itself stays at template state &mdash; the comment is the only write to List 10.
+              </div></div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- PHASE 6 — DASHBOARD -->
+      <div class="phase" data-phase="6">
+        <div class="phase-dot">6</div>
+        <div class="phase-header" onclick="togglePhase(this)">
+          <div class="phase-header-top">
+            <h3><span>Phase 6</span> &mdash; Dashboard</h3>
             <span class="phase-tag tag-auto">AUTOMATED</span>
             <svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
           </div>
@@ -1162,7 +1285,7 @@
           <ol>
             <li class="has-flyout" onclick="toggleFlyout(this)">ONE summary comment &mdash; posted after all phases run
               <div class="step-flyout"><div class="step-flyout-inner">
-                Posted exactly once after Phases 1&ndash;4 have all been attempted (including any that were skipped or failed). Never partial updates &mdash; only the single completion notification.<br><br>
+                Posted exactly once after Phases 1&ndash;6 have all been attempted (including any that were skipped or failed). Never partial updates &mdash; only the single completion notification.<br><br>
                 <strong>Tagged users:</strong><br>
                 &bull; Michael Cook (<code>48602901</code>)<br>
                 &bull; <strong>Plus</strong> the person who moved the task to Won (<code>--triggered-by</code>)<br><br>
@@ -1321,7 +1444,7 @@
           <div class="swim-icon claude">AI</div>
           <div>
             <div class="swim-label">Claude Orchestrator</div>
-            <div class="swim-desc">Pre-flight, Phases 1&ndash;4, notify, health check, summary</div>
+            <div class="swim-desc">Pre-flight, Phases 1&ndash;6, notify, health check, summary</div>
           </div>
         </div>
         <div class="swim-item">
@@ -1351,8 +1474,8 @@
   </div><!-- /container -->
 
   <div class="footer">
-    <strong>Spoke Building &amp; Interiors</strong> &mdash; Project Setup Orchestrator v2.1<br>
-    Last updated May 2026
+    <strong>Spoke Building &amp; Interiors</strong> &mdash; Project Setup Orchestrator v2.2<br>
+    Last updated May 2026 &bull; 6-phase chain (Phase 5 site works split out)
   </div>
 
   <script>
