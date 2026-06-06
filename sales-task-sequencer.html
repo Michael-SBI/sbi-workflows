@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SBI Sales Workflow (v2)</title>
+<title>SBI Sales Workflow</title>
 <style>
-  :root{--ink:#111827;--paper:#f7f7f5;--lead:#1e3a8a;--admin:#0f766e;--design:#0891b2;--pm:#ea580c;--gold:#f59e0b;--rule:#d6d3d1;--gap:#dc2626;}
+  :root{--ink:#111827;--paper:#f7f7f5;--lead:#1e3a8a;--admin:#0f766e;--design:#0891b2;--pm:#ea580c;--gold:#f59e0b;--rule:#d6d3d1;--gap:#dc2626;--green:#15803d;}
   *{box-sizing:border-box;}
   body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.5;padding:28px 18px;}
   .wrap{max-width:1040px;margin:0 auto;}
@@ -19,20 +19,31 @@
   .gail{background:#ecfeff;border:3px solid var(--gold);border-radius:10px;padding:16px 20px;margin-bottom:24px;}
   .gail h3{margin:0 0 8px;color:var(--admin);font-size:17px;}
   .gail ol{margin:0;padding-left:22px;} .gail li{margin:5px 0;}
+  .sectlabel{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#6b7280;margin:24px 0 10px;}
   .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-bottom:8px;}
   .card{flex:1 1 300px;background:#fff;border:2px solid var(--rule);border-left-width:8px;border-radius:10px;padding:14px 16px;}
   .card.gailcard{border-left-color:var(--admin);box-shadow:0 0 0 3px var(--gold) inset;}
+  .card.michaelcard{border-left-color:var(--lead);}
   .card .ph{font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#6b7280;}
   .card h2{font-size:19px;margin:2px 0 8px;border:none;padding:0;}
   .card p{margin:0 0 8px;font-size:14px;}
   .tag{display:inline-block;font-size:12px;font-weight:700;color:#fff;border-radius:11px;padding:2px 9px;margin:2px 4px 2px 0;}
   .t-admin{background:var(--admin);} .t-lead{background:var(--lead);} .t-design{background:var(--design);} .t-pm{background:var(--pm);}
+  .statuses{font-family:ui-monospace,monospace;font-size:11px;color:#4b5563;background:#f3f4f6;border:1px solid var(--rule);border-radius:5px;padding:3px 8px;margin:6px 0 0;display:block;}
   .card ul{margin:8px 0 0;padding-left:18px;font-size:13px;color:#374151;} .card li{margin:2px 0;}
   .arrow{align-self:center;font-size:22px;color:#9ca3af;font-weight:800;}
-  .won{background:#15803d;color:#fff;border-radius:10px;padding:14px 18px;font-weight:700;text-align:center;margin:8px 0 24px;}
+  .loopnote{font-size:12px;color:#92400e;background:#fffbeb;border:1px dashed var(--gold);border-radius:6px;padding:6px 10px;margin:2px 0 8px;}
+  .won{background:var(--green);color:#fff;border-radius:10px;padding:14px 18px;font-weight:700;text-align:center;margin:8px 0 24px;}
+  .offramps{display:flex;flex-wrap:wrap;gap:14px;margin:8px 0 8px;}
+  .offramp{flex:1 1 300px;border:2px solid var(--rule);border-radius:10px;padding:14px 16px;background:#fff;}
+  .offramp h3{margin:0 0 8px;font-size:16px;}
+  .offramp.hold{border-left:8px solid var(--gold);} .offramp.hold h3{color:#92400e;}
+  .offramp.lost{border-left:8px solid var(--gap);} .offramp.lost h3{color:#991b1b;}
+  .offramp ul{margin:8px 0 0;padding-left:18px;font-size:13px;color:#374151;} .offramp li{margin:5px 0;}
+  .pill{font-family:ui-monospace,monospace;font-size:11.5px;background:#eef2ff;color:#3730a3;border-radius:4px;padding:1px 6px;white-space:nowrap;}
+  .rule-box{background:#ecfdf5;border:2px solid var(--green);border-radius:8px;padding:12px 16px;font-size:14px;margin:14px 0 24px;}
+  .rule-box strong{color:#065f46;}
   .save{background:#f3f4f6;border:1px solid var(--rule);border-radius:8px;padding:12px 16px;font-size:14px;margin-bottom:20px;}
-  .gaps{background:#fee2e2;border:2px solid var(--gap);border-radius:10px;padding:16px 20px;}
-  .gaps h3{margin:0 0 8px;color:#991b1b;} .gaps ul{margin:0;padding-left:20px;} .gaps li{margin:6px 0;color:#991b1b;}
   footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--rule);font-size:12px;color:#78716c;}
   @media print{body{background:#fff;}}
 </style>
@@ -40,95 +51,115 @@
 <body>
 <div class="wrap">
 
-<div class="derived">⚙️ <strong>One version, derived from the source.</strong> Generated from <code>sales-task-template.md</code> (v2) — the single source of truth. Don't copy or fork this page; if it's wrong, fix the source and regenerate.</div>
+<div class="derived">⚙️ <strong>One version, derived from the source.</strong> Generated from the <code>SBI-Sales-Chief</code> playbook (v0.12) + <code>stage-criteria.md</code> — the single source of truth. Don't copy or fork this page; if it's wrong, fix the source and regenerate.</div>
 
 <header>
   <div class="eyebrow">Spoke Building &amp; Interiors · Sales</div>
   <h1>How a Sale Runs — Enquiry → Proposal → Won</h1>
-  <div class="meta">Architecture v2 (2026-05-30) · ClickUp Deals list + template task 86d2ufymy</div>
+  <div class="meta">Process v0.12 (updated 7 June 2026) · ClickUp Deals list + template task 86d2ufymy</div>
 </header>
 
 <div class="model">
-  <strong>The model:</strong> every new deal arrives with the <strong>full pipeline pre-populated</strong> (~29 subtasks, owners stamped, <strong>no due dates</strong>). The team works the visible structure; the <strong>AI Sales Director</strong> on the dashboard advises which task to activate next. Dates are decisions humans make — not assumptions baked in. (The old auto-sequencer is retired.)
+  <strong>The model:</strong> every new deal arrives with the <strong>full pipeline pre-populated</strong> (~29 subtasks, owners stamped in the <strong>🤝 SBI Workflow Assignee</strong> field, <strong>no due dates</strong>). The team works the visible structure; the <strong>AI Sales Director</strong> on the dashboard advises which task to activate next, and the <strong>📊 Deal Snapshot</strong> on each deal says where it's up to. A deal's <strong>stage = its ClickUp status</strong>. Only <strong>Michael &amp; Gail</strong> move a deal between stages. (The old auto-sequencer is retired.)
 </div>
 
 <div class="gail">
   <h3>⭐ Gail runs the chase engine — three jobs</h3>
   <ol>
     <li><strong>Open &amp; qualify (P1)</strong> — acknowledge, request info, send booking link. The <strong>SETUP 6-item contact gate</strong> (name · email · phone · address · ack sent · deal renamed) must be ticked before SETUP can close.</li>
-    <li><strong>Drive every follow-up</strong> — P1 info chases, P4 booking chases + decline, P5 closing chases. Nothing goes quiet.</li>
-    <li><strong>Record the outcome</strong> — won/lost; the win fires the project handover.</li>
+    <li><strong>Drive every follow-up</strong> — P1 info chases (~4 → polite close), P4 booking chases (up to 5 → politely decline), P5 closing chases (up to 5). Nothing goes quiet.</li>
+    <li><strong>Record the outcome</strong> — won / lost; the win fires the project handover.</li>
   </ol>
 </div>
 
+<div class="sectlabel">The pipeline · P1 → P6</div>
 <div class="flow">
   <div class="card gailcard">
     <div class="ph">📞 P1 · Engagement</div>
     <h2>Open &amp; qualify the deal</h2>
-    <p>Acknowledge → request project info → invite to a meeting, chasing as needed.</p>
+    <p>Acknowledge → request project info → send the meeting booking link, chasing as needed. Qualify out wrong-type work (handyman, out of region, outside ~$5k–$750k).</p>
     <span class="tag t-admin">Gail</span>
-    <ul><li>SETUP + 6-item contact gate</li><li>Project-info request + 3 chases + polite close</li><li>Intro-meeting invite + booking chases</li></ul>
+    <span class="statuses">inquiries recieved → active outreach → qualified lead</span>
+    <ul><li>SETUP + 6-item contact gate</li><li>Project-info request + ~3 chases + polite close</li><li>Intro-meeting booking link</li></ul>
   </div>
   <div class="arrow">→</div>
-  <div class="card">
+  <div class="card michaelcard">
     <div class="ph">🔍 P2 · Discovery</div>
     <h2>Scope the job</h2>
-    <p>Intro meeting and site measure to understand the work.</p>
+    <p>Online intro meeting (the default) <em>or</em> a site inspection to understand the work. Skip straight to pricing if we already have enough to quote (usually joinery).</p>
     <span class="tag t-lead">Michael</span>
-    <ul><li>Intro meeting booked</li><li>Site measure</li></ul>
+    <span class="statuses">initial meeting booked → meet/inspection completed</span>
+    <ul><li>Hold intro meeting / site measure</li><li>"meet/inspection completed" = a quick holding step on the way to pricing</li></ul>
   </div>
   <div class="arrow">→</div>
-  <div class="card">
+  <div class="card michaelcard">
     <div class="ph">💰 P3 · Pricing</div>
     <h2>Price it (parallel tracks)</h2>
-    <p>Plans, drawings and costs produced in parallel, then ready to present.</p>
+    <p>Plans + costs built in parallel, then consolidated into a proposal. <strong>Job type picks the tracks:</strong> joinery-only → Mozaik; on-site build → Buildsoft; combined → both.</p>
     <span class="tag t-lead">Michael</span><span class="tag t-design">Shravan</span><span class="tag t-pm">Chadd</span>
-    <ul><li>Plans + SketchUp + site photos/markup — Michael</li><li>Mozaik joinery pricing — Shravan</li><li>Buildsoft fitout pricing — Chadd</li></ul>
+    <span class="statuses">estimating &amp; design</span>
+    <ul><li>Plans + SketchUp + site markup — Michael</li><li>Mozaik joinery pricing — Shravan</li><li>Buildsoft build pricing — Chadd</li><li><em>Build deal awaiting our own design parks here — not stalled.</em></li></ul>
   </div>
 </div>
 <div class="flow">
   <div class="card gailcard">
     <div class="ph">🎯 P4 · Presentation</div>
     <h2>Get in front of the client</h2>
-    <p>Book the presentation (Gail chases it), then Michael presents.</p>
+    <p>Gail sends the booking link &amp; chases it. Michael <strong>presents live in the meeting</strong> — the Qwilr goes out <em>after</em> (sending without the meeting cuts the win rate).</p>
     <span class="tag t-admin">Gail</span><span class="tag t-lead">Michael</span>
-    <ul><li>Send booking link + chase ×4 + polite decline — Gail</li><li>Presentation meeting booked &amp; presented — Michael</li></ul>
+    <span class="statuses">presentation meeting</span>
+    <ul><li>Send booking link + chase up to 5 → politely decline — Gail</li><li>Present the proposal live — Michael</li></ul>
   </div>
   <div class="arrow">→</div>
   <div class="card gailcard">
     <div class="ph">🤝 P5 · Closing</div>
-    <h2>Follow up to a yes / no</h2>
-    <p>A set cadence of follow-ups (4 / 7 / 10 / 14-day touches) until the client decides.</p>
+    <h2>Follow up to a yes</h2>
+    <p>Escalating follow-ups for the decision: <strong>+2 / +4 / +7 / +10 / +14 days</strong> (#5 = closing email). On a verbal yes, chase the signature.</p>
     <span class="tag t-admin">Gail</span>
-    <ul><li>Closing follow-ups #1–#5</li></ul>
+    <span class="statuses">presentation sent → contracts requested</span>
+    <ul><li>Closing follow-ups #1–#5</li><li>Verbal yes → <span class="pill">contracts requested</span> → chase the Qwilr signature</li></ul>
   </div>
   <div class="arrow">→</div>
-  <div class="card">
-    <div class="ph">♻️ Reprice (if needed)</div>
-    <h2>Revise &amp; re-send</h2>
-    <p>Manual loop when scope or price changes after presenting.</p>
+  <div class="card michaelcard">
+    <div class="ph">💰 P6 · Reprice</div>
+    <h2>Refine &amp; re-present</h2>
+    <div class="loopnote">↩ Near-close loop — a deal here is <strong>nearly sold</strong>, not stalled.</div>
+    <p>Client wants changes after seeing the proposal. Michael reprices off the existing inputs, then it goes back in front of them. (A small tweak — a finish, a date — just goes back as an updated Qwilr; <em>no reprice</em>.)</p>
     <span class="tag t-lead">Michael</span><span class="tag t-admin">Gail</span>
-    <ul><li>Reprice — Michael</li><li>Send revised proposal — Gail</li></ul>
+    <span class="statuses">reprice proposal → represent proposal → (back to contracts)</span>
+    <ul><li>Reprice — Michael · ~2–3 biz days</li><li>Re-present revised proposal — Gail / Michael</li><li>More than 2 reprices = scope churn, flagged.</li></ul>
   </div>
 </div>
 
-<div class="won">✅ WON — Gail records the outcome → fires the project handover (Phase 2)</div>
+<div class="won">✅ WON — client signs the Qwilr → <span class="pill" style="background:rgba(255,255,255,.2);color:#fff">closed won</span> → becomes a project (deposit invoice + official contracts go out)</div>
+
+<div class="sectlabel">How a deal ends — holding states &amp; the two ways it's lost</div>
+<div class="offramps">
+  <div class="offramp hold">
+    <h3>⏸ Holding (still live)</h3>
+    <ul>
+      <li><span class="pill">on hold drip feed</span> — engaged, just needs time. Re-contact <strong>at least monthly</strong>; re-engages → back to <strong>the exact stage it was parked from</strong>.</li>
+      <li><span class="pill">client ghosting</span> — gone silent during/after a chase. Holds <strong>~3 weeks</strong>, then a terminal below.</li>
+    </ul>
+  </div>
+  <div class="offramp lost">
+    <h3>⛔ Lost terminals</h3>
+    <ul>
+      <li><span class="pill">done lost after proposal</span> — we <strong>priced it / built a proposal</strong> (P3 on) but didn't win.</li>
+      <li><span class="pill">declined_no proposal</span> — fell out <strong>before</strong> any pricing (P1 chases exhausted, wrong type, never qualified).</li>
+    </ul>
+  </div>
+</div>
+<div class="rule-box">
+  🧭 <strong>The one rule:</strong> when a deal is lost, ask <strong>"did we do the pricing?"</strong> — Yes → <span class="pill">done lost after proposal</span> · No → <span class="pill">declined_no proposal</span>.
+</div>
 
 <div class="save">
   <strong>Where things are saved:</strong> documents live in the job's Shared Drive folder and are <strong>linked from the deal in ClickUp</strong>. Paste each link the moment the document is produced (Buildsoft link at P3, proposal at P4) — so ClickUp is always the live index, not a tidy-up at the end.
 </div>
 
-<div class="gaps">
-  <h3>🔴 Known gaps — fix at the source</h3>
-  <ul>
-    <li>No written trigger for <strong>when a job gets Mozaik joinery pricing</strong> (vs Buildsoft only).</li>
-    <li>Pricing work concentrates on <strong>Michael</strong> (plans, SketchUp, markup, present, reprice) — a key-person bottleneck.</li>
-    <li><strong>Save-and-link</strong> still tends to happen at Won, not when each document is produced.</li>
-  </ul>
-</div>
-
 <footer>
-  Single source of truth: <code>projects/SBI-Sales-Chief/sales-task-template.md</code> (v2) · ClickUp template task 86d2ufymy · Spoke Building &amp; Interiors
+  Single source of truth: <code>projects/SBI-Sales-Chief/playbook.md</code> (v0.12) + <code>sales-task-template.md</code> · ClickUp template task 86d2ufymy · Spoke Building &amp; Interiors
 </footer>
 
 </div>
