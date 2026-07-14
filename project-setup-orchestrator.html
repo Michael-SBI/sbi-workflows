@@ -91,8 +91,8 @@
 
   <div class="callout">
     <h2>The model in one line</h2>
-    <p><strong>When a deal hits <code>Closed Won</code>, the project folder is created automatically — and that's the only automatic step.</strong> Everything after that (handover, budget, procurement, RFQs, site works, dashboard) is run <strong>by hand</strong> as a guided chain in <strong>Claude Desktop (Cowork)</strong>, alongside the day's work.</p>
-    <p>This replaced the old fully-automated, Make-triggered orchestrator (retired 2026-06). Manual setup is deliberate: each step is reviewed as it runs, so nothing lands wrong on a live folder.</p>
+    <p><strong>When a deal hits <code>Closed Won</code>, the project folder is created automatically — and that's the only automatic step.</strong> Everything after that (handover, budget, procurement, RFQs, site works, dashboard) is run <strong>by hand, one skill at a time</strong>, in <strong>Claude Desktop (Cowork)</strong>, alongside the day's work.</p>
+    <p><strong>There is no orchestrator any more.</strong> Both the old Make-triggered automation <em>and</em> the coordinator that chained the steps together are retired — the team now runs each of the six setup skills individually. That's deliberate: every step is seen and confirmed before the next, so nothing lands wrong on a live folder.</p>
   </div>
 
   <!-- SECTION 1 — AUTOMATIC -->
@@ -110,11 +110,11 @@
   <!-- SECTION 2 — MANUAL CHAIN -->
   <div class="section-head">
     <div class="num num-manual">2</div>
-    <h2 style="color:var(--orange)">The setup chain — run by hand in Cowork</h2>
+    <h2 style="color:var(--orange)">The six setup steps — run by hand in Cowork</h2>
   </div>
 
   <div class="cowork">
-    <strong>▶ How it's run:</strong> the team works in <strong>Claude Desktop (Cowork) split-screen</strong> — Claude on one side, ClickUp on the other — kicking off each phase with the <code>project-setup-orchestrator</code> skill (or each sub-skill directly) and carrying on while it runs. The orchestrator only <em>coordinates</em> — reads state, picks the next sub-skill, applies skip rules; the six sub-skills do the actual work. Run <code>/project-setup-orchestrator {job name}</code> to walk the whole chain, or call any single sub-skill on its own. <em>Tap any phase to expand.</em>
+    <strong>▶ How it's run:</strong> the team works in <strong>Claude Desktop (Cowork) split-screen</strong> — Claude on one side, ClickUp on the other — and runs the six setup skills below <strong>individually, in order</strong>, kicking off the next only once the last is done and checked. Each skill is called on its own (e.g. <code>/sales-handover {job}</code>, then <code>/budget-cost-sheet {job}</code>, …) — <strong>no orchestrator chains them</strong>. Some steps are skipped by job type (see the flags). <em>Tap any step to expand.</em>
   </div>
 
   <!-- PHASE 1 -->
@@ -258,7 +258,7 @@
     <h2 style="color:var(--red)">Re-run safety</h2>
   </div>
   <div class="callout">
-    <p>The chain is safe to re-run on an existing project — it reads PM-owned state as-is and writes only in narrow, well-defined places. <strong>It never recreates or overwrites existing site-works or tasks.</strong></p>
+    <p>Each skill is safe to re-run on an existing project — they read PM-owned state as-is and write only in narrow, well-defined places. <strong>They never recreate or overwrite existing site-works or tasks.</strong></p>
     <div class="safe-grid">
       <div class="safe-col reads">
         <h3>✓ Reads as-is (never touches)</h3>
@@ -285,8 +285,8 @@
 
 <div class="footer">
   <strong>Spoke Building & Interiors</strong> — Project Setup<br>
-  Source of truth: <code>projects/SBI-Projects-Chief/project-lifecycle.md</code> · orchestrator + 6 sub-skills in <code>~/sbi-skills/</code> · Make folder trigger <code>5232361</code><br>
-  Updated July 2026 · folder auto-creates on Won, the rest is run by hand in Cowork
+  Source of truth: <code>projects/SBI-Projects-Chief/project-lifecycle.md</code> · 6 setup skills in <code>~/sbi-skills/</code> · Make folder trigger <code>5232361</code><br>
+  Updated July 2026 · folder auto-creates on Won; the six setup skills are then run by hand, one at a time, in Cowork
 </div>
 
 <script>
