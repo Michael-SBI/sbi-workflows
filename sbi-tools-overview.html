@@ -57,6 +57,8 @@
     .swim-icon.leah{background:#E91E63}
     .swim-icon.pm{background:var(--blue)}
     .swim-icon.chadd{background:var(--teal)}
+    .swim-icon.chloe{background:#7C3AED}
+    .swim-icon.mozaik{background:#00838F}
     .swim-icon.sales{background:var(--yellow);color:#000}
     .swim-label{font-size:0.85rem;font-weight:700}
     .swim-desc{font-size:0.75rem;color:var(--grey-light)}
@@ -93,26 +95,26 @@
         <h2 style="color:var(--green)">Runs Automatically</h2>
       </div>
 
-      <!-- Project Setup -->
+      <!-- Project Folder on Won -->
       <div class="tool-card open" onclick="toggleCard(this)">
         <div class="tool-top">
           <div>
-            <div class="tool-name">Project Setup Automation</div>
-            <div class="tool-who">Triggered when sales task &rarr; <strong>Closed Won</strong></div>
+            <div class="tool-name">Project Folder on Won</div>
+            <div class="tool-who">Triggered when a deal &rarr; <strong>Closed Won</strong></div>
           </div>
           <span class="tool-tag tag-webhook">WEBHOOK</span>
           <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
         </div>
         <div class="tool-body">
-          <p><strong>What happens:</strong> When a sales task moves to "Closed Won" in ClickUp, Make.com instantly checks all required fields are filled, creates the project folder from template, and posts an assigned comment to Michael.</p>
-          <p><strong>Then Michael runs the orchestrator</strong> which handles: folder rename, progress claims, schedule dates, site tasks, budget, procurement tasks, and project dashboard — all automatically.</p>
+          <p><strong>What happens:</strong> the moment a deal moves to "Closed Won", Make.com creates the project folder from the template (11 lists), named from the deal, and posts a non-blocking comment if key fields are missing. <strong>That is the only automatic step.</strong></p>
+          <p><strong>Everything else is run by hand</strong> in Claude Desktop (Cowork): handover, budget, procurement, RFQs, site works and the dashboard — a guided 6-phase chain the team kicks off alongside the day's work. (The old fully-automated orchestrator was retired 2026-06.)</p>
           <ul>
-            <li>Pre-flight checks 7 required fields before creating folder</li>
-            <li>If fields missing — posts "fix these" comment, no folder wasted</li>
-            <li>Full setup takes ~5 minutes once triggered</li>
+            <li>Folder auto-appears, ready to set up</li>
+            <li>Each setup step is reviewed as it runs — nothing lands wrong on a live folder</li>
+            <li>See the full guide for the phase-by-phase chain</li>
           </ul>
-          <p><strong>Who benefits:</strong> Sales team (instant handoff), PM team (project ready to go), Gail (claims created), Leah (notified of manual steps)</p>
-          <span class="url-box">Detailed infographic: michael-sbi.github.io/sbi-workflows/project-setup-automation.html</span>
+          <p><strong>Who benefits:</strong> Sales team (instant handoff), PM team (folder ready), Gail (claims), Leah (compliance)</p>
+          <span class="url-box">Full guide: michael-sbi.github.io/sbi-workflows/project-setup-orchestrator.html</span>
         </div>
       </div>
 
@@ -137,6 +139,70 @@
           </ul>
           <p><strong>Who benefits:</strong> PM team (up-to-date dashboards for Tuesday meeting), Michael (overview of all projects)</p>
           <p>Can also be run on-demand: <code>/refresh-dashboards</code></p>
+        </div>
+      </div>
+
+      <!-- Email Routine -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Email → ClickUp Logger</div>
+            <div class="tool-who">Every <strong>2 hours</strong>, 7am–5pm daily</div>
+          </div>
+          <span class="tool-tag tag-scheduled">SCHEDULED</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p><strong>What happens:</strong> every email in/out of <code>@spokebi.com.au</code> is read, classified as sales / project / unmatched, and logged automatically — sales emails onto the deal, project emails into that project's Email Log list. No one files anything by hand.</p>
+          <ul>
+            <li>Rebuilds each deal's live <strong>Deal Performance</strong> dashboard (ball-in-court, next action, sentiment, responsiveness)</li>
+            <li>Rebuilds each project's live <strong>Project Health</strong> dashboard (open commitments, sentiment, next action)</li>
+            <li>Keeps a per-deal <strong>📊 Deal Snapshot</strong> current; dedups by Gmail Message-ID</li>
+            <li>Silent — no notifications, no inbound comments</li>
+          </ul>
+          <p><strong>Who benefits:</strong> Everyone — the client-comms memory of the whole business, always current</p>
+        </div>
+      </div>
+
+      <!-- Sales Dashboard -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Sales Manager Dashboard</div>
+            <div class="tool-who">Rebuilt every <strong>day at 7am</strong></div>
+          </div>
+          <span class="tool-tag tag-scheduled">SCHEDULED</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p><strong>What happens:</strong> the live sales pipeline dashboard rebuilds itself each morning from ClickUp — every deal, its stage, Deal Health, the AI Sales Director's read, and the per-person action boards.</p>
+          <ul>
+            <li>Feeds off the Sales Briefing (rebuilt 6:30am) + the Next-Action Loop fields</li>
+            <li>Leah's Cockpit tab + the accountability boards</li>
+          </ul>
+          <span class="url-box">sbi-sales-manager.netlify.app</span>
+          <p><strong>Who benefits:</strong> Michael (whole-pipeline view), the sales team (what's mine, what's slipping)</p>
+        </div>
+      </div>
+
+      <!-- Daily Owner Brief / Team Update -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Daily Owner Brief / Team Update</div>
+            <div class="tool-who"><strong>Weekday 6:30am</strong> &bull; per person</div>
+          </div>
+          <span class="tool-tag tag-scheduled">SCHEDULED</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p><strong>What happens:</strong> each weekday morning a brief is posted on the person's home task — for Michael the whole-business Owner Brief; for everyone else their Team Update (their day, their tasks, their comments, their deals).</p>
+          <ul>
+            <li>Reads Calendar, Gmail, ClickUp tasks/comments + the sales pipeline</li>
+            <li>Ranks by Action Priority; flags slipped commitments from a persistent memory</li>
+            <li>Also on-demand: <code>/daily-owner-brief</code> ("run my brief")</li>
+          </ul>
+          <p><strong>Who benefits:</strong> Michael + each team member — walk in already knowing the day</p>
         </div>
       </div>
     </div>
@@ -262,6 +328,98 @@
           <p><strong>Who benefits:</strong> Michael (quality control on project setup)</p>
         </div>
       </div>
+
+      <!-- RFQ Setup -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">RFQ — Contractors & Suppliers</div>
+            <div class="tool-who">Run by <strong>PM / Michael</strong> &bull; after procurement setup</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Makes procurement tasks RFQ-ready: links the top 3 matching subcontractors/suppliers to each task, writes a ready-to-send scope of works into the task, and creates one <code>RFQ {sub}</code> tracking subtask per matched sub.</p>
+          <ul>
+            <li>Matches subs from the Contractors & Suppliers list by trade</li>
+            <li>Standing subs always included (TCA Electrical, Brush Magic)</li>
+          </ul>
+          <p><strong>Who benefits:</strong> PM team (quotes out fast), suppliers (clear scope)</p>
+        </div>
+      </div>
+
+      <!-- Site Works -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Site Works Tasks</div>
+            <div class="tool-who">Run by <strong>PM / Michael</strong> &bull; jobs with on-site work</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Creates the install/measure subtasks under <code>10.1 SITE WORKS [SCHEDULE]</code> from the signed proposal scope. Shows a plan before writing. Skipped for supply-only, design-only or factory-only jobs.</p>
+          <p><strong>Who benefits:</strong> PM team, site crew (know exactly what's on site)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ON-DEMAND — SALES & DESIGN -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-demand">S</div>
+        <h2 style="color:var(--blue)">On-Demand — Sales &amp; Design</h2>
+      </div>
+
+      <!-- Qwilr Proposals -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Qwilr Proposals</div>
+            <div class="tool-who">Run by <strong>Leah / Michael</strong> &bull; client-facing proposal</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Generates a high-converting, interactive HTML proposal for a fitout or joinery job — built to sell Responsiveness, Quality, Value and Knowledge, in SBI's voice, not to itemise a quote.</p>
+          <p><strong>Who benefits:</strong> Sales team (polished proposal fast), clients (clear, confident pitch)</p>
+        </div>
+      </div>
+
+      <!-- Mozaik Cost Sheet -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Mozaik → Cost Sheet</div>
+            <div class="tool-who">Run by <strong>Mark / Shravan</strong> &bull; joinery pricing</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Turns a raw Mozaik joinery CSV export into a formatted two-tab Google Sheet (SBI cost sheet + cost-code collection page), drops it into the job's Drive folder, and exports a print-ready PDF.</p>
+          <p><strong>Who benefits:</strong> Mozaik team (fast, consistent joinery pricing), Michael (proposal-ready costs)</p>
+        </div>
+      </div>
+
+      <!-- Finishes Schedule -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Finishes Schedule</div>
+            <div class="tool-who">Run by <strong>Chloe</strong> (with Shravan) &bull; FF&amp;E schedule</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Builds and maintains a job's finishes/FF&amp;E schedule — an internal live Google Sheet plus a client-ready sign-off PDF, from one dataset. Drop in supplier links and it extracts each product; a guided coach mode walks new starters through it.</p>
+          <p><strong>Who benefits:</strong> Chloe (core deliverable), clients (clear finishes sign-off)</p>
+        </div>
+      </div>
     </div>
 
     <!-- ON-DEMAND — WEEKLY / ADMIN -->
@@ -323,6 +481,38 @@
           <p><strong>Who benefits:</strong> Leah (compliance paperwork), building managers</p>
         </div>
       </div>
+
+      <!-- Sales Meeting Agenda -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">Sales Meeting Agenda</div>
+            <div class="tool-who"><strong>Wednesday 8am</strong> &bull; auto-written for review</div>
+          </div>
+          <span class="tool-tag tag-scheduled">SCHEDULED</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Writes the weekly sales L10 agenda straight into the meeting task from live pipeline state — what moved, what's slipping, decisions & actions carried over. Michael reviews before the meeting.</p>
+          <p><strong>Who benefits:</strong> Michael + sales team (a ready agenda, nothing forgotten)</p>
+        </div>
+      </div>
+
+      <!-- SBI Wiki -->
+      <div class="tool-card" onclick="toggleCard(this)">
+        <div class="tool-top">
+          <div>
+            <div class="tool-name">SBI Wiki Expert</div>
+            <div class="tool-who">Used by <strong>anyone</strong> &bull; "how does SBI do X?"</div>
+          </div>
+          <span class="tool-tag tag-ondemand">ON DEMAND</span>
+          <svg class="tool-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="tool-body">
+          <p>Answers questions about how SBI works — processes, policies, tools, who does what, onboarding, standard procedures — from the company wiki. Can also update wiki content and sync it back to ClickUp.</p>
+          <p><strong>Who benefits:</strong> Everyone — especially new starters</p>
+        </div>
+      </div>
     </div>
 
     <!-- ALWAYS ON -->
@@ -364,42 +554,49 @@
           <div class="swim-icon michael">MC</div>
           <div>
             <div class="swim-label">Michael</div>
-            <div class="swim-desc">All tools — triggers orchestrator, reviews dashboards</div>
-          </div>
-        </div>
-        <div class="swim-item">
-          <div class="swim-icon pm">PM</div>
-          <div>
-            <div class="swim-label">PM Team</div>
-            <div class="swim-desc">Dashboards, procurement, schedule, meeting agenda</div>
+            <div class="swim-desc">Sales Manager + PM lead — runs setup, prices & presents, reviews dashboards</div>
           </div>
         </div>
         <div class="swim-item">
           <div class="swim-icon gail">G</div>
           <div>
             <div class="swim-label">Gail</div>
-            <div class="swim-desc">Claims, budgets, transaction matching, Xero setup</div>
+            <div class="swim-desc">Client chase chains, claims, transaction matching, Xero</div>
           </div>
         </div>
         <div class="swim-item">
           <div class="swim-icon leah">L</div>
           <div>
             <div class="swim-label">Leah</div>
-            <div class="swim-desc">Fire safety certificates, drive folders, contracts</div>
+            <div class="swim-desc">Contracts, compliance, fire safety, Qwilr proposals</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon chloe">CH</div>
+          <div>
+            <div class="swim-label">Chloe</div>
+            <div class="swim-desc">Coordinates the sales middle, finishes schedules, onboarding</div>
           </div>
         </div>
         <div class="swim-item">
           <div class="swim-icon chadd">C</div>
           <div>
             <div class="swim-label">Chadd</div>
-            <div class="swim-desc">Labour scheduler, procurement workflow</div>
+            <div class="swim-desc">Buildsoft estimating, labour scheduler, procurement workflow</div>
           </div>
         </div>
         <div class="swim-item">
-          <div class="swim-icon sales">S</div>
+          <div class="swim-icon mozaik">M+S</div>
           <div>
-            <div class="swim-label">Sales Team</div>
-            <div class="swim-desc">Project setup triggers automatically on Won</div>
+            <div class="swim-label">Mark & Shravan</div>
+            <div class="swim-desc">Mozaik joinery drawings + pricing, CAD</div>
+          </div>
+        </div>
+        <div class="swim-item">
+          <div class="swim-icon sales">ALL</div>
+          <div>
+            <div class="swim-label">Whole team</div>
+            <div class="swim-desc">Email logger, morning briefs & live dashboards keep everyone current</div>
           </div>
         </div>
       </div>
@@ -408,8 +605,8 @@
   </div>
 
   <div class="footer">
-    <strong>Spoke Building & Interiors</strong> &mdash; Tools &amp; Automation Overview v1.0<br>
-    Last updated April 2026
+    <strong>Spoke Building & Interiors</strong> &mdash; Tools &amp; Automation Overview v1.1<br>
+    Last updated July 2026
   </div>
 
   <script>
