@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SBI Sales Workflow — Links & Information Flow</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0D1B2A;color:#fff;line-height:1.5;-webkit-font-smoothing:antialiased}
+:root{--navy:#1F3864;--navy-deep:#0D1B2A;--navy-light:#2A4A7F;--orange:#FF6B00;--orange-light:#FF8C33;--orange-glow:rgba(255,107,0,.15);--green:#00C853;--green-dark:#009624;--blue:#2196F3;--purple:#9C27B0;--red:#FF1744;--yellow:#FFD600;--white:#fff;--grey-light:#B0BEC5;--grey-dark:#37474F;--card-bg:#1A2F4A}
+.banner{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);border-bottom:4px solid var(--orange);padding:24px 20px 20px;text-align:center;position:relative;overflow:hidden}
+.banner::before{content:'';position:absolute;top:-50%;right:-10%;width:300px;height:300px;background:radial-gradient(circle,var(--orange-glow) 0%,transparent 70%);pointer-events:none}
+.banner-badge{display:inline-block;background:var(--orange);color:#fff;font-weight:800;font-size:1rem;letter-spacing:2px;padding:4px 16px;border-radius:4px;margin-bottom:10px;text-transform:uppercase}
+.banner h1{font-size:clamp(1.6rem,5vw,2.4rem);font-weight:900;letter-spacing:-.5px;margin-bottom:6px}
+.banner h1 span{color:var(--orange)}
+.banner p{font-size:1rem;color:var(--grey-light);max-width:680px;margin:0 auto}
+.draft{display:inline-block;margin-top:10px;padding:3px 12px;border:3px solid var(--yellow);border-radius:4px;color:var(--yellow);font-weight:800;font-size:.75rem;letter-spacing:1px;text-transform:uppercase}
+.container{max-width:1000px;margin:0 auto;padding:0 16px}
+h2.section{font-size:1.15rem;font-weight:800;margin:26px 0 10px;color:#fff}
+h2.section span{color:var(--orange)}
+.hint{font-size:.85rem;color:var(--grey-light);margin-bottom:12px}
+/* ===== MAP ===== */
+.map{background:var(--card-bg);border:3px solid var(--navy-light);border-radius:12px;padding:12px;overflow-x:auto}
+.map svg{width:100%;min-width:760px;height:auto;display:block}
+.map text{font-family:inherit}
+.n-title{font-weight:800;font-size:15px;fill:#fff}
+.n-sub{font-size:11px;fill:#B0BEC5}
+.n-id{font-weight:900;font-size:11px;fill:#0D1B2A}
+.edge{fill:none;stroke:#B0BEC5;stroke-width:2.5}
+.edge.hot{stroke:var(--orange)}
+.edge.auto{stroke:var(--green);stroke-dasharray:6 4}
+.edge.loop{stroke:var(--yellow)}
+.e-label{font-size:10.5px;fill:#fff;font-weight:700}
+.e-label.auto{fill:var(--green)}
+.e-label.loop{fill:var(--yellow)}
+.h-tag{font-weight:900;fill:#00C853}
+.store{fill:#0D1B2A;stroke-width:3}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:12px}
+.leg{background:var(--card-bg);border:3px solid var(--grey-dark);border-radius:12px;padding:12px 14px;font-size:.85rem}
+.leg h4{font-weight:800;font-size:.95rem;margin-bottom:6px}
+.leg.a h4{color:var(--orange)}.leg.b h4{color:var(--blue)}.leg.c h4{color:var(--purple)}.leg.d h4{color:var(--green)}
+.leg ul{list-style:none}.leg li{padding:3px 0 3px 14px;position:relative;color:var(--grey-light)}
+.leg li::before{content:'▸';position:absolute;left:0;color:var(--orange)}
+.leg code,.step-flyout-inner code,.phase-body code{font-family:Consolas,Menlo,monospace;font-size:.85em;background:rgba(255,255,255,.08);padding:1px 5px;border-radius:4px;color:#fff}
+.handoffs{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px;margin-top:12px}
+.ho{background:var(--card-bg);border:3px solid var(--grey-dark);border-radius:12px;padding:14px;font-size:.85rem;position:relative}
+.ho.h1{border-color:var(--purple)}.ho.h2{border-color:var(--green)}.ho.h3{border-color:var(--blue)}
+.ho-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.ho-id{font-weight:900;font-size:.8rem;padding:2px 8px;border-radius:10px;color:#fff;background:var(--grey-dark)}
+.ho.h1 .ho-id{background:var(--purple)}.ho.h2 .ho-id{background:var(--green)}.ho.h3 .ho-id{background:var(--blue)}
+.ho h4{font-weight:800;font-size:1rem;flex:1}
+.ho-when{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--orange-light)}
+.ho-who{color:var(--grey-light);margin-bottom:8px}
+.ho ul{list-style:none}.ho li{padding:4px 0 4px 14px;position:relative;color:var(--grey-light)}
+.ho li::before{content:'▸';position:absolute;left:0;color:var(--orange)}
+.ho li strong{color:#fff}
+.ho-status{margin-top:10px;display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:2px 10px;border-radius:4px}
+.ho-status.built{background:var(--green-dark);color:#fff}.ho-status.proposed{background:var(--yellow);color:#0D1B2A}
+/* ===== TIMELINE ===== */
+.timeline{position:relative;padding:10px 0 30px}
+.timeline::before{content:'';position:absolute;left:28px;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,var(--orange),var(--green));border-radius:2px}
+.phase{position:relative;margin-bottom:20px;padding-left:60px}
+.phase-dot{position:absolute;left:16px;top:18px;width:28px;height:28px;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.75rem;z-index:2}
+.phase[data-phase="1"] .phase-dot{background:var(--orange)}
+.phase[data-phase="2"] .phase-dot{background:var(--blue)}
+.phase[data-phase="3"] .phase-dot{background:var(--purple)}
+.phase[data-phase="4"] .phase-dot{background:var(--green)}
+.phase[data-phase="5"] .phase-dot{background:#E91E63}
+.phase[data-phase="6"] .phase-dot{background:var(--red);border-color:var(--red)}
+.phase-header{background:var(--card-bg);border:3px solid var(--grey-dark);border-radius:12px;padding:16px 18px;cursor:pointer;transition:all .2s;user-select:none;-webkit-tap-highlight-color:transparent}
+.phase-header:hover,.phase-header:active{border-color:var(--orange)}
+.phase.open .phase-header{border-color:var(--orange);border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom:none}
+.phase-header-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.phase-header h3{font-size:1.1rem;font-weight:800;flex:1}
+.phase-header h3 span{color:var(--orange)}
+.phase-tag{display:inline-block;padding:2px 10px;border-radius:4px;font-size:.7rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;flex-shrink:0}
+.tag-auto{background:var(--green-dark);color:#fff}.tag-manual{background:var(--red);color:#fff}.tag-gate{background:var(--purple);color:#fff}.tag-status{background:var(--navy-light);color:#fff}
+.phase-chevron{width:24px;height:24px;flex-shrink:0;transition:transform .25s;fill:var(--grey-light)}
+.phase.open .phase-chevron{transform:rotate(180deg)}
+.phase-who{font-size:.8rem;color:var(--grey-light);margin-top:4px}
+.phase-who strong{color:var(--orange-light)}
+.phase-body{background:var(--card-bg);border:3px solid var(--orange);border-top:none;border-radius:0 0 12px 12px;padding:0 18px;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
+.phase.open .phase-body{max-height:6000px;padding:14px 18px 18px}
+.phase-body ol,.phase-body ul{padding-left:0;list-style:none;counter-reset:step}
+.phase-body li{position:relative;padding:8px 0 8px 44px;font-size:.95rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.phase-body li:last-child{border-bottom:none}
+.phase-body ol>li::before{content:attr(data-id);position:absolute;left:0;top:9px;min-width:34px;height:24px;padding:0 6px;background:var(--navy-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.7rem;color:var(--orange);border:2px solid var(--orange)}
+.owner{display:inline-block;font-size:.65rem;font-weight:800;padding:1px 6px;border-radius:3px;vertical-align:middle;margin-left:6px;text-transform:uppercase;color:#fff}
+.o-gail{background:#9C27B0}.o-michael{background:#FF6B00}.o-chloe{background:#E91E63}.o-shravan{background:#2196F3}.o-chadd{background:#00897B}.o-leah{background:#5E35B1}.o-ai{background:#009624}
+.phase-body li.has-flyout{cursor:pointer}
+.phase-body li.has-flyout:hover{background:rgba(255,107,0,.06);border-radius:6px}
+.phase-body li.has-flyout::after{content:'+';position:absolute;right:4px;top:10px;width:20px;height:20px;font-size:.75rem;font-weight:900;color:var(--orange);border:2px solid var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:.5;transition:all .2s}
+.phase-body li.has-flyout:hover::after{opacity:1}
+.phase-body li.has-flyout.flyout-open::after{content:'\2212';opacity:1;background:var(--orange);color:#fff}
+.step-flyout{max-height:0;overflow:hidden;transition:max-height .3s ease,margin .3s ease;margin:0}
+.flyout-open .step-flyout{max-height:1200px;margin:8px 0 4px}
+.step-flyout-inner{background:rgba(255,107,0,.08);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;padding:12px 14px;font-size:.85rem;line-height:1.6;color:var(--grey-light)}
+.step-flyout-inner strong{color:#fff;font-weight:700}
+.io{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.io div{background:rgba(255,255,255,.04);border-radius:8px;padding:8px 10px}
+.io h5{font-size:.7rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.io .in h5{color:var(--blue)}.io .out h5{color:var(--green)}
+.io ul{list-style:none}.io li{padding:2px 0 2px 12px;position:relative;border:none;font-size:.82rem}
+.io li::before{content:'→';position:absolute;left:0;color:var(--grey-light)}
+.sla{display:inline-block;background:rgba(255,214,0,.12);border:2px solid var(--yellow);color:var(--yellow);border-radius:4px;padding:0 6px;font-size:.7rem;font-weight:800;margin-left:6px;vertical-align:middle}
+/* ===== SWIMLANE ===== */
+.swimlane{margin:24px 0;padding:16px 20px;background:var(--card-bg);border:3px solid var(--navy-light);border-radius:12px}
+.swimlane h2{font-size:1.05rem;font-weight:800;margin-bottom:14px}
+.swimlane-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.swim-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:rgba(255,255,255,.04)}
+.swim-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.75rem;flex-shrink:0;border:2px solid #fff}
+.swim-label{font-size:.85rem;font-weight:700}.swim-desc{font-size:.75rem;color:var(--grey-light)}
+.footer{text-align:center;padding:24px 20px 40px;color:var(--grey-light);font-size:.8rem;border-top:2px solid var(--grey-dark);margin-top:30px}
+.footer strong{color:var(--orange)}
+@media print{body{background:#fff;color:#000;font-size:11pt}.banner{background:#1F3864!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.banner h1,.banner p,.banner-badge{color:#fff!important}.phase-body{max-height:none!important;padding:14px 18px 18px!important;overflow:visible!important}.phase-header{border-bottom:3px solid var(--orange)!important;border-radius:12px 12px 0 0!important}.phase-chevron{display:none}.step-flyout{max-height:none!important;margin:8px 0 4px!important}.phase-body li.has-flyout::after{display:none}.phase,.leg,.map{break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}.timeline::before{display:none}}
+@media (max-width:600px){.swimlane-grid{grid-template-columns:1fr}.io{grid-template-columns:1fr}.phase{padding-left:50px}.timeline::before{left:22px}.phase-dot{left:10px;width:24px;height:24px;font-size:.65rem}}
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <div class="banner-badge">Spoke Building & Interiors</div>
+  <h1>Sales Workflow — <span>Links & Information Flow</span></h1>
+  <p>Where every piece of information comes from, where it goes, and who moves it. Tap a phase, then tap a step for its in/out.</p>
+  <div class="draft">Review draft v0.3 · 04/09/26 · refer to steps by their number (H1–H3 = the handoffs)</div>
+</div>
+
+<div class="container">
+
+  <h2 class="section">The map — <span>five phases, three stores, three handoffs</span></h2>
+  <p class="hint">Solid orange = the deal moving forward. Green dashed = a script or automation. Yellow = the reprice loop. Letters are the stores everything lands in.</p>
+
+  <div class="map">
+  <svg viewBox="0 0 1100 600" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#B0BEC5"/></marker>
+      <marker id="arr-hot" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FF6B00"/></marker>
+      <marker id="arr-auto" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#00C853"/></marker>
+      <marker id="arr-loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FFD600"/></marker>
+    </defs>
+
+    <text x="20" y="18" class="e-label auto">Automations on A: email routine every 2h → Sales Correspondence · Pipeline Pulse → Next Action fields · Make 5232361 → project folder at WON</text>
+
+    <!-- ===== phase chain ===== -->
+    <g id="phases">
+      <rect x="20" y="40" width="190" height="80" rx="12" fill="#1F3864" stroke="#FF6B00" stroke-width="3"/>
+      <circle cx="42" cy="62" r="11" fill="#FF6B00"/><text x="42" y="66" text-anchor="middle" class="n-id">P1</text>
+      <text x="60" y="67" class="n-title">Engagement</text>
+      <text x="32" y="90" class="n-sub">Gail · enquiry → qualified lead</text>
+      <text x="32" y="106" class="n-sub">acknowledge · get info · book</text>
+
+      <rect x="235" y="40" width="190" height="80" rx="12" fill="#1F3864" stroke="#2196F3" stroke-width="3"/>
+      <circle cx="257" cy="62" r="11" fill="#2196F3"/><text x="257" y="66" text-anchor="middle" class="n-id">P2</text>
+      <text x="275" y="67" class="n-title">Discovery</text>
+      <text x="247" y="90" class="n-sub">Michael · meeting or site visit</text>
+      <text x="247" y="106" class="n-sub">package up → whiteboard</text>
+
+      <rect x="450" y="40" width="190" height="80" rx="12" fill="#1F3864" stroke="#9C27B0" stroke-width="3"/>
+      <circle cx="472" cy="62" r="11" fill="#9C27B0"/><text x="472" y="66" text-anchor="middle" class="n-id">P3</text>
+      <text x="490" y="67" class="n-title">Pricing</text>
+      <text x="462" y="90" class="n-sub">Chloe coord · drawings, Mozaik,</text>
+      <text x="462" y="106" class="n-sub">Buildsoft, finishes → Qwilr</text>
+
+      <rect x="665" y="40" width="190" height="80" rx="12" fill="#1F3864" stroke="#00C853" stroke-width="3"/>
+      <circle cx="687" cy="62" r="11" fill="#00C853"/><text x="687" y="66" text-anchor="middle" class="n-id">P4</text>
+      <text x="705" y="67" class="n-title">Presentation</text>
+      <text x="677" y="90" class="n-sub">Gail books · Michael presents</text>
+      <text x="677" y="106" class="n-sub">recap + Qwilr the same day</text>
+
+      <rect x="880" y="40" width="200" height="80" rx="12" fill="#1F3864" stroke="#E91E63" stroke-width="3"/>
+      <circle cx="902" cy="62" r="11" fill="#E91E63"/><text x="902" y="66" text-anchor="middle" class="n-id">P5</text>
+      <text x="920" y="67" class="n-title">Follow-up</text>
+      <text x="892" y="90" class="n-sub">Gail · 5 escalating chases</text>
+      <text x="892" y="106" class="n-sub">verbal yes → signed → WON</text>
+
+      <path class="edge hot" d="M210 80 L233 80" marker-end="url(#arr-hot)"/>
+      <path class="edge hot" d="M425 80 L448 80" marker-end="url(#arr-hot)"/>
+      <path class="edge hot" d="M640 80 L663 80" marker-end="url(#arr-hot)"/>
+      <path class="edge hot" d="M855 80 L878 80" marker-end="url(#arr-hot)"/>
+      <!-- reprice loop -->
+      <path class="edge loop" d="M900 120 C900 165 545 170 545 122" marker-end="url(#arr-loop)"/>
+      <text x="720" y="160" text-anchor="middle" class="e-label loop">reprice → re-open the P3 tracks → re-present (P4)</text>
+
+      <!-- WON: the two handover boards -->
+      <path class="edge hot" d="M1040 120 L1040 138" marker-end="url(#arr-hot)"/>
+      <rect x="880" y="140" width="200" height="62" rx="10" fill="#0D1B2A" stroke="#00C853" stroke-width="3"/>
+      <text x="892" y="160" class="n-title" style="font-size:12px">CLOSED WON → handover boards</text>
+      <text x="892" y="177" class="n-sub"><tspan class="h-tag">H2</tspan> to the Project Manager</text>
+      <text x="892" y="193" class="n-sub"><tspan class="h-tag">H3</tspan> to Manufacture (joinery)</text>
+      <!-- H1 marker on the P2 -> P3 edge -->
+      <rect x="418" y="60" width="30" height="16" rx="8" fill="#9C27B0"/>
+      <text x="433" y="72" text-anchor="middle" class="n-id" style="fill:#fff;font-size:10px">H1</text>
+    </g>
+
+    <!-- ===== stores ===== -->
+    <g id="stores">
+      <rect class="store" x="20" y="400" width="340" height="180" rx="12" stroke="#FF6B00"/>
+      <circle cx="42" cy="422" r="11" fill="#FF6B00"/><text x="42" y="426" text-anchor="middle" class="n-id">A</text>
+      <text x="60" y="427" class="n-title">The ClickUp deal</text>
+      <text x="32" y="448" class="n-sub">Status = the stage · P1…P5, off-ramps, terminals</text>
+      <text x="32" y="464" class="n-sub">🤝 fields 01–24 · Next Action (read-only)</text>
+      <text x="32" y="480" class="n-sub">DOCUMENTATION table — the ONE place for links</text>
+      <text x="32" y="496" class="n-sub">Subtasks P1–P5 — the how-to is in each description</text>
+      <text x="32" y="512" class="n-sub">📧 Sales Correspondence — every email, logged</text>
+      <text x="32" y="528" class="n-sub">📊 DEAL SNAPSHOT — frozen since 05/08/26</text>
+      <text x="32" y="556" class="n-sub" fill="#FF8C33">At WON: multi-listed into the project — fields travel</text>
+
+      <rect class="store" x="380" y="400" width="340" height="180" rx="12" stroke="#2196F3"/>
+      <circle cx="402" cy="422" r="11" fill="#2196F3"/><text x="402" y="426" text-anchor="middle" class="n-id">B</text>
+      <text x="420" y="427" class="n-title">Drive job folder</text>
+      <text x="392" y="448" class="n-sub">SBI JOB FILES_Share › TS{yymmdd} {client}- {place}</text>
+      <text x="392" y="464" class="n-sub">1.0 SALES · 1.1 Variations · 1.2 COST SHEETS</text>
+      <text x="392" y="480" class="n-sub">2.0 SITE › Site Measures › Site Visit Sheets</text>
+      <text x="392" y="496" class="n-sub">3.0 QUOTES · 4.0 PLANS · 5.0 SKETCHUP</text>
+      <text x="392" y="512" class="n-sub">6.0 WHS · 7.0 DESIGN · 8.0 Certification</text>
+      <text x="392" y="540" class="n-sub" fill="#64B5F6">Found by 🤝 23 (ID) · made by hand at P1, or by the skill</text>
+      <text x="392" y="556" class="n-sub" fill="#64B5F6">At WON the TS is dropped · this is the record</text>
+
+      <rect class="store" x="740" y="400" width="340" height="180" rx="12" stroke="#9C27B0"/>
+      <circle cx="762" cy="422" r="11" fill="#9C27B0"/><text x="762" y="426" text-anchor="middle" class="n-id">C</text>
+      <text x="780" y="427" class="n-title">The whiteboard</text>
+      <text x="752" y="448" class="n-sub">One per deal, on the P2 Package-up subtask</text>
+      <text x="752" y="464" class="n-sub">Sheets dragged in from B · Michael pens the mark-up</text>
+      <text x="752" y="480" class="n-sub">The brief for every P3 track</text>
+      <text x="752" y="496" class="n-sub">Stickies → convert to task under P2</text>
+      <text x="752" y="512" class="n-sub">Linked from A: row 2.2 MarkUp + 🤝 24</text>
+      <text x="752" y="540" class="n-sub" fill="#CE93D8">Lives for the handover only —</text>
+      <text x="752" y="556" class="n-sub" fill="#CE93D8">export to PDF into B once penned</text>
+    </g>
+
+    <!-- ===== flows — each on its own lane ===== -->
+    <g id="flows">
+      <!-- lane 1: P1 -> A -->
+      <path class="edge" d="M60 120 L60 398" marker-end="url(#arr)"/>
+      <text x="68" y="215" class="e-label">1 → A  contact fields · status</text>
+      <text x="68" y="229" class="e-label">emails → Sales Correspondence</text>
+
+      <!-- lane 2: P1 -> B  (folder made by hand) -->
+      <path class="edge" d="M160 120 L160 250 L420 250 L420 398" marker-end="url(#arr)"/>
+      <text x="168" y="244" class="e-label">1 → B  job folder made · client plans → 4.0</text>
+
+      <!-- lane 3: P2 -> A  (uploads) -->
+      <path class="edge" d="M280 120 L280 300 L120 300 L120 398" marker-end="url(#arr)"/>
+      <text x="128" y="294" class="e-label">2 → A  photos + site measure uploaded to the P2 subtask</text>
+
+      <!-- skill: A -> B -> C  -->
+      <path class="edge auto" d="M360 490 L378 490" marker-end="url(#arr-auto)"/>
+      <path class="edge auto" d="M720 490 L738 490" marker-end="url(#arr-auto)"/>
+      <path class="edge auto" d="M380 120 C380 220 480 230 480 398" marker-end="url(#arr-auto)"/>
+      <text x="402" y="205" class="e-label auto">2.3 site-visit-canvas</text>
+      <text x="402" y="219" class="e-label auto">sweep A → B · sheets → B · 🤝 23 · 🤝 24 · photo index</text>
+      <text x="402" y="233" class="e-label auto">then a person builds C from B</text>
+
+      <!-- C -> P3: the brief -->
+      <path class="edge hot" d="M910 398 C910 300 600 290 600 122" marker-end="url(#arr-hot)"/>
+      <text x="700" y="262" class="e-label">C → 3  the board is the brief for every pricing track</text>
+
+      <!-- lane 4: P3 -> B -->
+      <path class="edge" d="M545 120 L545 200 L660 200 L660 398" marker-end="url(#arr)"/>
+      <text x="668" y="300" class="e-label">3 → B  drawings → 4.0 / 5.0</text>
+      <text x="668" y="314" class="e-label">cost sheets → 1.2 · finishes → 7.0</text>
+
+      <!-- lane 5: P3/P4 -> A table rows -->
+      <path class="edge" d="M760 120 L760 340 L240 340 L240 398" marker-end="url(#arr)"/>
+      <text x="248" y="334" class="e-label">3/4 → A  links into the table: 1.0 Qwilr · 1.1 proof · 4.0 · 5.0 SKP share · 7.0</text>
+
+      <!-- H2/H3 boards built from A + B, marked up on C -->
+      <path class="edge hot" d="M980 202 L980 398" marker-end="url(#arr-hot)"/>
+      <text x="988" y="300" class="e-label">H2 · H3  built from</text>
+      <text x="988" y="314" class="e-label">A + B, penned on C</text>
+
+      <!-- lane 6: P5 -> A status -->
+      <path class="edge" d="M1040 120 L1040 370 L320 370 L320 398" marker-end="url(#arr)"/>
+      <text x="328" y="364" class="e-label">5 → A  status: presentation sent → contracts requested → closed won</text>
+    </g>
+  </svg>
+  </div>
+
+  <div class="legend">
+    <div class="leg a"><h4>A · The deal — what the fields are for</h4><ul>
+      <li><code>🤝 01 / 02 / 011 / 05</code> contact, email, phone, address — filled at P1 SETUP</li>
+      <li><code>🤝 21 Job Type</code> + <code>Joinery manufacture?</code> — decides P3 tracks and the gaps list</li>
+      <li><code>🤝 04 Deal Value</code> — from the cost sheet (P3)</li>
+      <li><code>🤝 20 / 012</code> sales notes, contact notes — written at P1/P2, read onto the context sheet</li>
+      <li><code>🤝 23 Job Folder</code> / <code>🤝 24 Site Visit Canvas</code> — set by the skill; 24 becomes the board link</li>
+      <li><code>▶ Next Action · ⛳ Ball In Court · ⏰ Act By</code> — Pipeline Pulse writes, everyone reads</li>
+      <li><code>🤝 SBI Workflow Assignee</code> — who a subtask should go to; native assignee = who took it</li>
+    </ul></div>
+    <div class="leg a"><h4>A · The DOCUMENTATION table — 14 rows</h4><ul>
+      <li><code>1.0 SALES</code> Qwilr proposal link (P3 Leah)</li>
+      <li><code>1.1 Reference project</code> client-safe /share/ link (P3/P4)</li>
+      <li><code>1.2 Cost Sheets</code> Buildsoft, Mozaik (P3)</li>
+      <li><code>2.0 Site Pics</code> · <code>2.1 Client Plans/Docs</code> (P1/P2)</li>
+      <li><code>2.2 Site Visit Canvas</code> Rev0 = sheets folder · MarkUp = whiteboard</li>
+      <li><code>4.0 Plans</code> · <code>4.0 Mozaik Multiprint</code> (P3)</li>
+      <li><code>5.0 Native SketchUp</code> · <code>5.0 Mozaik exports</code> · <code>5.0 SKP Online share link</code> (P3 → the P4 walkthrough)</li>
+      <li><code>7.0 Design</code> finishes schedule, product pics, renders (P3)</li>
+    </ul></div>
+    <div class="leg b"><h4>B · Drive job folder — who writes where</h4><ul>
+      <li><code>1.0 SALES</code> signed proposal, insurances (P5/won)</li>
+      <li><code>1.2 COST SHEETS</code> Chadd (Buildsoft), Shravan (Mozaik)</li>
+      <li><code>2.0 SITE-…</code> photos, video, site measure (skill sweep) · <code>Site Visit Sheets</code> (skill) · board PDF (Michael)</li>
+      <li><code>4.0 PLANS</code> client plans (P1) · REV0 concept PDF (Shravan) · Mozaik multiprint</li>
+      <li><code>5.0 SKETCHUP</code> natives (Chloe/Shravan)</li>
+      <li><code>7.0 DESIGN</code> finishes schedule, renders (Chloe)</li>
+    </ul></div>
+    <div class="leg c"><h4>C · Whiteboard — the rules</h4><ul>
+      <li>Created by a person on the P2 Package-up subtask — doesn't come through the template</li>
+      <li>Sheets dragged in from the G: folder; photo numbers ①②③ match the plan</li>
+      <li>Michael reviews the red <em>Discussion points</em> and pens before anyone else starts</li>
+      <li>P3 <em>Distribute</em> sends the board link; the drawer works off it</li>
+      <li>No API — that's why the script stops at sheets</li>
+    </ul></div>
+  </div>
+
+  <h2 class="section">The three handoffs — <span>same pattern every time</span></h2>
+  <p class="hint">Collect everything into one place → a person reviews and pens the mark-up on a whiteboard → the receiver works off the board. <strong style="color:#fff">The skill collects; the judgement stays with the person.</strong> H1 is built and running; H2 and H3 are the same pattern at CLOSED WON and are <em>proposed here for review</em> — nothing is built for them yet.</p>
+  <div class="handoffs">
+    <div class="ho h1">
+      <div class="ho-top"><span class="ho-id">H1</span><h4>Site info → designer</h4><span class="ho-when">P2 → P3</span></div>
+      <div class="ho-who"><strong>Michael</strong> hands to <strong>the drawer</strong> (Shravan / Chloe) · task <code>[💰 P3] SketchUp/Rayon Plans for Quoting</code></div>
+      <ul>
+        <li><strong>On the board</strong> — the Site Visit Sheets: sales context + discussion points · areas with numbered photos · marked-up site measure · plans from 4.0 · gaps + sources. Michael's pen over the top.</li>
+        <li><strong>Built by</strong> <code>site-visit-canvas</code> from <strong>A</strong> (task, fields, comments, Sales Correspondence) and <strong>B</strong> (2.0 SITE, 4.0 PLANS).</li>
+        <li><strong>Receiver hands back</strong> natives → 5.0 SKETCHUP, PDF → 4.0 PLANS, links → table rows 4.0 / 5.0.</li>
+        <li><strong>Recorded</strong> — board link in row 2.2 MarkUp + 🤝 24; board exported to PDF into 2.0 once penned.</li>
+      </ul>
+      <div class="ho-status built">BUILT · running on JANUS</div>
+    </div>
+    <div class="ho h2">
+      <div class="ho-top"><span class="ho-id">H2</span><h4>Sales handover → Project Manager</h4><span class="ho-when">CLOSED WON</span></div>
+      <div class="ho-who"><strong>Michael</strong> pens it and hands to <strong>the PM</strong> · its own board · the sales task is multi-listed into the project's List 01 (Projects-Chief takes over from here)</div>
+      <ul>
+        <li><strong>On the board (proposed)</strong> — what was sold: signed proposal + the option lines the client chose · final drawings + finishes schedule · the client's stated priorities and constraints (access, hours, dates) · every promise made in the sale (open commitments from Sales Correspondence) · the claim schedule · risks Michael pens in.</li>
+        <li><strong>Built from</strong> <strong>A</strong> (Sales Correspondence commitments, 🤝 fields, pricing-table selections, table links) and <strong>B</strong> (1.0 SALES signed proposal, 4.0 / 5.0 drawings, 7.0 finishes, 1.2 cost sheet summary — internal only).</li>
+        <li><strong>Receiver hands back</strong> — the project set-up (folder, budget, procurement, site works, dashboard) via <code>project-setup</code>; questions as stickies → tasks in the project.</li>
+        <li><strong>Recorded</strong> — board PDF into 1.0 SALES (the sold-scope record); link on the project's List 01 task.</li>
+      </ul>
+      <div class="ho-status proposed">PROPOSED · confirm contents</div>
+    </div>
+    <div class="ho h3">
+      <div class="ho-top"><span class="ho-id">H3</span><h4>Sales handover → Manufacture</h4><span class="ho-when">CLOSED WON · joinery jobs</span></div>
+      <div class="ho-who"><strong>Michael</strong> pens it and hands to <strong>the factory</strong> (Shravan / Mark) · its own board · when <code>🤝 Joinery manufacture?</code> is ticked</div>
+      <ul>
+        <li><strong>On the board (proposed)</strong> — what to build: Mozaik multiprint + SKP exports · finishes schedule with board/edge/benchtop/hardware selections · the site measure and the photos of each joinery location (numbered) · install access route and constraints · dates the install must meet · anything the client changed after the Mozaik run.</li>
+        <li><strong>Built from</strong> <strong>A</strong> (pricing-table selections, 🤝 fields, commitments) and <strong>B</strong> (4.0 Mozaik-Multiprint, 5.0 Mozaik exports, 7.0 finishes, 2.0 site measure + photos).</li>
+        <li><strong>Receiver hands back</strong> — shop drawings for sign-off, material order, production dates; questions as stickies → tasks.</li>
+        <li><strong>Recorded</strong> — board PDF into 4.0 PLANS/MOZAIK PLANS_MATERIALS; link on the project's procurement task for joinery.</li>
+      </ul>
+      <div class="ho-status proposed">PROPOSED · confirm contents</div>
+    </div>
+  </div>
+  <p class="hint"><strong style="color:#fff">Decided 04/09/26:</strong> H2 and H3 are <strong style="color:#fff">two separate boards</strong>, and <strong style="color:#fff">Michael holds the pen on both</strong> — the PM and the factory receive, they don't mark up the handover.</p>
+
+  <h2 class="section">The phases — <span>tap to open, tap a step for in / out</span></h2>
+
+  <div class="timeline">
+
+  <!-- ===== P1 ===== -->
+  <div class="phase" data-phase="1">
+    <div class="phase-dot">1</div>
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-header-top"><h3><span>P1</span> — Engagement</h3><span class="phase-tag tag-status">inquiries recieved → active outreach → qualified lead</span><svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+      <div class="phase-who">Owner <strong>Gail</strong> · target ≤10 days in phase · exit: plans/scope in hand and a meeting booked</div>
+    </div>
+    <div class="phase-body"><ol>
+      <li class="has-flyout" data-id="1.1" onclick="toggleFlyout(this)">SETUP — acknowledge, name the deal, contact details <span class="owner o-gail">Gail</span><span class="sla">≤1 hr</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>First contact sets the pace.</strong> Acknowledgement email the same hour; the contact-details checklist on the task can't be left with a box unticked. Job Type and the joinery checkbox decide the P3 tracks later — set them now. Once qualified, rename to <code>TS{YYMMDD} {Surname} — {Type}</code> and make the Drive folder from the template.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>Web enquiry (ClickBot) or a logged call</li><li>ClickUp automation sets <code>start_date</code></li></ul></div><div class="out"><h5>Out → where</h5><ul><li>🤝 01/02/011/05, 🤝 21, Joinery? → <strong>A</strong> fields</li><li>Ack email → <strong>A</strong> Sales Correspondence</li><li>Deal renamed TS… → <strong>A</strong></li><li>Job folder created → <strong>B</strong> (by hand; the skill backfills if missed)</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="1.2" onclick="toggleFlyout(this)">Phone call + email — project info and intro meeting requested <span class="owner o-gail">Gail</span><span class="sla">≤1 day</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Call first, then email.</strong> The call qualifies (space, scope, plans, timing, budget); the email is Gail's standard "in order of usefulness" list — plans, mark-up, photos of existing, look-and-feel — with the online-meeting booking link. Online is the default; a site visit only when the job needs it.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>Contact fields from 1.1</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Call notes → <strong>A</strong> 🤝 20 NOTES DURING SALES PROCESS</li><li>Status → <code>active outreach</code></li><li>Email + booking link → Sales Correspondence</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="1.3" onclick="toggleFlyout(this)">Project information received — the waiting item, with 3 follow-ups + polite close <span class="owner o-gail">Gail</span><span class="sla">3 days, then ~2–3 each</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Chain:</strong> 1.3a Follow-up #1 (nudge) → 1.3b #2 (offer the meeting instead of plans, by phone) → 1.3c #3 (name a date) → 1.3d <em>Send polite closing email</em> → status <code>declined_no proposal</code>. Draft wording is in each subtask's description. Nothing closes the follow-ups for you — close them by hand when the info lands.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>Client plans, photos, scope by email</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Plans → <strong>B</strong> 4.0 PLANS (or attached to the deal — the skill sweeps them)</li><li>Link → <strong>A</strong> table row 2.1 Client supplied Plans/Docs</li><li>Status → <code>qualified lead</code></li><li>Or terminal: <code>declined_no proposal</code>, reason in 🤝 20</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="1.4" onclick="toggleFlyout(this)">Introductory meeting invite, with 3 follow-ups <span class="owner o-gail">Gail</span><span class="sla">~2–3 days each</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Runs in parallel with 1.3.</strong> #1 offers two specific times, #2 is a phone call, #3 names a date. No separate closing email — the chain lapses to 1.3d. Booked = calendar invite to the client and Michael.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>Booking link from 1.2</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Status → <code>initial meeting booked</code></li><li>Meeting in Michael's calendar (Meet or site)</li></ul></div></div></div></div></li>
+    </ol></div>
+  </div>
+
+  <!-- ===== P2 ===== -->
+  <div class="phase" data-phase="2">
+    <div class="phase-dot">2</div>
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-header-top"><h3><span>P2</span> — Discovery</h3><span class="phase-tag tag-status">initial meeting booked → meet/inspection completed</span><svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+      <div class="phase-who">Owner <strong>Michael</strong> · ≤5 days from booking · exit: the whiteboard is built and marked up</div>
+    </div>
+    <div class="phase-body"><ol>
+      <li class="has-flyout" data-id="2.1" onclick="toggleFlyout(this)">Intro online meeting — the default discovery step <span class="owner o-michael">Michael</span><span class="sla">≤5 days</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Michael decides the path here:</strong> price from plans · design first (<code>Design</code> job type) · site measure. Confirms scope, timing, budget range, decision-makers; asks for look-and-feel photos if missing.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>Client plans and photos (row 2.1 / 4.0 PLANS)</li><li>Gail's notes (🤝 20)</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Meeting notes → 🤝 20 or a comment on this subtask; Notetaker summary lands here</li><li>Status → <code>meet/inspection completed</code></li><li>Path decision → activate 2.2 or go straight to 2.3</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="2.2" onclick="toggleFlyout(this)">Site measure — photos, marked-up plan, video, uploaded from the phone <span class="owner o-michael">Michael</span><span class="sla">≤5 days</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Use sparingly — it commits time before we know we'll win — but do it properly once.</strong> Walk the space in order (the sheets follow walking order). Name photos by area if you can. Put <em>measure</em>, <em>markup</em> or <em>plan</em> in the site-measure filename. Upload to this subtask before leaving the car park — that upload is the trigger for 2.3.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>The client's plan (to mark up)</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Photos + video + marked-up plan → attachments on <strong>A</strong> (this subtask)</li><li>Gail/Leah book and chase; Michael measures</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="2.3" onclick="toggleFlyout(this)">Package up — the skill collects, Michael reviews, the whiteboard is the mark-up <span class="owner o-ai">Skill</span><span class="owner o-michael">Michael</span><span class="sla">≤2 days</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>The principle:</strong> the workflow ensures the information is collected into one place, then a human reviews it. Ten steps, in the subtask description. The script does 4–7; people do the rest.
+        <div class="io"><div class="in"><h5>In (script reads)</h5><ul><li><strong>A</strong> — every field, Next Action, notes, human comments, open commitments from Sales Correspondence, attachments on the deal + P2 subtasks</li><li><strong>B</strong> — 2.0 SITE (photos, video, Site Measures), 4.0 PLANS</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Attachments swept → <strong>B</strong> 2.0 / Site Measures / 4.0 (copy, never move); 🤝 23 set</li><li>Site Visit Sheets (context + discussion points · areas with ①②③ · site measure · plans · gaps) → <strong>B</strong> 2.0/Site Visit Sheets on G:</li><li>🤝 24 = sheets folder; photo-index comment on this subtask</li><li>🧑 Whiteboard created here → <strong>C</strong>; sheets dragged in; board URL → row 2.2 MarkUp + 🤝 24</li><li>🧑 Michael pens the mark-up; exports board PDF → <strong>B</strong> when done</li></ul></div></div></div></div></li>
+    </ol></div>
+  </div>
+
+  <!-- ===== P3 ===== -->
+  <div class="phase" data-phase="3">
+    <div class="phase-dot">3</div>
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-header-top"><h3><span>P3</span> — Pricing (also the reprice phase)</h3><span class="phase-tag tag-status">estimating &amp; design · re-price proposal</span><svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+      <div class="phase-who">Coordinated by <strong>Chloe</strong> with Michael · target ≤7 days · exit: <em>Presentation Docs — Meeting Ready</em></div>
+    </div>
+    <div class="phase-body"><ol>
+      <li class="has-flyout" data-id="3.1" onclick="toggleFlyout(this)">Distribute project Info Package — the gate <span class="owner o-michael">Michael</span><span class="phase-tag tag-gate" style="margin-left:6px">gate</span><span class="sla">≤2 days</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Every track works off the same package — the whiteboard.</strong> Michael confirms his mark-up and the discussion points are dealt with, decides which tracks apply for the job type and sets the rest <code>not applicable</code> (a done-type status — it clears the dependency), assigns each applying track with a due date and the board link.
+        <div class="io"><div class="in"><h5>In</h5><ul><li><strong>C</strong> the marked-up whiteboard (row 2.2 MarkUp / 🤝 24)</li><li>🤝 21 Job Type + Joinery?</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Tracks 3.2–3.6 assigned + dated, or N/A</li><li>Status → <code>estimating &amp; design</code></li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="3.2" onclick="toggleFlyout(this)">SketchUp/Rayon plans for quoting <span class="owner o-chloe">Chloe</span><span class="owner o-shravan">Shravan</span><span class="sla">2 days</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>The drawer's brief is in this subtask's description</strong> (what you get, what to do, what to hand back). SketchUp preferred, Rayon if not. Flag missing dimensions, don't guess.
+        <div class="io"><div class="in"><h5>In</h5><ul><li><strong>C</strong> whiteboard — sheets + Michael's pen</li><li>Photo index comment (numbers → originals in <strong>B</strong>)</li><li>Client plan in <strong>B</strong> 4.0 PLANS</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Natives → <strong>B</strong> 5.0 SKETCHUP · PDF <code>REV0 Concept plan.pdf</code> → 4.0 PLANS</li><li>Links → <strong>A</strong> rows 4.0 Plans, 5.0 Native SketchUp</li><li>3D published → row 5.0 SKP Online share link (the P4 walkthrough)</li><li>Assumptions → comment on the task</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="3.3" onclick="toggleFlyout(this)">Mozaik — multiprint, SKP + pricing <span class="owner o-shravan">Shravan</span><span class="sla">≤1 day after plans</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Joinery track.</strong> N/A on build-only jobs. Watch the hardware allowance — Mozaik double-counts the 10%; the cost sheet applies it once.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>3.2 drawings; the board</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Multiprint → <strong>B</strong> 4.0/MOZAIK PLANS_MATERIALS → row 4.0 Mozaik- Multiprint</li><li>SKP exports → 5.0 → row 5.0 Mozaik Sketchup exports</li><li>Cost sheet (mozaik-csv-to-sheet) → 1.2 COST SHEETS → row 1.2</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="3.4" onclick="toggleFlyout(this)">Review Mozaik — enter into the configurator <span class="owner o-shravan">Shravan</span><span class="owner o-michael">reviews</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>The cross-check</strong> — each unit into the joinery configurator, total against Mozaik; investigate anything out by more than a few percent. Sits after 3.3, before 3.7 (not yet wired as a dependency).
+        <div class="io"><div class="in"><h5>In</h5><ul><li>Mozaik run from 3.3; library rates from the engine sheet</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Comment: configurator vs Mozaik total + what explains the gap</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="3.5" onclick="toggleFlyout(this)">Buildsoft pricing, ready for Qwilr <span class="owner o-chadd">Chadd</span><span class="sla">2 days</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Build-side price.</strong> N/A on joinery-only. Undecided items become option lines — base + named options, never one lump, never a discount to a number. Combined jobs: plug the Mozaik price in.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>The board; 3.2 drawings (row 4.0)</li><li>Mozaik price (3.3) on combined jobs</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Export → <strong>B</strong> 1.2 COST SHEETS → row 1.2</li><li>Incl-GST total → 🤝 04 Deal Value</li><li>Assumptions → comment</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="3.6" onclick="toggleFlyout(this)">Finishes schedule ready for presentation <span class="owner o-chloe">Chloe</span><span class="sla">with the tracks</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Chloe's core deliverable.</strong> Internal Google Sheet in the job folder + client-ready PDF (sbi-finishes-schedule). Must match the render — colour and hardware — that's the gate line most often missed.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>Look-and-feel photos (P1), the board, supplier links</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Sheet + PDF → <strong>B</strong> 7.0 DESIGN → row 7.0 Design; 🤝 11</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="3.7" onclick="toggleFlyout(this)">Qwilr ready for presentation <span class="owner o-leah">Leah</span><span class="sla">once the tracks land</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Waits on 3.2–3.6 (done or N/A).</strong> Joinery = the Qwilr app with native Optional lines; fitout = the self-hosted HTML. The <em>Share</em> link is what goes to the client, never Collaborate.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>Cost sheets (row 1.2), finishes (row 7.0), render, reference proof</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Qwilr Share link → <strong>A</strong> row 1.0 SALES</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="3.8" onclick="toggleFlyout(this)">Presentation Docs — Meeting Ready (milestone) <span class="owner o-michael">Michael</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Hands to P4.</strong> The five things for the room: render (+ flythrough), the browser-openable 3D, one built proof, finishes, price as base + options. The <code>5.0 SKP Online share link</code> row is the one nobody fills in — publish the 3D before the meeting, not in it.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>Rows 1.0, 1.1, 5.0 SKP share, 7.0 all populated</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Reference proof link → row 1.1 (client-safe /share/)</li><li>Status → <code>presentation meeting</code></li></ul></div></div></div></div></li>
+    </ol></div>
+  </div>
+
+  <!-- ===== P4 ===== -->
+  <div class="phase" data-phase="4">
+    <div class="phase-dot">4</div>
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-header-top"><h3><span>P4</span> — Presentation (also re-present)</h3><span class="phase-tag tag-status">presentation meeting · re-present proposal</span><svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+      <div class="phase-who"><strong>Gail</strong> books · <strong>Michael</strong> presents live · target ≤7 days · exit: recap + Qwilr sent</div>
+    </div>
+    <div class="phase-body"><ol>
+      <li class="has-flyout" data-id="4.1" onclick="toggleFlyout(this)">Send the presentation booking link, then chase up to 5 times <span class="owner o-gail">Gail</span><span class="sla">0 days, then ~2·3·3·4·5</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Include a snip of progress</strong> — people book to see the thing. #1 two times + snip · #2 phone · #3 shorter online slot or Michael comes to them · #4 name a park date · #5 politely decline → <code>on hold drip feed</code> (re-contact date in start_date) or <code>client ghosting</code>.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>3.8 complete; a render snip from row 7.0</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Booking → 4.2; or off-ramp status + reason in 🤝 20</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="4.2" onclick="toggleFlyout(this)">Presentation meeting booked <span class="owner o-gail">Gail</span>
+        <div class="step-flyout"><div class="step-flyout-inner">Calendar invite to client + Michael, date/time in a comment, tell Michael to run the pre-flight the night before, close the open chases by hand.</div></div></li>
+      <li class="has-flyout" data-id="4.3" onclick="toggleFlyout(this)">Presentation meeting — done (live, their space first, book the next meeting in the room) <span class="owner o-michael">Michael</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Pre-flight on the P4 container</strong> — six tabs open from the table: 7.0 render → 5.0 SKP share (3D) → 1.1 proof → 7.0 finishes → 1.0 Qwilr Share → calendar. Never open the cost sheet, exports or the internal reference page. <strong>The play:</strong> render · "here's one we've built" · finishes · price as base + options · "which do you want in?" · next meeting booked.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>Rows 1.0, 1.1, 5.0 SKP, 7.0</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Comment: what they chose, pushed back on, next date, scope changes</li><li>Scope changed → status <code>re-price proposal</code> (re-opens P3)</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="4.4" onclick="toggleFlyout(this)">Send the recap and the Qwilr proposal — same day <span class="owner o-michael">Michael</span><span class="sla">same day</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Send:</strong> 3–5 line recap, Qwilr Share link, client-safe /share/ reference, finishes schedule, render / unlisted flythrough. <strong>Never:</strong> cost sheet, any export, the internal reference page, anything showing margin.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>4.3 notes; rows 1.0, 1.1, 7.0</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Email → Sales Correspondence</li><li>Status → <code>presentation sent</code> — starts the P5 clock</li></ul></div></div></div></div></li>
+    </ol></div>
+  </div>
+
+  <!-- ===== P5 ===== -->
+  <div class="phase" data-phase="5">
+    <div class="phase-dot">5</div>
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-header-top"><h3><span>P5</span> — Follow-up the sent proposal</h3><span class="phase-tag tag-status">presentation sent → contracts requested → closed won</span><svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+      <div class="phase-who">Owner <strong>Gail</strong> · escalating +2 · +4 · +7 · +10 · +14 days · exit: signed Qwilr</div>
+    </div>
+    <div class="phase-body"><ol>
+      <li class="has-flyout" data-id="5.1" onclick="toggleFlyout(this)">Follow-up #1 — did it arrive, any questions <span class="owner o-gail">Gail</span><span class="sla">+2 days</span><div class="step-flyout"><div class="step-flyout-inner">A courtesy, not a chase. Offer Michael for a call. Any reply → 🤝 20; a verbal yes at any point → <code>contracts requested</code>.</div></div></li>
+      <li class="has-flyout" data-id="5.2" onclick="toggleFlyout(this)">Follow-up #2 — "which of these do you want in?" <span class="owner o-gail">Gail</span><span class="sla">+4 days</span><div class="step-flyout"><div class="step-flyout-inner">Phone. Back to the options; offer to reissue with their selections → reprice loop if needed.</div></div></li>
+      <li class="has-flyout" data-id="5.3" onclick="toggleFlyout(this)">Follow-up #3 — find the blocker <span class="owner o-gail">Gail</span><span class="sla">+7 days</span><div class="step-flyout"><div class="step-flyout-inner">Budget, timing or another quote. Price → move scope into options, never discount. Another quote → the built proof and a reference call.</div></div></li>
+      <li class="has-flyout" data-id="5.4" onclick="toggleFlyout(this)">Follow-up #4 — hold the price to a date <span class="owner o-gail">Gail</span><span class="sla">+10 days</span><div class="step-flyout"><div class="step-flyout-inner">Name the park date. Answer → <code>on hold drip feed</code> (re-contact in start_date) or <code>contracts requested</code>.</div></div></li>
+      <li class="has-flyout" data-id="5.5" onclick="toggleFlyout(this)">Follow-up #5 — closing email, set the honest status <span class="owner o-gail">Gail</span><span class="sla">+14 days</span><div class="step-flyout"><div class="step-flyout-inner"><em>Need time</em> → <code>on hold drip feed</code> · <em>silence</em> → <code>client ghosting</code> → later <code>done lost after proposal</code>. Reason in 🤝 20.</div></div></li>
+      <li class="has-flyout" data-id="5.6" onclick="toggleFlyout(this)">Contracts requested → signature → closed won → Projects-Chief <span class="owner o-gail">Gail</span><span class="sla">chase every ~3 days</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>Verbal yes only counts when they sign the online Qwilr.</strong> On signature: <code>closed won</code>, deposit invoice, official contracts. Sales-Chief ends here.
+        <div class="io"><div class="in"><h5>In</h5><ul><li>Signed Qwilr</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>Make 5232361 creates the ClickUp project folder; sales task multi-listed into List 01 — 🤝 fields (incl. 23/24) travel</li><li><strong>B</strong> renamed: TS dropped (sales-handover 2.3b); board PDF checked into 2.0 (2.3a)</li><li>Signed proposal → <strong>B</strong> 1.0 SALES</li></ul></div></div></div></div></li>
+      <li class="has-flyout" data-id="5.7" onclick="toggleFlyout(this)">CLOSED WON → handover boards H2 (Project Manager) + H3 (Manufacture) <span class="owner o-michael">Michael</span><span class="sla">proposed</span>
+        <div class="step-flyout"><div class="step-flyout-inner"><strong>The H1 pattern again, at the boundary.</strong> Collect what was sold and what was promised into one place, Michael pens the risks and priorities, the PM and the factory work off the board. See the <em>three handoffs</em> section above for the proposed contents. Not built yet — the project side of this belongs to Projects-Chief.
+        <div class="io"><div class="in"><h5>In</h5><ul><li><strong>A</strong> — Sales Correspondence commitments, pricing-table selections, 🤝 fields, the table's links</li><li><strong>B</strong> — 1.0 signed proposal · 4.0 / 5.0 drawings · 7.0 finishes · 2.0 site measure + photos · 1.2 cost sheet (H2, internal)</li></ul></div><div class="out"><h5>Out → where</h5><ul><li>H2 board → PM; PDF → 1.0 SALES</li><li>H3 board → factory; PDF → 4.0 PLANS/MOZAIK PLANS_MATERIALS</li><li>Links on the project's List 01 / joinery procurement task</li></ul></div></div></div></div></li>
+    </ol></div>
+  </div>
+
+  <!-- ===== off-ramps ===== -->
+  <div class="phase" data-phase="6">
+    <div class="phase-dot">!</div>
+    <div class="phase-header" onclick="togglePhase(this)">
+      <div class="phase-header-top"><h3><span>Off-ramps</span> and terminals</h3><span class="phase-tag tag-manual">statuses</span><svg class="phase-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+      <div class="phase-who">The parent status is the stage. These keep the pipeline and the dashboard honest.</div>
+    </div>
+    <div class="phase-body"><ol>
+      <li data-id="X1"><code>on hold drip feed</code> — they need time. <code>start_date</code> = the re-contact date (the snapshot shows "re-contact ~date", never a negative age).</li>
+      <li data-id="X2"><code>client ghosting</code> — silence after a chase chain. Later → <code>done lost after proposal</code>.</li>
+      <li data-id="X3"><code>declined_no proposal</code> — fell out before pricing (P1 chain exhausted, wrong job type). No estimating spent.</li>
+      <li data-id="X4"><code>done lost after proposal</code> — priced and presented, lost.</li>
+      <li data-id="X5"><code>re-price proposal</code> → re-open only the P3 tracks the change touches → Qwilr → Meeting Ready → <code>re-present proposal</code> → re-open the P4 items → <code>contracts requested</code> on yes. No P6/P7 containers.</li>
+    </ol></div>
+  </div>
+
+  </div><!-- /timeline -->
+
+  <div class="swimlane">
+    <h2>Who does what</h2>
+    <div class="swimlane-grid">
+      <div class="swim-item"><div class="swim-icon" style="background:#9C27B0">G</div><div><div class="swim-label">Gail</div><div class="swim-desc">All P1 · P4 booking + chases · P4 booked · all P5 follow-ups · contracts chase</div></div></div>
+      <div class="swim-item"><div class="swim-icon" style="background:#FF6B00">M</div><div><div class="swim-label">Michael</div><div class="swim-desc">All P2 · pen mark-up on the board · P3 Distribute + Meeting Ready · P4 present + recap · technical calls</div></div></div>
+      <div class="swim-item"><div class="swim-icon" style="background:#E91E63">C</div><div><div class="swim-label">Chloe</div><div class="swim-desc">Coordinates P2–P4 · SketchUp/Rayon plans · finishes schedule</div></div></div>
+      <div class="swim-item"><div class="swim-icon" style="background:#2196F3">S</div><div><div class="swim-label">Shravan</div><div class="swim-desc">Mozaik drawings + pricing · configurator review · drawings support</div></div></div>
+      <div class="swim-item"><div class="swim-icon" style="background:#00897B">Ch</div><div><div class="swim-label">Chadd</div><div class="swim-desc">Buildsoft build pricing</div></div></div>
+      <div class="swim-item"><div class="swim-icon" style="background:#5E35B1">L</div><div><div class="swim-label">Leah</div><div class="swim-desc">Qwilr proposal build · sends meeting bookings</div></div></div>
+      <div class="swim-item"><div class="swim-icon" style="background:#009624">AI</div><div><div class="swim-label">Scripts &amp; automations</div><div class="swim-desc">site-visit-canvas (sweep + sheets) · email routine → Sales Correspondence · Pipeline Pulse → Next Action · Make → project folder on WON</div></div></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <strong>Spoke Building & Interiors</strong> — Sales Workflow: Links &amp; Information Flow · review draft v0.1<br>
+    Source of truth: <code>projects/SBI-Sales-Chief/sales-task-template.md</code> · subtask how-tos: <code>docs/subtask-descriptions.md</code> · 04 Sep 2026
+  </div>
+</div>
+
+<script>
+function togglePhase(h){h.closest('.phase').classList.toggle('open');}
+function toggleFlyout(li){if(event&&event.target.closest('.step-flyout-inner'))return;li.classList.toggle('flyout-open');}
+</script>
+</body>
+</html>
